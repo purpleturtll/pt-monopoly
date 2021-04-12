@@ -1,7 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
+	"os"
+	"os/exec"
 
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
@@ -73,7 +76,22 @@ func newRoomHandler(c echo.Context) error {
 }
 
 func main() {
+	go func() {
+		cmd := exec.Command("npm", "run", "watch")
+		cmd.Stdout = os.Stdout
+		cmd.Dir = "./client"
+		err := cmd.Start()
+		if err != nil {
+			fmt.Println("Error:", err)
+		} else {
+			fmt.Println("Watcher running...")
+		}
+		exitCode := cmd.Wait()
+		fmt.Println("Watcher shut down:", exitCode)
+	}()
+
 	e := echo.New()
+	e.Static("/", "./client/public")
 	e.POST("/room", newRoomHandler)
 	e.Start("0.0.0.0:8080")
 }
