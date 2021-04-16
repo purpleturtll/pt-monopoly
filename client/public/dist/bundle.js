@@ -62766,11 +62766,49 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.app = void 0;
+exports.Button = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var Button = function Button() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var text = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+  var onclick = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
+  var w = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 200;
+  var h = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 30;
+  var color = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0xde3249;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y;
+  var bg = new PIXI.Graphics();
+  bg.beginFill(color);
+  bg.drawRect(0, 0, w, h);
+  bg.endFill();
+  bg.interactive = true;
+  bg.buttonMode = true;
+  bg.on("pointerdown", onclick);
+  var txt = new PIXI.Text(text);
+  cont.addChild(bg, txt);
+  return cont;
+};
+
+exports.Button = Button;
+
+},{"pixi.js":44}],56:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var PIXI = _interopRequireWildcard(require("pixi.js"));
 
 var _ = _interopRequireWildcard(require("lodash"));
+
+var _Button = require("./Button");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -62782,16 +62820,20 @@ var app = new PIXI.Application({
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 });
-exports.app = app;
 document.getElementById("app").appendChild(app.view);
 var App = new PIXI.Container();
 var Board = new PIXI.Container();
 var Rooms = new PIXI.Container();
 app.stage.addChild(App);
-App.addChild(Board, Rooms);
+App.addChild(Board, Rooms); // Ustawianie stanów początkowych
+
 App.state = {
   inGame: true
-};
+}; // Głęboka kopia stanu
+// Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
+// bo inaczej kopiowane są referencje zamiast wartości
+// i przy zmianie state automatycznie zmianiał się prev_state
+
 App.prev_state = JSON.parse(JSON.stringify(App.state));
 Board.state = {
   players: [{
@@ -62806,9 +62848,11 @@ Board.state = {
 };
 Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.state = {
-  list: ["Room1", "Room2", "Room3"]
+  list: []
 };
-Rooms.prev_state = JSON.parse(JSON.stringify(Rooms.state));
+Rooms.prev_state = JSON.parse(JSON.stringify(Rooms.state)); // Jeśli jesteś w gre wyświetl planszę
+// Jeśli nie, wyświetl listę pokoi
+
 app.ticker.add(function () {
   if (App.state.inGame) {
     Board.visible = true;
@@ -62817,23 +62861,23 @@ app.ticker.add(function () {
     Board.visible = false;
     Rooms.visible = true;
   }
-});
+}); // Jeśli stan planszy albo listy pokoi się zmienił to zbuduj od nowa widok
+
 app.ticker.add(function () {
   if (!_.isEqual(Rooms.state, Rooms.prev_state)) {
-    console.log("Hmm");
     rebuildRooms();
     Rooms.prev_state = JSON.parse(JSON.stringify(Rooms.state));
   }
 
   if (!_.isEqual(Board.state, Board.prev_state)) {
-    console.log("Aaa");
     rebuildBoard();
     Board.prev_state = JSON.parse(JSON.stringify(Board.state));
   }
-});
+}); //Do testowania czy widok się zmienia po zmianie stanu
+
 setTimeout(function () {
   Board.state.players[0].name = "Pope";
-}, 3000);
+}, 3000); // Funkcja budująca widok planszy
 
 function rebuildBoard() {
   Board.removeChildren();
@@ -62842,42 +62886,40 @@ function rebuildBoard() {
   list.y = 0;
 
   for (var i = 0; i < Board.state.players.length; i++) {
-    var background = new PIXI.Graphics();
-    background.beginFill(0xde3249);
-    background.drawRect(0, i * 40, 200, 30);
-    background.endFill();
-    var text = new PIXI.Text(Board.state.players[i].name);
-    text.x = 10;
-    text.y = i * 40;
-    background.addChild(text);
-    list.addChild(background);
+    var btn = (0, _Button.Button)(0, i * 40, Board.state.players[i].name);
+    list.addChild(btn);
   }
 
   Board.addChild(list);
-}
+} // Funkcja budująca widok listy pokoi
+
 
 function rebuildRooms() {
   Rooms.removeChildren();
+  var refreshBtn = (0, _Button.Button)(210, 0, "Refresh", function () {
+    fetch("http://localhost:8080/rooms", {
+      method: "GET"
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      console.log(data);
+    });
+  });
   var list = new PIXI.Container();
   list.x = 0;
   list.y = 0;
 
   for (var i = 0; i < Rooms.state.list.length; i++) {
-    var background = new PIXI.Graphics();
-    background.beginFill(0xde3249);
-    background.drawRect(0, i * 40, 200, 30);
-    background.endFill();
-    var text = new PIXI.Text(Rooms.state.list[i]);
-    text.x = 10;
-    text.y = i * 40;
-    background.addChild(text);
-    list.addChild(background);
+    var btn = (0, _Button.Button)(0, i * 40, Rooms.state.list[i]);
+    list.addChild(btn);
   }
 
   Rooms.addChild(list);
-}
+} // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
+// elementów automatycznie triggerują ponowne zbudowanie
+
 
 rebuildBoard();
 rebuildRooms();
 
-},{"lodash":40,"pixi.js":44}]},{},[55]);
+},{"./Button":55,"lodash":40,"pixi.js":44}]},{},[56]);

@@ -1,7 +1,8 @@
 import * as PIXI from "pixi.js";
 import * as _ from "lodash";
+import { Button } from "./Button";
 
-export let app = new PIXI.Application({
+let app = new PIXI.Application({
     width: 700,
     height: 700,
     backgroundColor: 0x1099bb,
@@ -35,7 +36,7 @@ Board.state = {
 };
 Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.state = {
-    list: ["Room1", "Room2", "Room3"],
+    list: [],
 };
 Rooms.prev_state = JSON.parse(JSON.stringify(Rooms.state));
 
@@ -75,15 +76,8 @@ function rebuildBoard() {
     list.x = 0;
     list.y = 0;
     for (let i = 0; i < Board.state.players.length; i++) {
-        const background = new PIXI.Graphics();
-        background.beginFill(0xde3249);
-        background.drawRect(0, i * 40, 200, 30);
-        background.endFill();
-        const text = new PIXI.Text(Board.state.players[i].name);
-        text.x = 10;
-        text.y = i * 40;
-        background.addChild(text);
-        list.addChild(background);
+        const btn = Button(0, i * 40, Board.state.players[i].name);
+        list.addChild(btn);
     }
     Board.addChild(list);
 }
@@ -91,19 +85,22 @@ function rebuildBoard() {
 // Funkcja budująca widok listy pokoi
 function rebuildRooms() {
     Rooms.removeChildren();
+    const refreshBtn = Button(210, 0, "Refresh", () => {
+        fetch("http://localhost:8080/rooms", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            });
+    });
+
     const list = new PIXI.Container();
     list.x = 0;
     list.y = 0;
     for (let i = 0; i < Rooms.state.list.length; i++) {
-        const background = new PIXI.Graphics();
-        background.beginFill(0xde3249);
-        background.drawRect(0, i * 40, 200, 30);
-        background.endFill();
-        const text = new PIXI.Text(Rooms.state.list[i]);
-        text.x = 10;
-        text.y = i * 40;
-        background.addChild(text);
-        list.addChild(background);
+        const btn = Button(0, i * 40, Rooms.state.list[i]);
+        list.addChild(btn);
     }
     Rooms.addChild(list);
 }
