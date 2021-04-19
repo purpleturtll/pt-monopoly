@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os/exec"
+	"strings"
 
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
@@ -30,13 +31,14 @@ type Client struct {
 
 func (c *Client) listen() {
 	msg := new(Msg)
+	fmt.Println("Client listening...")
 	for {
 		err := c.conn.ReadJSON(msg)
 		if err != nil {
 			fmt.Println(err)
 			break
 		}
-		c.room.Messages <- msg
+		c.room.Messages <- *msg
 	}
 }
 
@@ -45,7 +47,7 @@ type Room struct {
 	Password  string    `json:"-"`
 	SitsTaken int8      `json:"sits_taken"`
 	Clients   []*Client `json:"-"`
-	Messages  chan *Msg `json:"-"`
+	Messages  chan Msg  `json:"-"`
 }
 
 func (r *Room) broadcast(t string, msg interface{}) {
@@ -63,33 +65,34 @@ func (r *Room) broadcast(t string, msg interface{}) {
 }
 
 func (r *Room) listen() {
-	for {
-		select {
-		case v := <-r.Messages:
-			fmt.Println("xD")
-			switch v.T {
-			case "ping":
-				r.broadcast("pong", struct{}{})
-			case "register_client":
-				type registerClientMsg struct {
-					Room string `json:"room"`
-					Name string `json:"name"`
-				}
-				data := new(registerClientMsg)
-				err := json.Unmarshal(v.Data, data)
-				if err != nil {
-					fmt.Println(err)
-				}
-				for i := 0; i < len(rooms); i++ {
-					if rooms[i].Name == data.Name {
-						r.Clients[0].room = rooms[i]
-						rooms[i].newClient()
-						break
-					}
+	for v := range r.Messages {
+		switch v.T {
+		case "ping":
+			r.broadcast("pong", struct{}{})
+		case "register_client":
+			type registerClientMsg struct {
+				Room string `json:"room"`
+				Name string `json:"name"`
+			}
+			data := registerClientMsg{}
+			v.Data = v.Data[1:]
+			v.Data = v.Data[:len(v.Data)-1]
+			temp := strings.ReplaceAll(string(v.Data), "\\", "")
+			err := json.Unmarshal([]byte(temp), &data)
+			if err != nil {
+				fmt.Println(err)
+			}
+			for i := 0; i < len(rooms); i++ {
+				if rooms[i].Name == data.Room {
+					r.Clients[0].room = rooms[i]
+					r.Clients[0].Name = data.Name
+					rooms[i].Clients = append(rooms[i].Clients, r.Clients[0])
+					rooms[i].newClient()
+					break
 				}
 			}
-
 		}
+
 	}
 }
 
@@ -109,7 +112,7 @@ func ws(c echo.Context) error {
 	}
 
 	//check if room exists in the future
-	client := &Client{room: &Room{}, conn: conn}
+	client := &Client{room: &Room{Name: "temp", Messages: make(chan Msg, 100)}, conn: conn}
 	client.room.Clients = append(client.room.Clients, client)
 	go client.listen()
 	go client.room.listen()
