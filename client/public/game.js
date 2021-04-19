@@ -2,6 +2,36 @@ import * as PIXI from "pixi.js";
 import * as _ from "lodash";
 import { Button } from "./Button";
 
+let socket;
+
+function newSocket(room) {
+    socket = new WebSocket("ws://localhost:8080/ws");
+    socket.onopen = () => {
+        setTimeout(
+            () =>
+                socket.send(
+                    JSON.stringify({
+                        type: "register_client",
+                        data: JSON.stringify({
+                            room: room,
+                            name: "Default Player",
+                        }),
+                    })
+                ),
+            1000
+        );
+        App.state.inGame = true;
+    };
+    socket.onmessage = (event) => {
+        let msg = JSON.parse(event.data);
+        console.log(msg);
+        switch (msg.type) {
+            case "players":
+                Board.state.players = msg.data.players;
+        }
+    };
+}
+
 let app = new PIXI.Application({
     width: 700,
     height: 700,
@@ -19,7 +49,7 @@ App.addChild(Board, Rooms);
 
 // Ustawianie stanów początkowych
 App.state = {
-    inGame: true,
+    inGame: false,
 };
 // Głęboka kopia stanu
 // Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
@@ -27,12 +57,7 @@ App.state = {
 // i przy zmianie state automatycznie zmianiał się prev_state
 App.prev_state = JSON.parse(JSON.stringify(App.state));
 Board.state = {
-    players: [
-        { name: "xD" },
-        { name: "hmm" },
-        { name: "ricardo" },
-        { name: "billy harrington" },
-    ],
+    players: [],
 };
 Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.state = {
@@ -65,9 +90,9 @@ app.ticker.add(() => {
 });
 
 //Do testowania czy widok się zmienia po zmianie stanu
-setTimeout(() => {
-    Board.state.players[0].name = "Pope";
-}, 3000);
+// setTimeout(() => {
+//     Board.state.players[0].name = "Pope";
+// }, 3000);
 
 // Funkcja budująca widok planszy
 function rebuildBoard() {
@@ -91,15 +116,18 @@ function rebuildRooms() {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                let list = JSON.parse(data);
+                Rooms.state.list = list;
             });
     });
-
+    Rooms.addChild(refreshBtn);
     const list = new PIXI.Container();
     list.x = 0;
     list.y = 0;
     for (let i = 0; i < Rooms.state.list.length; i++) {
-        const btn = Button(0, i * 40, Rooms.state.list[i]);
+        const btn = Button(0, i * 40, Rooms.state.list[i].name, () => {
+            newSocket(Rooms.state.list[i].name);
+        });
         list.addChild(btn);
     }
     Rooms.addChild(list);

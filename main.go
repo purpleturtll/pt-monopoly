@@ -1,117 +1,156 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
-	"io"
-	"math/rand"
 	"os/exec"
 
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/gommon/log"
 )
+
+type Msg struct {
+	T    string          `json:"type"`
+	Data json.RawMessage `json:"data"`
+}
 
 var (
 	rooms    = []*Room{}
 	upgrader = websocket.Upgrader{}
 )
 
-type msg struct {
-	Value []byte `json:"value"`
-}
-
 type Client struct {
-	room *Room
-	conn *websocket.Conn
-	Seat int8   `json:"seat"`
-	Name string `json:"name"`
+	room *Room           `json:"-"`
+	conn *websocket.Conn `json:"-"`
+	Seat int8            `json:"seat"`
+	Name string          `json:"name"`
 }
 
 func (c *Client) listen() {
-	msg := new(msg)
+	msg := new(Msg)
 	for {
 		err := c.conn.ReadJSON(msg)
 		if err != nil {
-			continue
+			fmt.Println(err)
+			break
 		}
-		c.room.Messages <- []byte(msg.Value)
+		c.room.Messages <- msg
 	}
 }
 
 type Room struct {
-	Name      string      `json:"name"`
-	Password  string      `json:"-"`
-	SitsTaken int8        `json:"sits_taken"`
-	Clients   []*Client   `json:"-"`
-	Messages  chan []byte `json:"-"`
+	Name      string    `json:"name"`
+	Password  string    `json:"-"`
+	SitsTaken int8      `json:"sits_taken"`
+	Clients   []*Client `json:"-"`
+	Messages  chan *Msg `json:"-"`
 }
 
-func (r *Room) broadcast() {
-	for {
-		select {
-		case value := <-r.Messages:
-			for i := 0; i < len(r.Clients); i++ {
-				r.Clients[i].conn.WriteJSON(msg{value})
-			}
+func (r *Room) broadcast(t string, msg interface{}) {
+	tempJson, err := json.Marshal(msg)
+	if err != nil {
+		fmt.Println(err)
+	}
+	typedMsg := Msg{t, tempJson}
+	for i := 0; i < len(r.Clients); i++ {
+		err := r.Clients[i].conn.WriteJSON(typedMsg)
+		if err != nil {
+			fmt.Println(err)
 		}
 	}
 }
 
-func enterRoom(c echo.Context, room *Room) error {
+func (r *Room) listen() {
+	for {
+		select {
+		case v := <-r.Messages:
+			fmt.Println("xD")
+			switch v.T {
+			case "ping":
+				r.broadcast("pong", struct{}{})
+			case "register_client":
+				type registerClientMsg struct {
+					Room string `json:"room"`
+					Name string `json:"name"`
+				}
+				data := new(registerClientMsg)
+				err := json.Unmarshal(v.Data, data)
+				if err != nil {
+					fmt.Println(err)
+				}
+				for i := 0; i < len(rooms); i++ {
+					if rooms[i].Name == data.Name {
+						r.Clients[0].room = rooms[i]
+						rooms[i].newClient()
+						break
+					}
+				}
+			}
+
+		}
+	}
+}
+
+func (r *Room) newClient() {
+	msg := &struct {
+		Players []*Client `json:"players"`
+	}{
+		Players: r.Clients,
+	}
+	r.broadcast("players", msg)
+}
+
+func ws(c echo.Context) error {
 	conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err
 	}
-	client := &Client{room: room, conn: conn}
+
+	//check if room exists in the future
+	client := &Client{room: &Room{}, conn: conn}
 	client.room.Clients = append(client.room.Clients, client)
 	go client.listen()
-	go room.broadcast()
+	go client.room.listen()
 	return nil
 }
 
-func newRoom(c echo.Context) error {
-	room := &Room{Name: fmt.Sprint(rand.Int()), Password: c.FormValue("password")}
-	rooms = append(rooms, room)
-	enterRoom(c, room)
-	return nil
-}
+// func newRoom(c echo.Context) error {
+// 	room := &Room{Name: fmt.Sprint(rand.Int()), Password: c.FormValue("password")}
+// 	go room.broadcast()
+// 	rooms = append(rooms, room)
+// 	return nil
+// }
 
 func getRooms(c echo.Context) error {
 	v, err := json.Marshal(rooms)
 	if err != nil {
 		return err
 	}
-	return c.JSON(200, v)
-}
-
-func copyOutput(r io.Reader) {
-	scanner := bufio.NewScanner(r)
-	for scanner.Scan() {
-		fmt.Println(scanner.Text())
-	}
+	return c.JSON(200, string(v))
 }
 
 func main() {
 	cmd := exec.Command("npm", "run", "watch")
-	stdout, err := cmd.StdoutPipe()
-	if err != nil {
-		panic(err)
-	}
 	cmd.Dir = "./client"
-	err = cmd.Start()
+	err := cmd.Start()
 	if err != nil {
 		fmt.Println("Error:", err)
 	} else {
 		fmt.Println("Watcher running...")
 	}
-	go copyOutput(stdout)
 
-	rooms = append(rooms, &Room{Name: "Testowy 1"}, &Room{Name: "Testowy 2"})
+	rooms = append(rooms, &Room{Name: "Testowy1"}, &Room{Name: "Testowy2"})
+	go rooms[0].listen()
+	go rooms[1].listen()
 
 	e := echo.New()
+	e.Use(middleware.Recover())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{Format: "${host} ${method} ${path}\n"}))
+	e.Logger.SetLevel(log.ERROR)
 	e.Static("/", "./client/public")
-	e.POST("/room", newRoom)
+	e.GET("/ws", ws)
 	e.GET("/rooms", getRooms)
 	e.Start("0.0.0.0:8080")
 	exitCode := cmd.Wait()

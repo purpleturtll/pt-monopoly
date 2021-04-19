@@ -62814,6 +62814,35 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+var socket;
+
+function newSocket(room) {
+  socket = new WebSocket("ws://localhost:8080/ws");
+
+  socket.onopen = function () {
+    setTimeout(function () {
+      return socket.send(JSON.stringify({
+        type: "register_client",
+        data: JSON.stringify({
+          room: room,
+          name: "Default Player"
+        })
+      }));
+    }, 1000);
+    App.state.inGame = true;
+  };
+
+  socket.onmessage = function (event) {
+    var msg = JSON.parse(event.data);
+    console.log(msg);
+
+    switch (msg.type) {
+      case "players":
+        Board.state.players = msg.data.players;
+    }
+  };
+}
+
 var app = new PIXI.Application({
   width: 700,
   height: 700,
@@ -62828,7 +62857,7 @@ app.stage.addChild(App);
 App.addChild(Board, Rooms); // Ustawianie stanów początkowych
 
 App.state = {
-  inGame: true
+  inGame: false
 }; // Głęboka kopia stanu
 // Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
 // bo inaczej kopiowane są referencje zamiast wartości
@@ -62836,15 +62865,7 @@ App.state = {
 
 App.prev_state = JSON.parse(JSON.stringify(App.state));
 Board.state = {
-  players: [{
-    name: "xD"
-  }, {
-    name: "hmm"
-  }, {
-    name: "ricardo"
-  }, {
-    name: "billy harrington"
-  }]
+  players: []
 };
 Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.state = {
@@ -62874,10 +62895,10 @@ app.ticker.add(function () {
     Board.prev_state = JSON.parse(JSON.stringify(Board.state));
   }
 }); //Do testowania czy widok się zmienia po zmianie stanu
-
-setTimeout(function () {
-  Board.state.players[0].name = "Pope";
-}, 3000); // Funkcja budująca widok planszy
+// setTimeout(() => {
+//     Board.state.players[0].name = "Pope";
+// }, 3000);
+// Funkcja budująca widok planszy
 
 function rebuildBoard() {
   Board.removeChildren();
@@ -62902,16 +62923,24 @@ function rebuildRooms() {
     }).then(function (response) {
       return response.json();
     }).then(function (data) {
-      console.log(data);
+      var list = JSON.parse(data);
+      Rooms.state.list = list;
     });
   });
+  Rooms.addChild(refreshBtn);
   var list = new PIXI.Container();
   list.x = 0;
   list.y = 0;
 
-  for (var i = 0; i < Rooms.state.list.length; i++) {
-    var btn = (0, _Button.Button)(0, i * 40, Rooms.state.list[i]);
+  var _loop = function _loop(i) {
+    var btn = (0, _Button.Button)(0, i * 40, Rooms.state.list[i].name, function () {
+      newSocket(Rooms.state.list[i].name);
+    });
     list.addChild(btn);
+  };
+
+  for (var i = 0; i < Rooms.state.list.length; i++) {
+    _loop(i);
   }
 
   Rooms.addChild(list);
