@@ -62804,11 +62804,154 @@ exports.Button = Button;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TitleDeed = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+/* eslint-disable camelcase */
+var scale = 3;
+
+var TitleDeed = function TitleDeed() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var data = arguments.length > 2 ? arguments[2] : undefined;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y; // Tło
+
+  var bg = new PIXI.Graphics();
+  bg.beginFill(0xffffff);
+  bg.drawRect(0, 0, 56 * scale, 87 * scale);
+  bg.endFill();
+  bg.interactive = true;
+  bg.buttonMode = true;
+  bg.on('pointerdown', function () {}); // Prostokąt tytułowy
+
+  var title = new PIXI.Graphics();
+  title.x = bg.width * 0.05;
+  title.y = bg.height * 0.05;
+  title.beginFill(data.color);
+  title.drawRect(0, 0, bg.width * 0.9, bg.height * 0.2);
+  title.endFill();
+  var titleText = new PIXI.Text(data.title.toUpperCase(), {
+    align: 'center',
+    fontSize: 14,
+    fontWeight: 'bold'
+  });
+  titleText.x = title.width / 2 - titleText.width / 2;
+  titleText.y = (title.height - titleText.height) / 2;
+  title.addChild(titleText);
+  var rent = new PIXI.Text('CZYNSZ $' + data.rent, {
+    align: 'center',
+    fontSize: 14,
+    fontWeight: 'bold'
+  });
+  rent.y = bg.height * 0.26;
+  rent.x = bg.width / 2 - rent.width / 2;
+  bg.addChild(rent);
+  var with_1 = new PIXI.Text('Z jednym domem', {
+    fontSize: 12
+  });
+  with_1.y = bg.height * 0.33;
+  with_1.x = bg.width * 0.05;
+  bg.addChild(with_1);
+  var with_1_cost = new PIXI.Text('$' + data.with_1, {
+    fontSize: 12
+  });
+  with_1_cost.anchor.set(1, 0);
+  with_1_cost.y = bg.height * 0.33;
+  with_1_cost.x = bg.width * 0.95;
+  bg.addChild(with_1_cost);
+  var with_2 = new PIXI.Text('Z dwoma domami', {
+    fontSize: 12
+  });
+  with_2.y = bg.height * 0.4;
+  with_2.x = bg.width * 0.05;
+  bg.addChild(with_2);
+  var with_2_cost = new PIXI.Text('$' + data.with_2, {
+    fontSize: 12
+  });
+  with_2_cost.anchor.set(1, 0);
+  with_2_cost.y = bg.height * 0.4;
+  with_2_cost.x = bg.width * 0.95;
+  bg.addChild(with_2_cost);
+  var with_3 = new PIXI.Text('Z trzema domami', {
+    fontSize: 12
+  });
+  with_3.y = bg.height * 0.47;
+  with_3.x = bg.width * 0.05;
+  bg.addChild(with_3);
+  var with_3_cost = new PIXI.Text('$' + data.with_3, {
+    fontSize: 12
+  });
+  with_3_cost.anchor.set(1, 0);
+  with_3_cost.y = bg.height * 0.47;
+  with_3_cost.x = bg.width * 0.95;
+  bg.addChild(with_3_cost);
+  var with_4 = new PIXI.Text('Z czterema domami', {
+    fontSize: 12
+  });
+  with_4.y = bg.height * 0.54;
+  with_4.x = bg.width * 0.05;
+  bg.addChild(with_4);
+  var with_4_cost = new PIXI.Text('$' + data.with_4, {
+    fontSize: 12
+  });
+  with_4_cost.anchor.set(1, 0);
+  with_4_cost.y = bg.height * 0.54;
+  with_4_cost.x = bg.width * 0.95;
+  bg.addChild(with_4_cost);
+  var with_hotel = new PIXI.Text('Z HOTELEM', {
+    fontSize: 12
+  });
+  with_hotel.y = bg.height * 0.61;
+  with_hotel.x = bg.width * 0.05;
+  bg.addChild(with_hotel);
+  var with_hotel_cost = new PIXI.Text('$' + data.with_hotel, {
+    fontSize: 12
+  });
+  with_hotel_cost.anchor.set(1, 0);
+  with_hotel_cost.y = bg.height * 0.61;
+  with_hotel_cost.x = bg.width * 0.95;
+  bg.addChild(with_hotel_cost);
+  var house_cost = new PIXI.Text('Ceny domów: $' + data.house_cost + ' każdy', {
+    fontSize: 12
+  });
+  house_cost.y = bg.height * 0.7;
+  house_cost.x = bg.width / 2 - house_cost.width / 2;
+  bg.addChild(house_cost);
+  var hotel_cost = new PIXI.Text('Ceny hoteli: $' + data.hotel_cost + ' każdy\nplus wartość 4 domów', {
+    align: 'center',
+    fontSize: 12
+  });
+  hotel_cost.y = bg.height * 0.8;
+  hotel_cost.x = bg.width / 2 - hotel_cost.width / 2;
+  bg.addChild(hotel_cost);
+  cont.addChild(bg, title);
+  return cont;
+};
+
+exports.TitleDeed = TitleDeed;
+
+},{"pixi.js":44}],57:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var PIXI = _interopRequireWildcard(require("pixi.js"));
 
 var _ = _interopRequireWildcard(require("lodash"));
 
 var _Button = require("./Button");
+
+var _TitleDeed = require("./TitleDeed");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -62817,15 +62960,15 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var socket;
 
 function newSocket(room) {
-  socket = new WebSocket("ws://localhost:8080/ws");
+  socket = new WebSocket('ws://localhost:8080/ws');
 
   socket.onopen = function () {
     setTimeout(function () {
       return socket.send(JSON.stringify({
-        type: "register_client",
+        type: 'register_client',
         data: JSON.stringify({
           room: room,
-          name: "Default Player"
+          name: 'Default Player'
         })
       }));
     }, 1000);
@@ -62837,7 +62980,7 @@ function newSocket(room) {
     console.log(msg);
 
     switch (msg.type) {
-      case "players":
+      case 'players':
         Board.state.players = msg.data.players;
     }
   };
@@ -62849,7 +62992,7 @@ var app = new PIXI.Application({
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 });
-document.getElementById("app").appendChild(app.view);
+document.getElementById('app').appendChild(app.view);
 var App = new PIXI.Container();
 var Board = new PIXI.Container();
 var Rooms = new PIXI.Container();
@@ -62894,7 +63037,7 @@ app.ticker.add(function () {
     rebuildBoard();
     Board.prev_state = JSON.parse(JSON.stringify(Board.state));
   }
-}); //Do testowania czy widok się zmienia po zmianie stanu
+}); // Do testowania czy widok się zmienia po zmianie stanu
 // setTimeout(() => {
 //     Board.state.players[0].name = "Pope";
 // }, 3000);
@@ -62917,9 +63060,9 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var refreshBtn = (0, _Button.Button)(210, 0, "Refresh", function () {
-    fetch("http://localhost:8080/rooms", {
-      method: "GET"
+  var refreshBtn = (0, _Button.Button)(210, 0, 'Refresh', function () {
+    fetch('http://localhost:8080/rooms', {
+      method: 'GET'
     }).then(function (response) {
       return response.json();
     }).then(function (data) {
@@ -62944,6 +63087,20 @@ function rebuildRooms() {
   }
 
   Rooms.addChild(list);
+  var card = (0, _TitleDeed.TitleDeed)(200, 200, {
+    title: 'Ratusz',
+    color: '0x0066ff',
+    price: 300,
+    rent: 100,
+    with_1: 200,
+    with_2: 400,
+    with_3: 500,
+    with_4: 600,
+    with_hotel: 800,
+    house_cost: 100,
+    hotel_cost: 300
+  });
+  Rooms.addChild(card);
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 
@@ -62951,4 +63108,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./Button":55,"lodash":40,"pixi.js":44}]},{},[56]);
+},{"./Button":55,"./TitleDeed":56,"lodash":40,"pixi.js":44}]},{},[57]);
