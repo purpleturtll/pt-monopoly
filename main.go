@@ -30,13 +30,32 @@ type Client struct {
 	Name string          `json:"name"`
 }
 
+func (r *Room) deleteClient(c *Client) {
+	i := 0
+	for _, x := range r.Clients {
+		if x != c {
+			r.Clients[i] = x
+			i++
+		}
+	}
+	r.Clients = r.Clients[:i]
+}
+
 func (c *Client) listen() {
 	msg := new(Msg)
 	fmt.Println("Client listening...")
 	for {
 		err := c.conn.ReadJSON(msg)
 		if err != nil {
-			fmt.Println(err)
+			// obsługa wyjścia danego klienta
+			switch err.(type) {
+			case *websocket.CloseError:
+				fmt.Println("Client", c.Name, "left")
+				c.room.deleteClient(c)
+				c.room.SitsTaken -= 1
+			default:
+				fmt.Println(err)
+			}
 			break
 		}
 		c.room.Messages <- *msg
@@ -85,6 +104,10 @@ func (r *Room) listen() {
 			}
 			for i := 0; i < len(rooms); i++ {
 				if rooms[i].Name == data.Room {
+					if rooms[i].SitsTaken >= 4 {
+						// TODO: wiadomosc dla klienta, ze pokoj jest pelny
+						break
+					}
 					r.Clients[0].room = rooms[i]
 					r.Clients[0].Name = data.Name
 					rooms[i].Clients = append(rooms[i].Clients, r.Clients[0])
@@ -104,6 +127,7 @@ func (r *Room) newClient() {
 		Players: r.Clients,
 	}
 	r.broadcast("players", msg)
+	r.SitsTaken += 1
 }
 
 func ws(c echo.Context) error {
