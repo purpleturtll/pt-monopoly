@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 import * as _ from 'lodash'
 import { Button } from './Button'
 import { TitleDeed } from './TitleDeed'
+import { data } from './CardTest'
 
 let socket
 
@@ -132,21 +133,10 @@ function rebuildRooms () {
     list.addChild(btn)
   }
   Rooms.addChild(list)
-  const card = TitleDeed(200, 200,
-    {
-      title: 'Ratusz',
-      color: '0x0066ff',
-      price: 300,
-      rent: 100,
-      with_1: 200,
-      with_2: 400,
-      with_3: 500,
-      with_4: 600,
-      with_hotel: 800,
-      house_cost: 100,
-      hotel_cost: 300
-    })
+  const card = TitleDeed(200, 200, data.jezyce2)
   Rooms.addChild(card)
+  const card2 = TitleDeed(400, 200, data.wilda2)
+  Rooms.addChild(card2)
 }
 
 // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie

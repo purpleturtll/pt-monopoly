@@ -30,6 +30,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
     fontSize: 14,
     fontWeight: 'bold'
   })
+  titleText.resolution = scale
   titleText.x = title.width / 2 - titleText.width / 2
   titleText.y = (title.height - titleText.height) / 2
   title.addChild(titleText)
@@ -39,6 +40,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
     fontSize: 14,
     fontWeight: 'bold'
   })
+  rent.resolution = scale
   rent.y = bg.height * 0.26
   rent.x = bg.width / 2 - rent.width / 2
   bg.addChild(rent)
@@ -46,6 +48,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_1 = new PIXI.Text('Z jednym domem', {
     fontSize: 12
   })
+  with_1.resolution = scale
   with_1.y = bg.height * 0.33
   with_1.x = bg.width * 0.05
   bg.addChild(with_1)
@@ -53,6 +56,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_1_cost = new PIXI.Text('$' + data.with_1, {
     fontSize: 12
   })
+  with_1_cost.resolution = scale
   with_1_cost.anchor.set(1, 0)
   with_1_cost.y = bg.height * 0.33
   with_1_cost.x = bg.width * 0.95
@@ -61,6 +65,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_2 = new PIXI.Text('Z dwoma domami', {
     fontSize: 12
   })
+  with_2.resolution = scale
   with_2.y = bg.height * 0.4
   with_2.x = bg.width * 0.05
   bg.addChild(with_2)
@@ -68,6 +73,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_2_cost = new PIXI.Text('$' + data.with_2, {
     fontSize: 12
   })
+  with_2_cost.resolution = scale
   with_2_cost.anchor.set(1, 0)
   with_2_cost.y = bg.height * 0.4
   with_2_cost.x = bg.width * 0.95
@@ -76,6 +82,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_3 = new PIXI.Text('Z trzema domami', {
     fontSize: 12
   })
+  with_3.resolution = scale
   with_3.y = bg.height * 0.47
   with_3.x = bg.width * 0.05
   bg.addChild(with_3)
@@ -83,6 +90,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_3_cost = new PIXI.Text('$' + data.with_3, {
     fontSize: 12
   })
+  with_3_cost.resolution = scale
   with_3_cost.anchor.set(1, 0)
   with_3_cost.y = bg.height * 0.47
   with_3_cost.x = bg.width * 0.95
@@ -91,6 +99,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_4 = new PIXI.Text('Z czterema domami', {
     fontSize: 12
   })
+  with_4.resolution = scale
   with_4.y = bg.height * 0.54
   with_4.x = bg.width * 0.05
   bg.addChild(with_4)
@@ -98,6 +107,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_4_cost = new PIXI.Text('$' + data.with_4, {
     fontSize: 12
   })
+  with_4_cost.resolution = scale
   with_4_cost.anchor.set(1, 0)
   with_4_cost.y = bg.height * 0.54
   with_4_cost.x = bg.width * 0.95
@@ -106,6 +116,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_hotel = new PIXI.Text('Z HOTELEM', {
     fontSize: 12
   })
+  with_hotel.resolution = scale
   with_hotel.y = bg.height * 0.61
   with_hotel.x = bg.width * 0.05
   bg.addChild(with_hotel)
@@ -113,6 +124,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
   const with_hotel_cost = new PIXI.Text('$' + data.with_hotel, {
     fontSize: 12
   })
+  with_hotel_cost.resolution = scale
   with_hotel_cost.anchor.set(1, 0)
   with_hotel_cost.y = bg.height * 0.61
   with_hotel_cost.x = bg.width * 0.95
@@ -124,6 +136,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
       fontSize: 12
     }
   )
+  house_cost.resolution = scale
   house_cost.y = bg.height * 0.7
   house_cost.x = bg.width / 2 - house_cost.width / 2
   bg.addChild(house_cost)
@@ -135,6 +148,7 @@ export const TitleDeed = (x = 0, y = 0, data) => {
       fontSize: 12
     }
   )
+  hotel_cost.resolution = scale
   hotel_cost.y = bg.height * 0.8
   hotel_cost.x = bg.width / 2 - hotel_cost.width / 2
   bg.addChild(hotel_cost)

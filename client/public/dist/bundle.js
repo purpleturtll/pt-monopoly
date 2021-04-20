@@ -62802,6 +62802,381 @@ exports.Button = Button;
 },{"pixi.js":44}],56:[function(require,module,exports){
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.data = void 0;
+var data = {
+  wilda1: {
+    title: 'Powiatowy Urząd Pracy',
+    color: '0xffff00',
+    price: 60,
+    rent: 2,
+    with_1: 10,
+    with_2: 30,
+    with_3: 90,
+    with_4: 160,
+    with_hotel: 250,
+    house_cost: 50,
+    hotel_cost: 70
+  },
+  wilda2: {
+    title: 'AWF',
+    color: '0xffff00',
+    price: 80,
+    rent: 4,
+    with_1: 20,
+    with_2: 60,
+    with_3: 180,
+    with_4: 320,
+    with_hotel: 400,
+    house_cost: 50,
+    hotel_cost: 70
+  },
+  wilda3: {
+    title: 'Avenida',
+    color: '0xffff00',
+    price: 90,
+    rent: 6,
+    with_1: 30,
+    with_2: 90,
+    with_3: 270,
+    with_4: 400,
+    with_hotel: 550,
+    house_cost: 50,
+    hotel_cost: 70
+  },
+  lazarz1: {
+    title: 'Park Wilsona',
+    color: '0xff2a2a',
+    price: 100,
+    rent: 6,
+    with_1: 30,
+    with_2: 90,
+    with_3: 270,
+    with_4: 400,
+    with_hotel: 550,
+    house_cost: 50,
+    hotel_cost: 80
+  },
+  lazarz2: {
+    title: 'Palmiarnia',
+    color: '0xff2a2a',
+    price: 130,
+    rent: 8,
+    with_1: 40,
+    with_2: 100,
+    with_3: 300,
+    with_4: 450,
+    with_hotel: 550,
+    house_cost: 50,
+    hotel_cost: 80
+  },
+  lazarz3: {
+    title: 'MTP',
+    color: '0xff2a2a',
+    price: 150,
+    rent: 10,
+    with_1: 50,
+    with_2: 150,
+    with_3: 450,
+    with_4: 625,
+    with_hotel: 750,
+    house_cost: 100,
+    hotel_cost: 130
+  },
+  ogrody1: {
+    title: 'Ogród UAM',
+    color: '0x008000',
+    price: 130,
+    rent: 8,
+    with_1: 40,
+    with_2: 100,
+    with_3: 300,
+    with_4: 450,
+    with_hotel: 550,
+    house_cost: 50,
+    hotel_cost: 80
+  },
+  ogrody2: {
+    title: 'Rusałka',
+    color: '0x008000',
+    price: 150,
+    rent: 10,
+    with_1: 50,
+    with_2: 150,
+    with_3: 450,
+    with_4: 625,
+    with_hotel: 750,
+    house_cost: 100,
+    hotel_cost: 130
+  },
+  solacz1: {
+    title: 'Uniwersytet Przyrodniczy',
+    color: '0x660080',
+    price: 160,
+    rent: 12,
+    with_1: 60,
+    with_2: 180,
+    with_3: 500,
+    with_4: 700,
+    with_hotel: 900,
+    house_cost: 100,
+    hotel_cost: 140
+  },
+  solacz2: {
+    title: 'Park Sołacki',
+    color: '0x660080',
+    price: 180,
+    rent: 14,
+    with_1: 70,
+    with_2: 200,
+    with_3: 550,
+    with_4: 700,
+    with_hotel: 900,
+    house_cost: 100,
+    hotel_cost: 130
+  },
+  winogrady1: {
+    title: 'Pływalnia Miejska',
+    color: '0xff6600',
+    price: 150,
+    rent: 10,
+    with_1: 50,
+    with_2: 150,
+    with_3: 450,
+    with_4: 625,
+    with_hotel: 750,
+    house_cost: 100,
+    hotel_cost: 130
+  },
+  winogrady2: {
+    title: 'Cytadela',
+    color: '0xff6600',
+    price: 200,
+    rent: 16,
+    with_1: 80,
+    with_2: 220,
+    with_3: 600,
+    with_4: 800,
+    with_hotel: 1000,
+    house_cost: 100,
+    hotel_cost: 160
+  },
+  piatkowo1: {
+    title: 'Orlik Chrobrego',
+    color: '0x000080',
+    price: 200,
+    rent: 16,
+    with_1: 80,
+    with_2: 220,
+    with_3: 600,
+    with_4: 800,
+    with_hotel: 1000,
+    house_cost: 100,
+    hotel_cost: 160
+  },
+  piatkowo2: {
+    title: 'Wieża RTV',
+    color: '0x000080',
+    price: 220,
+    rent: 18,
+    with_1: 90,
+    with_2: 250,
+    with_3: 700,
+    with_4: 875,
+    with_hotel: 1050,
+    house_cost: 150,
+    hotel_cost: 170
+  },
+  winiary1: {
+    title: 'Szpital Wojewódzki',
+    color: '0xffcc00',
+    price: 200,
+    rent: 16,
+    with_1: 80,
+    with_2: 220,
+    with_3: 600,
+    with_4: 800,
+    with_hotel: 1000,
+    house_cost: 100,
+    hotel_cost: 160
+  },
+  winiary2: {
+    title: 'Pestka',
+    color: '0xffcc00',
+    price: 220,
+    rent: 18,
+    with_1: 90,
+    with_2: 250,
+    with_3: 700,
+    with_4: 875,
+    with_hotel: 1050,
+    house_cost: 150,
+    hotel_cost: 170
+  },
+  winiary3: {
+    title: 'Plaza',
+    color: '0xffcc00',
+    price: 240,
+    rent: 20,
+    with_1: 100,
+    with_2: 300,
+    with_3: 750,
+    with_4: 925,
+    with_hotel: 1100,
+    house_cost: 150,
+    hotel_cost: 190
+  },
+  jezyce1: {
+    title: 'Rynek Jeżycki',
+    color: '0x00d400',
+    price: 220,
+    rent: 18,
+    with_1: 90,
+    with_2: 250,
+    with_3: 700,
+    with_4: 875,
+    with_hotel: 1050,
+    house_cost: 150,
+    hotel_cost: 170
+  },
+  jezyce2: {
+    title: 'Stare ZOO',
+    color: '0x00d400',
+    price: 250,
+    rent: 20,
+    with_1: 110,
+    with_2: 330,
+    with_3: 800,
+    with_4: 975,
+    with_hotel: 1150,
+    house_cost: 150,
+    hotel_cost: 190
+  },
+  jezyce3: {
+    title: 'Hotel Mercure',
+    color: '0x00d400',
+    price: 280,
+    rent: 24,
+    with_1: 120,
+    with_2: 360,
+    with_3: 850,
+    with_4: 1025,
+    with_hotel: 1200,
+    house_cost: 150,
+    hotel_cost: 220
+  },
+  lacina1: {
+    title: 'Malta',
+    color: '0xc837ab',
+    price: 250,
+    rent: 20,
+    with_1: 110,
+    with_2: 330,
+    with_3: 800,
+    with_4: 975,
+    with_hotel: 1150,
+    house_cost: 150,
+    hotel_cost: 190
+  },
+  lacina2: {
+    title: 'Posnania',
+    color: '0xc837ab',
+    price: 280,
+    rent: 24,
+    with_1: 120,
+    with_2: 360,
+    with_3: 850,
+    with_4: 1025,
+    with_hotel: 1200,
+    house_cost: 150,
+    hotel_cost: 230
+  },
+  piotrowo1: {
+    title: 'DS 1',
+    color: '0xd45500',
+    price: 280,
+    rent: 24,
+    with_1: 120,
+    with_2: 360,
+    with_3: 850,
+    with_4: 1025,
+    with_hotel: 1200,
+    house_cost: 150,
+    hotel_cost: 230
+  },
+  piotrowo2: {
+    title: 'PUT Pozanań',
+    color: '0xd45500',
+    price: 330,
+    rent: 28,
+    with_1: 150,
+    with_2: 450,
+    with_3: 1000,
+    with_4: 1200,
+    with_hotel: 1400,
+    house_cost: 200,
+    hotel_cost: 250
+  },
+  centrum1: {
+    title: 'Kino Apollo',
+    color: '0xaa0000',
+    price: 320,
+    rent: 28,
+    with_1: 150,
+    with_2: 450,
+    with_3: 1000,
+    with_4: 1200,
+    with_hotel: 1400,
+    house_cost: 200,
+    hotel_cost: 260
+  },
+  centrum2: {
+    title: 'Teatr Wielki',
+    color: '0xaa0000',
+    price: 350,
+    rent: 35,
+    with_1: 175,
+    with_2: 500,
+    with_3: 1100,
+    with_4: 1300,
+    with_hotel: 1500,
+    house_cost: 200,
+    hotel_cost: 290
+  },
+  s_miasto1: {
+    title: 'Stary Browar',
+    color: '0x0066ff',
+    price: 350,
+    rent: 35,
+    with_1: 175,
+    with_2: 500,
+    with_3: 1100,
+    with_4: 1300,
+    with_hotel: 1500,
+    house_cost: 200,
+    hotel_cost: 290
+  },
+  s_miasto2: {
+    title: 'Ratusz',
+    color: '0x0066ff',
+    price: 400,
+    rent: 50,
+    with_1: 200,
+    with_2: 600,
+    with_3: 1400,
+    with_4: 1700,
+    with_hotel: 2000,
+    house_cost: 200,
+    hotel_cost: 300
+  }
+};
+exports.data = data;
+
+},{}],57:[function(require,module,exports){
+"use strict";
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
@@ -62845,6 +63220,7 @@ var TitleDeed = function TitleDeed() {
     fontSize: 14,
     fontWeight: 'bold'
   });
+  titleText.resolution = scale;
   titleText.x = title.width / 2 - titleText.width / 2;
   titleText.y = (title.height - titleText.height) / 2;
   title.addChild(titleText);
@@ -62853,18 +63229,21 @@ var TitleDeed = function TitleDeed() {
     fontSize: 14,
     fontWeight: 'bold'
   });
+  rent.resolution = scale;
   rent.y = bg.height * 0.26;
   rent.x = bg.width / 2 - rent.width / 2;
   bg.addChild(rent);
   var with_1 = new PIXI.Text('Z jednym domem', {
     fontSize: 12
   });
+  with_1.resolution = scale;
   with_1.y = bg.height * 0.33;
   with_1.x = bg.width * 0.05;
   bg.addChild(with_1);
   var with_1_cost = new PIXI.Text('$' + data.with_1, {
     fontSize: 12
   });
+  with_1_cost.resolution = scale;
   with_1_cost.anchor.set(1, 0);
   with_1_cost.y = bg.height * 0.33;
   with_1_cost.x = bg.width * 0.95;
@@ -62872,12 +63251,14 @@ var TitleDeed = function TitleDeed() {
   var with_2 = new PIXI.Text('Z dwoma domami', {
     fontSize: 12
   });
+  with_2.resolution = scale;
   with_2.y = bg.height * 0.4;
   with_2.x = bg.width * 0.05;
   bg.addChild(with_2);
   var with_2_cost = new PIXI.Text('$' + data.with_2, {
     fontSize: 12
   });
+  with_2_cost.resolution = scale;
   with_2_cost.anchor.set(1, 0);
   with_2_cost.y = bg.height * 0.4;
   with_2_cost.x = bg.width * 0.95;
@@ -62885,12 +63266,14 @@ var TitleDeed = function TitleDeed() {
   var with_3 = new PIXI.Text('Z trzema domami', {
     fontSize: 12
   });
+  with_3.resolution = scale;
   with_3.y = bg.height * 0.47;
   with_3.x = bg.width * 0.05;
   bg.addChild(with_3);
   var with_3_cost = new PIXI.Text('$' + data.with_3, {
     fontSize: 12
   });
+  with_3_cost.resolution = scale;
   with_3_cost.anchor.set(1, 0);
   with_3_cost.y = bg.height * 0.47;
   with_3_cost.x = bg.width * 0.95;
@@ -62898,12 +63281,14 @@ var TitleDeed = function TitleDeed() {
   var with_4 = new PIXI.Text('Z czterema domami', {
     fontSize: 12
   });
+  with_4.resolution = scale;
   with_4.y = bg.height * 0.54;
   with_4.x = bg.width * 0.05;
   bg.addChild(with_4);
   var with_4_cost = new PIXI.Text('$' + data.with_4, {
     fontSize: 12
   });
+  with_4_cost.resolution = scale;
   with_4_cost.anchor.set(1, 0);
   with_4_cost.y = bg.height * 0.54;
   with_4_cost.x = bg.width * 0.95;
@@ -62911,12 +63296,14 @@ var TitleDeed = function TitleDeed() {
   var with_hotel = new PIXI.Text('Z HOTELEM', {
     fontSize: 12
   });
+  with_hotel.resolution = scale;
   with_hotel.y = bg.height * 0.61;
   with_hotel.x = bg.width * 0.05;
   bg.addChild(with_hotel);
   var with_hotel_cost = new PIXI.Text('$' + data.with_hotel, {
     fontSize: 12
   });
+  with_hotel_cost.resolution = scale;
   with_hotel_cost.anchor.set(1, 0);
   with_hotel_cost.y = bg.height * 0.61;
   with_hotel_cost.x = bg.width * 0.95;
@@ -62924,6 +63311,7 @@ var TitleDeed = function TitleDeed() {
   var house_cost = new PIXI.Text('Ceny domów: $' + data.house_cost + ' każdy', {
     fontSize: 12
   });
+  house_cost.resolution = scale;
   house_cost.y = bg.height * 0.7;
   house_cost.x = bg.width / 2 - house_cost.width / 2;
   bg.addChild(house_cost);
@@ -62931,6 +63319,7 @@ var TitleDeed = function TitleDeed() {
     align: 'center',
     fontSize: 12
   });
+  hotel_cost.resolution = scale;
   hotel_cost.y = bg.height * 0.8;
   hotel_cost.x = bg.width / 2 - hotel_cost.width / 2;
   bg.addChild(hotel_cost);
@@ -62940,7 +63329,7 @@ var TitleDeed = function TitleDeed() {
 
 exports.TitleDeed = TitleDeed;
 
-},{"pixi.js":44}],57:[function(require,module,exports){
+},{"pixi.js":44}],58:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -62952,6 +63341,8 @@ var _ = _interopRequireWildcard(require("lodash"));
 var _Button = require("./Button");
 
 var _TitleDeed = require("./TitleDeed");
+
+var _CardTest = require("./CardTest");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -63087,20 +63478,10 @@ function rebuildRooms() {
   }
 
   Rooms.addChild(list);
-  var card = (0, _TitleDeed.TitleDeed)(200, 200, {
-    title: 'Ratusz',
-    color: '0x0066ff',
-    price: 300,
-    rent: 100,
-    with_1: 200,
-    with_2: 400,
-    with_3: 500,
-    with_4: 600,
-    with_hotel: 800,
-    house_cost: 100,
-    hotel_cost: 300
-  });
+  var card = (0, _TitleDeed.TitleDeed)(200, 200, _CardTest.data.jezyce2);
   Rooms.addChild(card);
+  var card2 = (0, _TitleDeed.TitleDeed)(400, 200, _CardTest.data.wilda2);
+  Rooms.addChild(card2);
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 
@@ -63108,4 +63489,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./Button":55,"./TitleDeed":56,"lodash":40,"pixi.js":44}]},{},[57]);
+},{"./Button":55,"./CardTest":56,"./TitleDeed":57,"lodash":40,"pixi.js":44}]},{},[58]);
