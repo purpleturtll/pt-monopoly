@@ -5,6 +5,8 @@ import { TitleDeed } from './TitleDeed'
 import { data } from './CardTest'
 import { chance } from './CardChanceTest'
 import { ChanceCard } from './ChanceCard'
+import { config } from './config'
+import { RoomsList } from './RoomsList'
 
 let socket
 
@@ -37,8 +39,8 @@ function newSocket (room) {
 }
 
 const app = new PIXI.Application({
-  width: 700,
-  height: 700,
+  width: config.canvasWidth,
+  height: config.canvasHeight,
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 })
@@ -114,31 +116,59 @@ function rebuildBoard () {
 // Funkcja budująca widok listy pokoi
 function rebuildRooms () {
   Rooms.removeChildren()
-  const refreshBtn = Button(210, 0, 'Refresh', () => {
-    fetch('http://localhost:8080/rooms', {
-      method: 'GET'
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const list = JSON.parse(data)
-        Rooms.state.list = list
+
+  const createBtn = Button(
+    config.canvasWidth / 2 - 320,
+    config.canvasHeight * 0.1,
+    'New room',
+    () => {
+      const name = Math.random()
+        .toString(36)
+        .replace(/[^a-z0-9]+/g, '')
+        .substr(2, 7)
+      fetch('http://localhost:8080/room/' + name, {
+        method: 'POST'
       })
-  })
+        .then((response) => {
+          if (response.status == 200) {
+            fetch('http://localhost:8080/rooms', {
+              method: 'GET'
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                const list = JSON.parse(data)
+                Rooms.state.list = list
+              })
+          }
+        })
+        .catch((reason) => console.log(reason))
+    }
+  )
+  Rooms.addChild(createBtn)
+
+  const refreshBtn = Button(
+    config.canvasWidth / 2 + 120,
+    config.canvasHeight * 0.1,
+    'Refresh',
+    () => {
+      fetch('http://localhost:8080/rooms', {
+        method: 'GET'
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const list = JSON.parse(data)
+          Rooms.state.list = list
+        })
+    }
+  )
   Rooms.addChild(refreshBtn)
-  const list = new PIXI.Container()
-  list.x = 0
-  list.y = 0
-  for (let i = 0; i < Rooms.state.list.length; i++) {
-    const btn = Button(0, i * 40, Rooms.state.list[i].name, () => {
-      newSocket(Rooms.state.list[i].name)
-    })
-    list.addChild(btn)
-  }
+
+  const list = RoomsList(Rooms.state.list, newSocket)
   Rooms.addChild(list)
-  const card = TitleDeed(200, 200, data.jezyce2)
-  Rooms.addChild(card)
-  // const card2 = TitleDeed(400, 200, data.wilda2)
-  // Rooms.addChild(card2)
+  // const card = TitleDeed(200, 200, data.jezyce2);
+  // Rooms.addChild(card);
+  // const card2 = TitleDeed(400, 200, data.wilda2);
+  // Rooms.addChild(card2);
   const card3 = ChanceCard(400, 200, chance.chance16)
   Rooms.addChild(card3)
 }
