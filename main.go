@@ -20,7 +20,7 @@ type Msg struct {
 
 var (
 	rooms    = []*Room{}
-	upgrader = websocket.Upgrader{}
+	upgrader = websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}
 )
 
 type Client struct {
@@ -131,7 +131,6 @@ func (r *Room) newClient() {
 }
 
 func ws(c echo.Context) error {
-	upgrader.CheckOrigin = func(r *http.Request) bool { return true } // Fixes "request origin not allowed by Upgrader.CheckOrigin" error
 	conn, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
 	if err != nil {
 		return err
