@@ -62805,6 +62805,65 @@ exports.Button = Button;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.chance = void 0;
+var chance = {
+  chance1: {
+    info: 'Utknąłeś w korku. \n Cofnij się o 4 pola.'
+  },
+  chance2: {
+    info: 'Decydujesz się na chwilę \nodpoczynku. Przejdź na \npole Cytadela.'
+  },
+  chance3: {
+    info: 'Zostałeś oskarżony o oszustwo.\n Idziesz do więzienia.\n Nie przechodzisz przez start'
+  },
+  chance4: {
+    info: 'Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi.'
+  },
+  chance5: {
+    info: 'Czas na relaks. Przejdź na\n pole Rusałka. Jeśli miniesz \npole START, pobierz 200$.'
+  },
+  chance6: {
+    info: 'Wynajmujesz znanego dekoratora.\n Aby urządzić posiadłości zapłać\n za każdy dom zapłać 200$,\na za hotel 600$.'
+  },
+  chance7: {
+    info: 'Przejdź na pole START.'
+  },
+  chance8: {
+    info: 'Sprzedajesz przez Internet \nbilety do teatru. Pobierz 400$.'
+  },
+  chance9: {
+    info: 'Wzrost podatku od nieruchomości.\n Zapłać 300$ od każdego domu\n i 600$ od hotelu.'
+  },
+  chance10: {
+    info: 'Odsprzedajesz swoje akcje \nz zyskiem. Pobierz 1000$.'
+  },
+  chance11: {
+    info: 'Zapłać czesne 500$ \nza naukę w prywatnej szkole.'
+  },
+  chance12: {
+    info: 'Dostałeś mandat za rozmowę\nprzez telefon podczas\njazdy samochodem. Zapłać 100$.'
+  },
+  chance13: {
+    info: 'Wygrałeś na loterii.\n Pobierz 1000$.'
+  },
+  chance14: {
+    info: 'Budujesz kryty basen\nna swoim wieżowcu.\nZapłać 200$.'
+  },
+  chance15: {
+    info: 'Przejdź na pole STARE ZOO.\nJeżeli miniesz pole START,\n pobierz 200$.'
+  },
+  chance16: {
+    info: 'Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi.'
+  }
+};
+exports.chance = chance;
+
+},{}],57:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.data = void 0;
 var data = {
   wilda1: {
@@ -63174,7 +63233,72 @@ var data = {
 };
 exports.data = data;
 
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ChanceCard = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+/* eslint-disable camelcase */
+var scale = 3;
+
+var ChanceCard = function ChanceCard() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var chance = arguments.length > 2 ? arguments[2] : undefined;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y; // Tło
+
+  var bg = new PIXI.Graphics();
+  bg.beginFill(0xB5BDB5);
+  bg.drawRect(0, 0, 87 * scale, 56 * scale);
+  bg.endFill();
+  bg.interactive = true;
+  bg.buttonMode = true;
+  bg.on('pointerdown', function () {}); // Prostokąt tytułowy
+
+  var title = new PIXI.Graphics();
+  title.x = bg.width * 0.05;
+  title.y = bg.height * 0.1;
+  title.beginFill(0xffffff);
+  title.drawRect(0, 0, bg.width * 0.9, bg.height * 0.8);
+  title.endFill();
+  var titleText = new PIXI.Text('SZANSA', {
+    align: 'center',
+    fontSize: 16,
+    fontWeight: '600'
+  });
+  titleText.resolution = scale;
+  titleText.x = title.width / 2 - titleText.width / 2;
+  titleText.y = title.height * 0.1;
+  title.addChild(titleText);
+  var description = new PIXI.Text(chance.info, {
+    align: 'center',
+    fontSize: 15,
+    fontWeight: 'normal'
+  });
+  description.resolution = scale;
+  description.x = title.width / 2 - description.width / 2;
+  description.y = (title.height - description.height) / 2 + description.height * 0.1;
+  title.addChild(description);
+  cont.addChild(bg, title);
+  return cont;
+};
+
+exports.ChanceCard = ChanceCard;
+
+},{"pixi.js":44}],59:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -63329,7 +63453,7 @@ var TitleDeed = function TitleDeed() {
 
 exports.TitleDeed = TitleDeed;
 
-},{"pixi.js":44}],58:[function(require,module,exports){
+},{"pixi.js":44}],60:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -63343,6 +63467,10 @@ var _Button = require("./Button");
 var _TitleDeed = require("./TitleDeed");
 
 var _CardTest = require("./CardTest");
+
+var _CardChanceTest = require("./CardChanceTest");
+
+var _ChanceCard = require("./ChanceCard");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -63479,9 +63607,11 @@ function rebuildRooms() {
 
   Rooms.addChild(list);
   var card = (0, _TitleDeed.TitleDeed)(200, 200, _CardTest.data.jezyce2);
-  Rooms.addChild(card);
-  var card2 = (0, _TitleDeed.TitleDeed)(400, 200, _CardTest.data.wilda2);
-  Rooms.addChild(card2);
+  Rooms.addChild(card); // const card2 = TitleDeed(400, 200, data.wilda2)
+  // Rooms.addChild(card2)
+
+  var card3 = (0, _ChanceCard.ChanceCard)(400, 200, _CardChanceTest.chance.chance16);
+  Rooms.addChild(card3);
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 
@@ -63489,4 +63619,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./Button":55,"./CardTest":56,"./TitleDeed":57,"lodash":40,"pixi.js":44}]},{},[58]);
+},{"./Button":55,"./CardChanceTest":56,"./CardTest":57,"./ChanceCard":58,"./TitleDeed":59,"lodash":40,"pixi.js":44}]},{},[60]);

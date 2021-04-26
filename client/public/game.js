@@ -3,6 +3,8 @@ import * as _ from 'lodash'
 import { Button } from './Button'
 import { TitleDeed } from './TitleDeed'
 import { data } from './CardTest'
+import { chance } from './CardChanceTest'
+import { ChanceCard } from './ChanceCard'
 
 let socket
 
@@ -135,8 +137,10 @@ function rebuildRooms () {
   Rooms.addChild(list)
   const card = TitleDeed(200, 200, data.jezyce2)
   Rooms.addChild(card)
-  const card2 = TitleDeed(400, 200, data.wilda2)
-  Rooms.addChild(card2)
+  // const card2 = TitleDeed(400, 200, data.wilda2)
+  // Rooms.addChild(card2)
+  const card3 = ChanceCard(400, 200, chance.chance16)
+  Rooms.addChild(card3)
 }
 
 // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
