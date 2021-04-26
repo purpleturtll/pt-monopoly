@@ -63182,6 +63182,52 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.RoomsList = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+var _config = require("./config");
+
+var _Button = require("./Button");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var elementWidth = 200;
+var elementHeight = 50;
+
+var RoomsList = function RoomsList() {
+  var rooms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var newSocket = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+  var cont = new PIXI.Container();
+  cont.x = _config.config.canvasWidth / 2 - elementWidth / 2;
+  cont.y = _config.config.canvasHeight * 0.1;
+
+  var _loop = function _loop(i) {
+    var btn = (0, _Button.Button)(0, i * 40, rooms[i].name, function () {
+      newSocket(rooms[i].name);
+    });
+    cont.addChild(btn);
+  };
+
+  for (var i = 0; i < rooms.length; i++) {
+    _loop(i);
+  }
+
+  return cont;
+};
+
+exports.RoomsList = RoomsList;
+
+},{"./Button":55,"./config":59,"pixi.js":44}],58:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.TitleDeed = void 0;
 
 var PIXI = _interopRequireWildcard(require("pixi.js"));
@@ -63329,7 +63375,20 @@ var TitleDeed = function TitleDeed() {
 
 exports.TitleDeed = TitleDeed;
 
-},{"pixi.js":44}],58:[function(require,module,exports){
+},{"pixi.js":44}],59:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.config = void 0;
+var config = {
+  canvasWidth: 700,
+  canvasHeight: 700
+};
+exports.config = config;
+
+},{}],60:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -63338,11 +63397,15 @@ var PIXI = _interopRequireWildcard(require("pixi.js"));
 
 var _ = _interopRequireWildcard(require("lodash"));
 
+var _config = require("./config");
+
 var _Button = require("./Button");
 
 var _TitleDeed = require("./TitleDeed");
 
 var _CardTest = require("./CardTest");
+
+var _RoomsList = require("./RoomsList");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -63351,15 +63414,15 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var socket;
 
 function newSocket(room) {
-  socket = new WebSocket('ws://localhost:8080/ws');
+  socket = new WebSocket("ws://localhost:8080/ws");
 
   socket.onopen = function () {
     setTimeout(function () {
       return socket.send(JSON.stringify({
-        type: 'register_client',
+        type: "register_client",
         data: JSON.stringify({
           room: room,
-          name: 'Default Player'
+          name: "Default Player"
         })
       }));
     }, 1000);
@@ -63371,19 +63434,19 @@ function newSocket(room) {
     console.log(msg);
 
     switch (msg.type) {
-      case 'players':
+      case "players":
         Board.state.players = msg.data.players;
     }
   };
 }
 
 var app = new PIXI.Application({
-  width: 700,
-  height: 700,
+  width: _config.config.canvasWidth,
+  height: _config.config.canvasHeight,
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 });
-document.getElementById('app').appendChild(app.view);
+document.getElementById("app").appendChild(app.view);
 var App = new PIXI.Container();
 var Board = new PIXI.Container();
 var Rooms = new PIXI.Container();
@@ -63451,9 +63514,29 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var refreshBtn = (0, _Button.Button)(210, 0, 'Refresh', function () {
-    fetch('http://localhost:8080/rooms', {
-      method: 'GET'
+  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "New room", function () {
+    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
+    fetch("http://localhost:8080/room/" + name, {
+      method: "POST"
+    }).then(function (response) {
+      if (response.status == 200) {
+        fetch("http://localhost:8080/rooms", {
+          method: "GET"
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          var list = JSON.parse(data);
+          Rooms.state.list = list;
+        });
+      }
+    })["catch"](function (reason) {
+      return console.log(reason);
+    });
+  });
+  Rooms.addChild(createBtn);
+  var refreshBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 + 120, _config.config.canvasHeight * 0.1, "Refresh", function () {
+    fetch("http://localhost:8080/rooms", {
+      method: "GET"
     }).then(function (response) {
       return response.json();
     }).then(function (data) {
@@ -63462,26 +63545,11 @@ function rebuildRooms() {
     });
   });
   Rooms.addChild(refreshBtn);
-  var list = new PIXI.Container();
-  list.x = 0;
-  list.y = 0;
-
-  var _loop = function _loop(i) {
-    var btn = (0, _Button.Button)(0, i * 40, Rooms.state.list[i].name, function () {
-      newSocket(Rooms.state.list[i].name);
-    });
-    list.addChild(btn);
-  };
-
-  for (var i = 0; i < Rooms.state.list.length; i++) {
-    _loop(i);
-  }
-
-  Rooms.addChild(list);
-  var card = (0, _TitleDeed.TitleDeed)(200, 200, _CardTest.data.jezyce2);
-  Rooms.addChild(card);
-  var card2 = (0, _TitleDeed.TitleDeed)(400, 200, _CardTest.data.wilda2);
-  Rooms.addChild(card2);
+  var list = (0, _RoomsList.RoomsList)(Rooms.state.list, newSocket);
+  Rooms.addChild(list); // const card = TitleDeed(200, 200, data.jezyce2);
+  // Rooms.addChild(card);
+  // const card2 = TitleDeed(400, 200, data.wilda2);
+  // Rooms.addChild(card2);
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 
@@ -63489,4 +63557,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./Button":55,"./CardTest":56,"./TitleDeed":57,"lodash":40,"pixi.js":44}]},{},[58]);
+},{"./Button":55,"./CardTest":56,"./RoomsList":57,"./TitleDeed":58,"./config":59,"lodash":40,"pixi.js":44}]},{},[60]);

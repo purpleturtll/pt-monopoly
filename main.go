@@ -159,6 +159,14 @@ func getRooms(c echo.Context) error {
 	return c.JSON(200, string(v))
 }
 
+func newRoom(c echo.Context) error {
+	name := c.Param("name")
+	r := Room{Name: name}
+	go r.listen()
+	rooms = append(rooms, &r)
+	return c.NoContent(http.StatusOK)
+}
+
 func main() {
 	cmd := exec.Command("npm", "run", "watch")
 	cmd.Dir = "./client"
@@ -169,17 +177,16 @@ func main() {
 		fmt.Println("Watcher running...")
 	}
 
-	rooms = append(rooms, &Room{Name: "Testowy1"}, &Room{Name: "Testowy2"})
-	go rooms[0].listen()
-	go rooms[1].listen()
-
 	e := echo.New()
 	e.Use(middleware.Recover())
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{Format: "${host} ${method} ${path}\n"}))
 	e.Logger.SetLevel(log.ERROR)
 	e.Static("/", "./client/public")
+
 	e.GET("/ws", ws)
 	e.GET("/rooms", getRooms)
+	e.POST("/room/:name", newRoom)
+
 	e.Start("0.0.0.0:8080")
 	exitCode := cmd.Wait()
 	fmt.Println("Watcher shut down:", exitCode)
