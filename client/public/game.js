@@ -3,8 +3,10 @@ import * as _ from 'lodash'
 import { Button } from './Button'
 import { TitleDeed } from './TitleDeed'
 import { data } from './CardTest'
-import { chance } from './CardChanceTest'
+import { chance } from './ChanceCardTest'
+import { risk } from './RiskCardTest'
 import { ChanceCard } from './ChanceCard'
+import { RiskCard } from './RiskCard'
 import { config } from './config'
 import { RoomsList } from './RoomsList'
 
@@ -171,6 +173,8 @@ function rebuildRooms () {
   // Rooms.addChild(card2);
   const card3 = ChanceCard(400, 200, chance.chance16)
   Rooms.addChild(card3)
+  const card4 = RiskCard(400, 200, risk.risk16)
+  Rooms.addChild(card4)
 }
 
 // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
