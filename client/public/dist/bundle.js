@@ -63383,8 +63383,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.config = void 0;
 var config = {
-  canvasWidth: 700,
-  canvasHeight: 700
+  canvasWidth: 1200,
+  canvasHeight: 800
 };
 exports.config = config;
 
@@ -63499,6 +63499,7 @@ app.ticker.add(function () {
 
 function rebuildBoard() {
   Board.removeChildren();
+  var b = new PIXI.Sprite.from("http://localhost:8080/board.png");
   var list = new PIXI.Container();
   list.x = 0;
   list.y = 0;
@@ -63508,7 +63509,7 @@ function rebuildBoard() {
     list.addChild(btn);
   }
 
-  Board.addChild(list);
+  Board.addChild(list, b);
 } // Funkcja budująca widok listy pokoi
 
 

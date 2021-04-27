@@ -101,6 +101,9 @@ app.ticker.add(() => {
 // Funkcja budująca widok planszy
 function rebuildBoard() {
     Board.removeChildren();
+
+    const b = new PIXI.Sprite.from("http://localhost:8080/board.png");
+
     const list = new PIXI.Container();
     list.x = 0;
     list.y = 0;
@@ -108,7 +111,8 @@ function rebuildBoard() {
         const btn = Button(0, i * 40, Board.state.players[i].name);
         list.addChild(btn);
     }
-    Board.addChild(list);
+
+    Board.addChild(list, b);
 }
 
 // Funkcja budująca widok listy pokoi
