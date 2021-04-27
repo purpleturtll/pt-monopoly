@@ -1,9 +1,13 @@
 import * as PIXI from "pixi.js";
 import * as _ from "lodash";
-import { config } from "./config";
 import { Button } from "./Button";
 import { TitleDeed } from "./TitleDeed";
 import { data } from "./CardTest";
+import { chance } from "./ChanceCardTest";
+import { risk } from "./RiskCardTest";
+import { ChanceCard } from "./ChanceCard";
+import { RiskCard } from "./RiskCard";
+import { config } from "./config";
 import { RoomsList } from "./RoomsList";
 
 let socket;
@@ -124,7 +128,7 @@ function rebuildRooms() {
         config.canvasHeight * 0.1,
         "New room",
         () => {
-            let name = Math.random()
+            const name = Math.random()
                 .toString(36)
                 .replace(/[^a-z0-9]+/g, "")
                 .substr(2, 7);
@@ -171,6 +175,10 @@ function rebuildRooms() {
     // Rooms.addChild(card);
     // const card2 = TitleDeed(400, 200, data.wilda2);
     // Rooms.addChild(card2);
+    const card3 = ChanceCard(400, 200, chance.chance16);
+    Rooms.addChild(card3);
+    const card4 = RiskCard(400, 200, risk.risk16);
+    Rooms.addChild(card4);
 }
 
 // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie

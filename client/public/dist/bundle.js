@@ -63182,6 +63182,254 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ChanceCard = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+/* eslint-disable camelcase */
+var scale = 3;
+
+var ChanceCard = function ChanceCard() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var chance = arguments.length > 2 ? arguments[2] : undefined;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y; // Tło
+
+  var bg = new PIXI.Graphics();
+  bg.beginFill(0xB5BDB5);
+  bg.drawRect(0, 0, 87 * scale, 56 * scale);
+  bg.endFill();
+  bg.interactive = true;
+  bg.buttonMode = true;
+  bg.on('pointerdown', function () {}); // Prostokąt tytułowy
+
+  var title = new PIXI.Graphics();
+  title.x = bg.width * 0.05;
+  title.y = bg.height * 0.1;
+  title.beginFill(0xffffff);
+  title.drawRect(0, 0, bg.width * 0.9, bg.height * 0.8);
+  title.endFill();
+  var titleText = new PIXI.Text('SZANSA', {
+    align: 'center',
+    fontSize: 16,
+    fontWeight: '600'
+  });
+  titleText.resolution = scale;
+  titleText.x = title.width / 2 - titleText.width / 2;
+  titleText.y = title.height * 0.1;
+  title.addChild(titleText);
+  var description = new PIXI.Text(chance.info, {
+    align: 'center',
+    fontSize: 15,
+    fontWeight: 'normal'
+  });
+  description.resolution = scale;
+  description.x = title.width / 2 - description.width / 2;
+  description.y = (title.height - description.height) / 2 + description.height * 0.1;
+  title.addChild(description);
+  cont.addChild(bg, title);
+  return cont;
+};
+
+exports.ChanceCard = ChanceCard;
+
+},{"pixi.js":44}],58:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.chance = void 0;
+var chance = {
+  chance1: {
+    info: 'Utknąłeś w korku. \n Cofnij się o 4 pola.'
+  },
+  chance2: {
+    info: 'Decydujesz się na chwilę \nodpoczynku. Przejdź na \npole Cytadela.'
+  },
+  chance3: {
+    info: 'Zostałeś oskarżony o oszustwo.\n Idziesz do więzienia.\n Nie przechodzisz przez start'
+  },
+  chance4: {
+    info: 'Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi.'
+  },
+  chance5: {
+    info: 'Czas na relaks. Przejdź na\n pole Rusałka. Jeśli miniesz \npole START, pobierz 200$.'
+  },
+  chance6: {
+    info: 'Wynajmujesz znanego dekoratora.\n Aby urządzić posiadłości zapłać\n za każdy dom zapłać 200$,\na za hotel 600$.'
+  },
+  chance7: {
+    info: 'Przejdź na pole START.'
+  },
+  chance8: {
+    info: 'Sprzedajesz przez Internet \nbilety do teatru. Pobierz 400$.'
+  },
+  chance9: {
+    info: 'Wzrost podatku od nieruchomości.\n Zapłać 300$ od każdego domu\n i 600$ od hotelu.'
+  },
+  chance10: {
+    info: 'Odsprzedajesz swoje akcje \nz zyskiem. Pobierz 1000$.'
+  },
+  chance11: {
+    info: 'Zapłać czesne 500$ \nza naukę w prywatnej szkole.'
+  },
+  chance12: {
+    info: 'Dostałeś mandat za rozmowę\nprzez telefon podczas\njazdy samochodem. Zapłać 100$.'
+  },
+  chance13: {
+    info: 'Wygrałeś na loterii.\n Pobierz 1000$.'
+  },
+  chance14: {
+    info: 'Budujesz kryty basen\nna swoim wieżowcu.\nZapłać 200$.'
+  },
+  chance15: {
+    info: 'Przejdź na pole STARE ZOO.\nJeżeli miniesz pole START,\n pobierz 200$.'
+  },
+  chance16: {
+    info: 'Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi.'
+  }
+};
+exports.chance = chance;
+
+},{}],59:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RiskCard = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+/* eslint-disable camelcase */
+var scale = 3;
+
+var RiskCard = function RiskCard() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var risk = arguments.length > 2 ? arguments[2] : undefined;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y; // Tło
+
+  var bg = new PIXI.Graphics();
+  bg.beginFill(0xffd42a);
+  bg.drawRect(0, 0, 87 * scale, 56 * scale);
+  bg.endFill();
+  bg.interactive = true;
+  bg.buttonMode = true;
+  bg.on('pointerdown', function () {}); // Prostokąt tytułowy
+
+  var title = new PIXI.Graphics();
+  title.x = bg.width * 0.05;
+  title.y = bg.height * 0.1;
+  title.beginFill(0xffffff);
+  title.drawRect(0, 0, bg.width * 0.9, bg.height * 0.8);
+  title.endFill();
+  var titleText = new PIXI.Text('RYZYKO', {
+    align: 'center',
+    fontSize: 16,
+    fontWeight: '600'
+  });
+  titleText.resolution = scale;
+  titleText.x = title.width / 2 - titleText.width / 2;
+  titleText.y = title.height * 0.1;
+  title.addChild(titleText);
+  var description = new PIXI.Text(risk.info, {
+    align: 'center',
+    fontSize: 15,
+    fontWeight: 'normal'
+  });
+  description.resolution = scale;
+  description.x = title.width / 2 - description.width / 2;
+  description.y = (title.height - description.height) / 2 + description.height * 0.1;
+  title.addChild(description);
+  cont.addChild(bg, title);
+  return cont;
+};
+
+exports.RiskCard = RiskCard;
+
+},{"pixi.js":44}],60:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.risk = void 0;
+var risk = {
+  risk1: {
+    info: 'Idź do więzienia. Idziesz\n bezpośrednio na pole WIĘZIENIE.\nNie mijasz pola START.'
+  },
+  risk2: {
+    info: 'Zapłać 100$ lub pobierz\n kartę SZANSA.'
+  },
+  risk3: {
+    info: 'Zapłać 500$ za wynajem\n luksusowego klubu na\n imprezę zamkniętą w Centrum.'
+  },
+  risk4: {
+    info: 'Dostajesz w spadku 3000$,\nale musisz zapłacić od nich\npodatek. Pobierz tylko 1000$.'
+  },
+  risk5: {
+    info: 'Skręciłeś kostkę. Wróć na\npole SZPITAL WOJEWÓDŹKI,\naby zrobić pakiet badań.'
+  },
+  risk6: {
+    info: 'Pobierz 1000$ za wynajem\nTwojej żaglówki turystom.'
+  },
+  risk7: {
+    info: 'Z ogromnym zyskiem\nodsprzedałeś porcelanę kupioną\nw Starej Rzeźni. Pobierz 300$.'
+  },
+  risk8: {
+    info: 'Przejdź na pole START.'
+  },
+  risk9: {
+    info: 'Stłukłeś cenny eksponat\nw Muzeum Narodowym.\nZapłać 500$.'
+  },
+  risk10: {
+    info: 'Zabalowałeś w klubie\nna Wrocławskiej. Zapłać 200$.'
+  },
+  risk11: {
+    info: 'Zapłać 500$ za weekend\nw Hotelu Mercure.'
+  },
+  risk12: {
+    info: 'Dostałeś zwrot podatku!\nPobierz 500$.'
+  },
+  risk13: {
+    info: 'Znajomi wynajmują od Ciebie\nwillę na tydzień. Pobierz\n100$ od każdego gracza.'
+  },
+  risk14: {
+    info: 'Idziesz na zakupy do centrum\nhandlowego. Zapłać 400$.'
+  },
+  risk15: {
+    info: 'Podczas spaceru po\nOGRODZIE UAM znajdujesz\ntelefon. Pobierz 500$\nznaleźnego.'
+  },
+  risk16: {
+    info: 'Robisz zakupy na RYNKU\nJEŻYCKIM. Zapłać 50$.'
+  }
+};
+exports.risk = risk;
+
+},{}],61:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.RoomsList = void 0;
 
 var PIXI = _interopRequireWildcard(require("pixi.js"));
@@ -63220,7 +63468,7 @@ var RoomsList = function RoomsList() {
 
 exports.RoomsList = RoomsList;
 
-},{"./Button":55,"./config":59,"pixi.js":44}],58:[function(require,module,exports){
+},{"./Button":55,"./config":63,"pixi.js":44}],62:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -63375,7 +63623,7 @@ var TitleDeed = function TitleDeed() {
 
 exports.TitleDeed = TitleDeed;
 
-},{"pixi.js":44}],59:[function(require,module,exports){
+},{"pixi.js":44}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63388,7 +63636,7 @@ var config = {
 };
 exports.config = config;
 
-},{}],60:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -63397,13 +63645,21 @@ var PIXI = _interopRequireWildcard(require("pixi.js"));
 
 var _ = _interopRequireWildcard(require("lodash"));
 
-var _config = require("./config");
-
 var _Button = require("./Button");
 
 var _TitleDeed = require("./TitleDeed");
 
 var _CardTest = require("./CardTest");
+
+var _ChanceCardTest = require("./ChanceCardTest");
+
+var _RiskCardTest = require("./RiskCardTest");
+
+var _ChanceCard = require("./ChanceCard");
+
+var _RiskCard = require("./RiskCard");
+
+var _config = require("./config");
 
 var _RoomsList = require("./RoomsList");
 
@@ -63414,15 +63670,15 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var socket;
 
 function newSocket(room) {
-  socket = new WebSocket("ws://localhost:8080/ws");
+  socket = new WebSocket('ws://localhost:8080/ws');
 
   socket.onopen = function () {
     setTimeout(function () {
       return socket.send(JSON.stringify({
-        type: "register_client",
+        type: 'register_client',
         data: JSON.stringify({
           room: room,
-          name: "Default Player"
+          name: 'Default Player'
         })
       }));
     }, 1000);
@@ -63434,7 +63690,7 @@ function newSocket(room) {
     console.log(msg);
 
     switch (msg.type) {
-      case "players":
+      case 'players':
         Board.state.players = msg.data.players;
     }
   };
@@ -63446,7 +63702,7 @@ var app = new PIXI.Application({
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 });
-document.getElementById("app").appendChild(app.view);
+document.getElementById('app').appendChild(app.view);
 var App = new PIXI.Container();
 var Board = new PIXI.Container();
 var Rooms = new PIXI.Container();
@@ -63515,14 +63771,14 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "New room", function () {
-    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
-    fetch("http://localhost:8080/room/" + name, {
-      method: "POST"
+  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, 'New room', function () {
+    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 7);
+    fetch('http://localhost:8080/room/' + name, {
+      method: 'POST'
     }).then(function (response) {
       if (response.status == 200) {
-        fetch("http://localhost:8080/rooms", {
-          method: "GET"
+        fetch('http://localhost:8080/rooms', {
+          method: 'GET'
         }).then(function (response) {
           return response.json();
         }).then(function (data) {
@@ -63535,9 +63791,9 @@ function rebuildRooms() {
     });
   });
   Rooms.addChild(createBtn);
-  var refreshBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 + 120, _config.config.canvasHeight * 0.1, "Refresh", function () {
-    fetch("http://localhost:8080/rooms", {
-      method: "GET"
+  var refreshBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 + 120, _config.config.canvasHeight * 0.1, 'Refresh', function () {
+    fetch('http://localhost:8080/rooms', {
+      method: 'GET'
     }).then(function (response) {
       return response.json();
     }).then(function (data) {
@@ -63551,6 +63807,11 @@ function rebuildRooms() {
   // Rooms.addChild(card);
   // const card2 = TitleDeed(400, 200, data.wilda2);
   // Rooms.addChild(card2);
+
+  var card3 = (0, _ChanceCard.ChanceCard)(400, 200, _ChanceCardTest.chance.chance16);
+  Rooms.addChild(card3);
+  var card4 = (0, _RiskCard.RiskCard)(400, 200, _RiskCardTest.risk.risk16);
+  Rooms.addChild(card4);
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 
@@ -63558,4 +63819,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./Button":55,"./CardTest":56,"./RoomsList":57,"./TitleDeed":58,"./config":59,"lodash":40,"pixi.js":44}]},{},[60]);
+},{"./Button":55,"./CardTest":56,"./ChanceCard":57,"./ChanceCardTest":58,"./RiskCard":59,"./RiskCardTest":60,"./RoomsList":61,"./TitleDeed":62,"./config":63,"lodash":40,"pixi.js":44}]},{},[64]);
