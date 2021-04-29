@@ -63631,8 +63631,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.config = void 0;
 var config = {
-  canvasWidth: 1200,
-  canvasHeight: 800
+  canvasWidth: 1400,
+  canvasHeight: 744
 };
 exports.config = config;
 
@@ -63691,6 +63691,7 @@ function newSocket(room) {
 
     switch (msg.type) {
       case 'players':
+        console.log(msg.data.players);
         Board.state.players = msg.data.players;
     }
   };
@@ -63710,7 +63711,8 @@ app.stage.addChild(App);
 App.addChild(Board, Rooms); // Ustawianie stanów początkowych
 
 App.state = {
-  inGame: false
+  inGame: false // inGame: true
+
 }; // Głęboka kopia stanu
 // Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
 // bo inaczej kopiowane są referencje zamiast wartości
@@ -63755,7 +63757,12 @@ app.ticker.add(function () {
 
 function rebuildBoard() {
   Board.removeChildren();
-  var b = new PIXI.Sprite.from("http://localhost:8080/board.png");
+  var a = new PIXI.Graphics();
+  a.lineStyle(0);
+  a.beginFill(0xDE3249, 0.8);
+  a.drawCircle(865, 700, 10);
+  a.endFill();
+  var b = PIXI.Sprite.from('http://localhost:8080/board.png');
   var list = new PIXI.Container();
   list.x = 0;
   list.y = 0;
@@ -63765,7 +63772,7 @@ function rebuildBoard() {
     list.addChild(btn);
   }
 
-  Board.addChild(list, b);
+  Board.addChild(list, b, a);
 } // Funkcja budująca widok listy pokoi
 
 

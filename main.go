@@ -28,6 +28,8 @@ type Client struct {
 	conn *websocket.Conn `json:"-"`
 	Seat int8            `json:"seat"`
 	Name string          `json:"name"`
+	X    float32         `json:"x"`
+	Y    float32         `json:"y"`
 }
 
 func (r *Room) deleteClient(c *Client) {
