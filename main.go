@@ -29,6 +29,8 @@ type Client struct {
 	Seat int8            `json:"seat"`
 	Name string          `json:"name"`
 	ID   string          `json:"id"`
+	X    float32         `json:"x"`
+	Y    float32         `json:"y"`
 }
 
 func (r *Room) deleteClient(id string) {

@@ -87,6 +87,7 @@ App.addChild(Board, Rooms);
 // Ustawianie stanów początkowych
 App.state = {
     inGame: false,
+    // inGame: true
 };
 // Głęboka kopia stanu
 // Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
@@ -135,6 +136,12 @@ app.ticker.add(() => {
 function rebuildBoard() {
     Board.removeChildren();
 
+    const a = new PIXI.Graphics();
+    a.lineStyle(0);
+    a.beginFill(0xde3249, 0.8);
+    a.drawCircle(865, 700, 10);
+    a.endFill();
+
     const b = new PIXI.Sprite.from("http://localhost:8080/board.png");
 
     const list = new PIXI.Container();
@@ -145,7 +152,7 @@ function rebuildBoard() {
         list.addChild(btn);
     }
 
-    Board.addChild(list, b);
+    Board.addChild(list, b, a);
 }
 
 // Funkcja budująca widok listy pokoi
