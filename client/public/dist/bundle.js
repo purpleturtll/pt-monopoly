@@ -63669,16 +63669,29 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var socket;
 
+function create_UUID() {
+  var dt = new Date().getTime();
+  var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = (dt + Math.random() * 16) % 16 | 0;
+    dt = Math.floor(dt / 16);
+    return (c == "x" ? r : r & 0x3 | 0x8).toString(16);
+  });
+  return uuid;
+}
+
+var ID = create_UUID();
+
 function newSocket(room) {
-  socket = new WebSocket('ws://localhost:8080/ws');
+  socket = new WebSocket("ws://localhost:8080/ws");
 
   socket.onopen = function () {
     setTimeout(function () {
       return socket.send(JSON.stringify({
-        type: 'register_client',
+        type: "register_client",
         data: JSON.stringify({
           room: room,
-          name: 'Default Player'
+          name: Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7),
+          id: ID
         })
       }));
     }, 1000);
@@ -63690,9 +63703,18 @@ function newSocket(room) {
     console.log(msg);
 
     switch (msg.type) {
-      case 'players':
+      case "players":
         Board.state.players = msg.data.players;
     }
+  };
+
+  socket.onclose = function () {
+    socket.send(JSON.stringify({
+      type: "exit",
+      data: JSON.stringify({
+        id: ID
+      })
+    }));
   };
 }
 
@@ -63702,7 +63724,7 @@ var app = new PIXI.Application({
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 });
-document.getElementById('app').appendChild(app.view);
+document.getElementById("app").appendChild(app.view);
 var App = new PIXI.Container();
 var Board = new PIXI.Container();
 var Rooms = new PIXI.Container();
@@ -63757,7 +63779,7 @@ function rebuildBoard() {
   Board.removeChildren();
   var b = new PIXI.Sprite.from("http://localhost:8080/board.png");
   var list = new PIXI.Container();
-  list.x = 0;
+  list.x = 1000;
   list.y = 0;
 
   for (var i = 0; i < Board.state.players.length; i++) {
@@ -63771,14 +63793,14 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, 'New room', function () {
-    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 7);
-    fetch('http://localhost:8080/room/' + name, {
-      method: 'POST'
+  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "New room", function () {
+    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
+    fetch("http://localhost:8080/room/" + name, {
+      method: "POST"
     }).then(function (response) {
       if (response.status == 200) {
-        fetch('http://localhost:8080/rooms', {
-          method: 'GET'
+        fetch("http://localhost:8080/rooms", {
+          method: "GET"
         }).then(function (response) {
           return response.json();
         }).then(function (data) {
@@ -63791,9 +63813,9 @@ function rebuildRooms() {
     });
   });
   Rooms.addChild(createBtn);
-  var refreshBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 + 120, _config.config.canvasHeight * 0.1, 'Refresh', function () {
-    fetch('http://localhost:8080/rooms', {
-      method: 'GET'
+  var refreshBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 + 120, _config.config.canvasHeight * 0.1, "Refresh", function () {
+    fetch("http://localhost:8080/rooms", {
+      method: "GET"
     }).then(function (response) {
       return response.json();
     }).then(function (data) {

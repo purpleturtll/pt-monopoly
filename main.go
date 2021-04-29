@@ -28,17 +28,24 @@ type Client struct {
 	conn *websocket.Conn `json:"-"`
 	Seat int8            `json:"seat"`
 	Name string          `json:"name"`
+	ID   string          `json:"id"`
 }
 
-func (r *Room) deleteClient(c *Client) {
+func (r *Room) deleteClient(id string) {
 	i := 0
 	for _, x := range r.Clients {
-		if x != c {
+		if x.ID != id {
 			r.Clients[i] = x
 			i++
 		}
 	}
 	r.Clients = r.Clients[:i]
+	msg := &struct {
+		Players []*Client `json:"players"`
+	}{
+		Players: r.Clients,
+	}
+	r.broadcast("players", msg)
 }
 
 func (c *Client) listen() {
@@ -51,7 +58,7 @@ func (c *Client) listen() {
 			switch err.(type) {
 			case *websocket.CloseError:
 				fmt.Println("Client", c.Name, "left")
-				c.room.deleteClient(c)
+				c.room.deleteClient(c.ID)
 				c.room.SitsTaken -= 1
 			default:
 				fmt.Println(err)
@@ -93,6 +100,7 @@ func (r *Room) listen() {
 			type registerClientMsg struct {
 				Room string `json:"room"`
 				Name string `json:"name"`
+				ID   string `json:"id"`
 			}
 			data := registerClientMsg{}
 			v.Data = v.Data[1:]
@@ -115,8 +123,20 @@ func (r *Room) listen() {
 					break
 				}
 			}
+		case "exit":
+			type exitMsg struct {
+				ID string `json:"id"`
+			}
+			data := exitMsg{}
+			v.Data = v.Data[1:]
+			v.Data = v.Data[:len(v.Data)-1]
+			temp := strings.ReplaceAll(string(v.Data), "\\", "")
+			err := json.Unmarshal([]byte(temp), &data)
+			if err != nil {
+				fmt.Println(err)
+			}
+			r.deleteClient(data.ID)
 		}
-
 	}
 }
 

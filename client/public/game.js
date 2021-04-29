@@ -12,6 +12,21 @@ import { RoomsList } from "./RoomsList";
 
 let socket;
 
+function create_UUID() {
+    var dt = new Date().getTime();
+    var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+        /[xy]/g,
+        function (c) {
+            var r = (dt + Math.random() * 16) % 16 | 0;
+            dt = Math.floor(dt / 16);
+            return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
+        }
+    );
+    return uuid;
+}
+
+const ID = create_UUID();
+
 function newSocket(room) {
     socket = new WebSocket("ws://localhost:8080/ws");
     socket.onopen = () => {
@@ -22,7 +37,11 @@ function newSocket(room) {
                         type: "register_client",
                         data: JSON.stringify({
                             room: room,
-                            name: "Default Player",
+                            name: Math.random()
+                                .toString(36)
+                                .replace(/[^a-z0-9]+/g, "")
+                                .substr(2, 7),
+                            id: ID,
                         }),
                     })
                 ),
@@ -37,6 +56,16 @@ function newSocket(room) {
             case "players":
                 Board.state.players = msg.data.players;
         }
+    };
+    socket.onclose = () => {
+        socket.send(
+            JSON.stringify({
+                type: "exit",
+                data: JSON.stringify({
+                    id: ID,
+                }),
+            })
+        );
     };
 }
 
@@ -109,7 +138,7 @@ function rebuildBoard() {
     const b = new PIXI.Sprite.from("http://localhost:8080/board.png");
 
     const list = new PIXI.Container();
-    list.x = 0;
+    list.x = 1000;
     list.y = 0;
     for (let i = 0; i < Board.state.players.length; i++) {
         const btn = Button(0, i * 40, Board.state.players[i].name);
