@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import * as _ from "lodash";
+import { io } from "socket.io-client";
 import { Button } from "./Button";
 import { TitleDeed } from "./TitleDeed";
 import { data } from "./CardTest";
@@ -10,7 +11,59 @@ import { RiskCard } from "./RiskCard";
 import { config } from "./config";
 import { RoomsList } from "./RoomsList";
 
-let socket;
+const player_name = Math.random()
+    .toString(36)
+    .replace(/[^a-z0-9]+/g, "")
+    .substr(2, 7);
+
+let socket = io();
+
+socket.on("rooms", (rooms) => {
+    console.log("rooms", rooms);
+    Rooms.state.list = rooms;
+});
+
+socket.on("new_room", (rooms) => {
+    console.log("new_room");
+    Rooms.state.list = rooms;
+});
+
+socket.on("entered_room", (room) => {
+    console.log("entered_room");
+    App.state.inGame = true;
+    Board.state.room = room;
+});
+
+socket.on("new_player", (players) => {
+    console.log("new_player");
+    Board.state.players = players;
+});
+
+socket.on("turn", (turn, name) => {
+    console.log("turn");
+    Board.state.turn = turn;
+    Board.state.my_turn = name == player_name;
+});
+
+socket.on("left_room", (rooms) => {
+    console.log("left_room");
+    App.state.inGame = false;
+    Rooms.state.list = rooms;
+});
+
+socket.on("player_left", (players) => {
+    console.log("player_left");
+    Board.state.players = players;
+});
+
+socket.on("rolled_dice", (players) => {
+    console.log("rolled_dice");
+    Board.state.players = players;
+});
+
+socket.on("deleted_room", (rooms) => {
+    Rooms.state.list = rooms;
+});
 
 function create_UUID() {
     var dt = new Date().getTime();
@@ -23,50 +76,6 @@ function create_UUID() {
         }
     );
     return uuid;
-}
-
-const ID = create_UUID();
-
-function newSocket(room) {
-    socket = new WebSocket("ws://localhost:8080/ws");
-    socket.onopen = () => {
-        setTimeout(
-            () =>
-                socket.send(
-                    JSON.stringify({
-                        type: "register_client",
-                        data: JSON.stringify({
-                            room: room,
-                            name: Math.random()
-                                .toString(36)
-                                .replace(/[^a-z0-9]+/g, "")
-                                .substr(2, 7),
-                            id: ID,
-                        }),
-                    })
-                ),
-            1000
-        );
-        App.state.inGame = true;
-    };
-    socket.onmessage = (event) => {
-        const msg = JSON.parse(event.data);
-        console.log(msg);
-        switch (msg.type) {
-            case "players":
-                Board.state.players = msg.data.players;
-        }
-    };
-    socket.onclose = () => {
-        socket.send(
-            JSON.stringify({
-                type: "exit",
-                data: JSON.stringify({
-                    id: ID,
-                }),
-            })
-        );
-    };
 }
 
 const app = new PIXI.Application({
@@ -96,6 +105,9 @@ App.state = {
 App.prev_state = JSON.parse(JSON.stringify(App.state));
 Board.state = {
     players: [],
+    turn: 0,
+    my_turn: false,
+    room: "",
 };
 Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.state = {
@@ -148,9 +160,15 @@ function rebuildBoard() {
     list.x = 1000;
     list.y = 0;
     for (let i = 0; i < Board.state.players.length; i++) {
-        const btn = Button(0, i * 40, Board.state.players[i].name);
+        const btn = Button(0, i * 40 + 40, Board.state.players[i].name);
         list.addChild(btn);
     }
+
+    const quit = Button(0, 0, "QUIT", () => {
+        socket.emit("exit_room", Board.state.room, player_name);
+        App.state.inGame = false;
+    });
+    list.addChild(quit);
 
     Board.addChild(list, b, a);
 }
@@ -168,53 +186,21 @@ function rebuildRooms() {
                 .toString(36)
                 .replace(/[^a-z0-9]+/g, "")
                 .substr(2, 7);
-            fetch("http://localhost:8080/room/" + name, {
-                method: "POST",
-            })
-                .then((response) => {
-                    if (response.status == 200) {
-                        fetch("http://localhost:8080/rooms", {
-                            method: "GET",
-                        })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                const list = JSON.parse(data);
-                                Rooms.state.list = list;
-                            });
-                    }
-                })
-                .catch((reason) => console.log(reason));
+            socket.emit("create_room", name);
         }
     );
     Rooms.addChild(createBtn);
 
-    const refreshBtn = Button(
-        config.canvasWidth / 2 + 120,
-        config.canvasHeight * 0.1,
-        "Refresh",
-        () => {
-            fetch("http://localhost:8080/rooms", {
-                method: "GET",
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    const list = JSON.parse(data);
-                    Rooms.state.list = list;
-                });
-        }
-    );
-    Rooms.addChild(refreshBtn);
-
-    const list = RoomsList(Rooms.state.list, newSocket);
+    const list = RoomsList(Rooms.state.list, socket, player_name);
     Rooms.addChild(list);
     // const card = TitleDeed(200, 200, data.jezyce2);
     // Rooms.addChild(card);
     // const card2 = TitleDeed(400, 200, data.wilda2);
     // Rooms.addChild(card2);
-    const card3 = ChanceCard(400, 200, chance.chance16);
-    Rooms.addChild(card3);
-    const card4 = RiskCard(400, 200, risk.risk16);
-    Rooms.addChild(card4);
+    // const card3 = ChanceCard(400, 200, chance.chance16);
+    // Rooms.addChild(card3);
+    // const card4 = RiskCard(400, 200, risk.risk16);
+    // Rooms.addChild(card4);
 }
 
 // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie

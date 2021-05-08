@@ -1,0 +1,23 @@
+{
+  "name": "pt-monopoly",
+  "version": "1.0.0",
+  "description": "```\r # git clone https://github.com/purpleturtll/pt-monopoly\r # cd pt-monopoly/client\r # npm install\r # cd ..\r # go run main.go\r ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purpleturtll/pt-monopoly.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/purpleturtll/pt-monopoly/issues"
+  },
+  "homepage": "https://github.com/purpleturtll/pt-monopoly#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.2"
+  }
+}
