@@ -69667,7 +69667,7 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
   var cont = new PIXI.Container(); // PIECES
 
   for (var i = 0; i < 4; i++) {
-    var p = Piece(1325 - 71 * board.state.turn, 690, 0xff0000);
+    var p = Piece(_config.BoardPositions[board.state.turn].x + 452, _config.BoardPositions[board.state.turn].y, 0xff0000);
     cont.addChild(p);
   }
 
@@ -70612,7 +70612,7 @@ var UI = function UI(board, app, socket, player_name) {
 
 
   var roll = (0, _Button.Button)(10, 300, "ROLL", function () {
-    board.state.turn += 1;
+    board.state.turn < 41 ? board.state.turn++ : 0;
   });
   cont.addChild(quit, roll);
   return cont;
@@ -70632,7 +70632,176 @@ var config = {
   canvasHeight: 744
 };
 exports.config = config;
-var BoardPositions = {};
+var BoardPositions = {
+  0: {
+    x: 900,
+    y: 692
+  },
+  1: {
+    x: 815,
+    y: 692
+  },
+  2: {
+    x: 746,
+    y: 692
+  },
+  3: {
+    x: 680,
+    y: 692
+  },
+  4: {
+    x: 607,
+    y: 692
+  },
+  5: {
+    x: 542,
+    y: 692
+  },
+  6: {
+    x: 477,
+    y: 692
+  },
+  7: {
+    x: 406,
+    y: 692
+  },
+  8: {
+    x: 337,
+    y: 692
+  },
+  9: {
+    x: 267,
+    y: 692
+  },
+  10: {
+    x: 201,
+    y: 692
+  },
+  11: {
+    x: 132,
+    y: 692
+  },
+  12: {
+    x: 48,
+    y: 692
+  },
+  13: {
+    x: 48,
+    y: 609
+  },
+  14: {
+    x: 48,
+    y: 541
+  },
+  15: {
+    x: 48,
+    y: 472
+  },
+  16: {
+    x: 48,
+    y: 404
+  },
+  17: {
+    x: 48,
+    y: 334
+  },
+  18: {
+    x: 48,
+    y: 268
+  },
+  19: {
+    x: 48,
+    y: 199
+  },
+  20: {
+    x: 48,
+    y: 132
+  },
+  21: {
+    x: 48,
+    y: 48
+  },
+  22: {
+    x: 132,
+    y: 48
+  },
+  23: {
+    x: 200,
+    y: 48
+  },
+  24: {
+    x: 267,
+    y: 48
+  },
+  25: {
+    x: 338,
+    y: 48
+  },
+  26: {
+    x: 405,
+    y: 48
+  },
+  27: {
+    x: 472,
+    y: 48
+  },
+  28: {
+    x: 541,
+    y: 48
+  },
+  29: {
+    x: 611,
+    y: 48
+  },
+  30: {
+    x: 678,
+    y: 48
+  },
+  31: {
+    x: 747,
+    y: 48
+  },
+  32: {
+    x: 817,
+    y: 48
+  },
+  33: {
+    x: 901,
+    y: 48
+  },
+  34: {
+    x: 901,
+    y: 131
+  },
+  35: {
+    x: 901,
+    y: 203
+  },
+  36: {
+    x: 901,
+    y: 270
+  },
+  37: {
+    x: 901,
+    y: 337
+  },
+  38: {
+    x: 901,
+    y: 407
+  },
+  39: {
+    x: 901,
+    y: 475
+  },
+  40: {
+    x: 901,
+    y: 542
+  },
+  41: {
+    x: 901,
+    y: 612
+  }
+};
 exports.BoardPositions = BoardPositions;
 
 },{}],104:[function(require,module,exports){

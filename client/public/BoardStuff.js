@@ -16,7 +16,11 @@ export const BoardStuff = (board, app, socket, player_name) => {
 
     // PIECES
     for (let i = 0; i < 4; i++) {
-        const p = Piece(1325 - 71 * board.state.turn, 690, 0xff0000);
+        const p = Piece(
+            BoardPositions[board.state.turn].x + 452,
+            BoardPositions[board.state.turn].y,
+            0xff0000
+        );
         cont.addChild(p);
     }
 

@@ -62,7 +62,7 @@ export const UI = (board, app, socket, player_name) => {
 
     // ROLL DICE
     const roll = Button(10, 300, "ROLL", () => {
-        board.state.turn += 1;
+        board.state.turn < 41 ? board.state.turn++ : 0;
     });
 
     cont.addChild(quit, roll);
