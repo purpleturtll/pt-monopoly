@@ -10,6 +10,8 @@ import { ChanceCard } from "./ChanceCard";
 import { RiskCard } from "./RiskCard";
 import { config } from "./config";
 import { RoomsList } from "./RoomsList";
+import { UI } from "./UI";
+import { BoardStuff } from "./BoardStuff";
 
 const player_name = Math.random()
     .toString(36)
@@ -30,8 +32,8 @@ socket.on("new_room", (rooms) => {
 
 socket.on("entered_room", (room) => {
     console.log("entered_room");
-    App.state.inGame = true;
     Board.state.room = room;
+    App.state.inGame = true;
 });
 
 socket.on("new_player", (players) => {
@@ -47,8 +49,8 @@ socket.on("turn", (turn, name) => {
 
 socket.on("left_room", (rooms) => {
     console.log("left_room");
-    App.state.inGame = false;
     Rooms.state.list = rooms;
+    App.state.inGame = false;
 });
 
 socket.on("player_left", (players) => {
@@ -95,8 +97,8 @@ App.addChild(Board, Rooms);
 
 // Ustawianie stanów początkowych
 App.state = {
-    inGame: false,
-    // inGame: true
+    inGame: true,
+    // inGame: true,
 };
 
 Board.state = {
@@ -151,31 +153,20 @@ app.ticker.add(() => {
 function rebuildBoard() {
     Board.removeChildren();
 
-    const a = new PIXI.Graphics();
-    a.lineStyle(0);
-    a.beginFill(0xde3249, 0.8);
-    a.drawCircle(865, 700, 10);
-    a.endFill();
+    // const a = new PIXI.Graphics();
+    // a.lineStyle(0);
+    // a.beginFill(0xde3249, 0.8);
+    // a.drawCircle(865, 700, 10);
+    // a.endFill();
 
     const b = new PIXI.Sprite.from("http://localhost:8080/board.png");
-
     b.x = 452;
 
-    const list = new PIXI.Container();
-    list.x = 0;
-    list.y = 0;
-    for (let i = 0; i < Board.state.players.length; i++) {
-        const btn = Button(0, i * 40 + 40, Board.state.players[i].name);
-        list.addChild(btn);
-    }
+    const ui = UI(Board, App, socket, player_name);
 
-    const quit = Button(0, 0, "QUIT", () => {
-        socket.emit("exit_room", Board.state.room, player_name);
-        App.state.inGame = false;
-    });
-    list.addChild(quit);
+    const board_stuff = BoardStuff(Board, App, socket, player_name);
 
-    Board.addChild(list, b, a);
+    Board.addChild(b, ui, board_stuff);
 }
 
 // Funkcja budująca widok listy pokoi

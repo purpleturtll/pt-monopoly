@@ -20,6 +20,7 @@ io.on("connection", (socket) => {
         console.log("create_room");
         if (rooms[room] === undefined) {
             rooms[room] = new Game(room);
+            console.log(rooms[room]);
         }
         io.emit("new_room", Object.keys(rooms));
     });

@@ -69642,6 +69642,48 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.BoardStuff = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+var _Button = require("./Button");
+
+var _config = require("./config");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+/* eslint-disable camelcase */
+var Piece = function Piece(x, y, color) {
+  var circle = new PIXI.Graphics();
+  circle.beginFill(color);
+  circle.drawCircle(x, y, 11);
+  circle.endFill();
+  return circle;
+};
+
+var BoardStuff = function BoardStuff(board, app, socket, player_name) {
+  var cont = new PIXI.Container(); // PIECES
+
+  for (var i = 0; i < 4; i++) {
+    var p = Piece(1325 - 71 * board.state.turn, 690, 0xff0000);
+    cont.addChild(p);
+  }
+
+  return cont;
+};
+
+exports.BoardStuff = BoardStuff;
+
+},{"./Button":94,"./config":103,"pixi.js":72}],94:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.Button = void 0;
 
 var PIXI = _interopRequireWildcard(require("pixi.js"));
@@ -69675,7 +69717,7 @@ var Button = function Button() {
 
 exports.Button = Button;
 
-},{"pixi.js":72}],94:[function(require,module,exports){
+},{"pixi.js":72}],95:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70050,7 +70092,7 @@ var data = {
 };
 exports.data = data;
 
-},{}],95:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70115,7 +70157,7 @@ var ChanceCard = function ChanceCard() {
 
 exports.ChanceCard = ChanceCard;
 
-},{"pixi.js":72}],96:[function(require,module,exports){
+},{"pixi.js":72}],97:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70174,7 +70216,7 @@ var chance = {
 };
 exports.chance = chance;
 
-},{}],97:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70239,7 +70281,7 @@ var RiskCard = function RiskCard() {
 
 exports.RiskCard = RiskCard;
 
-},{"pixi.js":72}],98:[function(require,module,exports){
+},{"pixi.js":72}],99:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70298,7 +70340,7 @@ var risk = {
 };
 exports.risk = risk;
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70345,7 +70387,7 @@ var RoomsList = function RoomsList() {
 
 exports.RoomsList = RoomsList;
 
-},{"./Button":93,"./config":101,"pixi.js":72}],100:[function(require,module,exports){
+},{"./Button":94,"./config":103,"pixi.js":72}],101:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70500,20 +70542,100 @@ var TitleDeed = function TitleDeed() {
 
 exports.TitleDeed = TitleDeed;
 
-},{"pixi.js":72}],101:[function(require,module,exports){
+},{"pixi.js":72}],102:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UI = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+var _Button = require("./Button");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+/* eslint-disable camelcase */
+var UserFrame = function UserFrame() {
+  var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "-";
+  var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "0";
+  var x = arguments.length > 2 ? arguments[2] : undefined;
+  var y = arguments.length > 3 ? arguments[3] : undefined;
+  var frame = new PIXI.Graphics();
+  frame.x = x;
+  frame.y = y;
+  frame.beginFill(0xb5bdb5);
+  frame.drawRect(0, 0, 211, 80);
+  frame.endFill();
+  var name = new PIXI.Text(player_name, {
+    align: "center",
+    fontSize: 24,
+    fontWeight: "600"
+  });
+  name.resolution = 3;
+  name.x = frame.width / 2 - name.width / 2;
+  var cash = new PIXI.Text(c, {
+    align: "center",
+    fontSize: 24,
+    fontWeight: "200"
+  });
+  cash.resolution = 3;
+  cash.x = frame.width / 2 - cash.width / 2;
+  cash.y = 40;
+  frame.addChild(name, cash);
+  return frame;
+};
+
+var UI = function UI(board, app, socket, player_name) {
+  var cont = new PIXI.Container(); // QUIT BUTTON
+
+  var quit = (0, _Button.Button)(0, 0, "QUIT", function () {
+    socket.emit("exit_room", board.state.room, player_name);
+    app.state.inGame = false;
+  }); // USER FRAMES
+
+  for (var i = 0; i < 4; i++) {
+    if (board.state.players[i] != undefined) {
+      var uf = UserFrame(board.state.players[i].name, board.state.players[i].cash, i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
+      cont.addChild(uf);
+    } else {
+      var _uf = UserFrame("-", "0", i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
+
+      cont.addChild(_uf);
+    }
+  } // ROLL DICE
+
+
+  var roll = (0, _Button.Button)(10, 300, "ROLL", function () {
+    board.state.turn += 1;
+  });
+  cont.addChild(quit, roll);
+  return cont;
+};
+
+exports.UI = UI;
+
+},{"./Button":94,"pixi.js":72}],103:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.config = void 0;
+exports.BoardPositions = exports.config = void 0;
 var config = {
   canvasWidth: 1400,
   canvasHeight: 744
 };
 exports.config = config;
+var BoardPositions = {};
+exports.BoardPositions = BoardPositions;
 
-},{}],102:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70542,6 +70664,10 @@ var _config = require("./config");
 
 var _RoomsList = require("./RoomsList");
 
+var _UI = require("./UI");
+
+var _BoardStuff = require("./BoardStuff");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -70558,8 +70684,8 @@ socket.on("new_room", function (rooms) {
 });
 socket.on("entered_room", function (room) {
   console.log("entered_room");
-  App.state.inGame = true;
   Board.state.room = room;
+  App.state.inGame = true;
 });
 socket.on("new_player", function (players) {
   console.log("new_player");
@@ -70572,8 +70698,8 @@ socket.on("turn", function (turn, name) {
 });
 socket.on("left_room", function (rooms) {
   console.log("left_room");
-  App.state.inGame = false;
   Rooms.state.list = rooms;
+  App.state.inGame = false;
 });
 socket.on("player_left", function (players) {
   console.log("player_left");
@@ -70611,7 +70737,7 @@ app.stage.addChild(App);
 App.addChild(Board, Rooms); // Ustawianie stanów początkowych
 
 App.state = {
-  inGame: false // inGame: true
+  inGame: true // inGame: true,
 
 };
 Board.state = {
@@ -70659,29 +70785,17 @@ app.ticker.add(function () {
 // Funkcja budująca widok planszy
 
 function rebuildBoard() {
-  Board.removeChildren();
-  var a = new PIXI.Graphics();
-  a.lineStyle(0);
-  a.beginFill(0xde3249, 0.8);
-  a.drawCircle(865, 700, 10);
-  a.endFill();
+  Board.removeChildren(); // const a = new PIXI.Graphics();
+  // a.lineStyle(0);
+  // a.beginFill(0xde3249, 0.8);
+  // a.drawCircle(865, 700, 10);
+  // a.endFill();
+
   var b = new PIXI.Sprite.from("http://localhost:8080/board.png");
   b.x = 452;
-  var list = new PIXI.Container();
-  list.x = 0;
-  list.y = 0;
-
-  for (var i = 0; i < Board.state.players.length; i++) {
-    var btn = (0, _Button.Button)(0, i * 40 + 40, Board.state.players[i].name);
-    list.addChild(btn);
-  }
-
-  var quit = (0, _Button.Button)(0, 0, "QUIT", function () {
-    socket.emit("exit_room", Board.state.room, player_name);
-    App.state.inGame = false;
-  });
-  list.addChild(quit);
-  Board.addChild(list, b, a);
+  var ui = (0, _UI.UI)(Board, App, socket, player_name);
+  var board_stuff = (0, _BoardStuff.BoardStuff)(Board, App, socket, player_name);
+  Board.addChild(b, ui, board_stuff);
 } // Funkcja budująca widok listy pokoi
 
 
@@ -70708,4 +70822,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./Button":93,"./CardTest":94,"./ChanceCard":95,"./ChanceCardTest":96,"./RiskCard":97,"./RiskCardTest":98,"./RoomsList":99,"./TitleDeed":100,"./config":101,"lodash":65,"pixi.js":72,"socket.io-client":80}]},{},[102]);
+},{"./BoardStuff":93,"./Button":94,"./CardTest":95,"./ChanceCard":96,"./ChanceCardTest":97,"./RiskCard":98,"./RiskCardTest":99,"./RoomsList":100,"./TitleDeed":101,"./UI":102,"./config":103,"lodash":65,"pixi.js":72,"socket.io-client":80}]},{},[104]);
