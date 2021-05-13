@@ -2,6 +2,7 @@ class Player {
     constructor(name) {
         this.name = name;
         this.pos = 0;
+        this.cash = 500;
     }
 }
 

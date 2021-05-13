@@ -70613,22 +70613,22 @@ App.addChild(Board, Rooms); // Ustawianie stanów początkowych
 App.state = {
   inGame: false // inGame: true
 
-}; // Głęboka kopia stanu
-// Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
-// bo inaczej kopiowane są referencje zamiast wartości
-// i przy zmianie state automatycznie zmianiał się prev_state
-
-App.prev_state = JSON.parse(JSON.stringify(App.state));
+};
 Board.state = {
   players: [],
   turn: 0,
   my_turn: false,
   room: ""
 };
-Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.state = {
   list: []
-};
+}; // Głęboka kopia stanu
+// Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
+// bo inaczej kopiowane są referencje zamiast wartości
+// i przy zmianie state automatycznie zmianiał się prev_state
+
+App.prev_state = JSON.parse(JSON.stringify(App.state));
+Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.prev_state = JSON.parse(JSON.stringify(Rooms.state)); // Jeśli jesteś w gre wyświetl planszę
 // Jeśli nie, wyświetl listę pokoi
 
@@ -70666,8 +70666,9 @@ function rebuildBoard() {
   a.drawCircle(865, 700, 10);
   a.endFill();
   var b = new PIXI.Sprite.from("http://localhost:8080/board.png");
+  b.x = 452;
   var list = new PIXI.Container();
-  list.x = 1000;
+  list.x = 0;
   list.y = 0;
 
   for (var i = 0; i < Board.state.players.length; i++) {

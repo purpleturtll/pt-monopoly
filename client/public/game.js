@@ -98,21 +98,24 @@ App.state = {
     inGame: false,
     // inGame: true
 };
-// Głęboka kopia stanu
-// Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
-// bo inaczej kopiowane są referencje zamiast wartości
-// i przy zmianie state automatycznie zmianiał się prev_state
-App.prev_state = JSON.parse(JSON.stringify(App.state));
+
 Board.state = {
     players: [],
     turn: 0,
     my_turn: false,
     room: "",
 };
-Board.prev_state = JSON.parse(JSON.stringify(Board.state));
+
 Rooms.state = {
     list: [],
 };
+
+// Głęboka kopia stanu
+// Robienie głębokiej kopii wymaga uzycia JSON parse i stringify
+// bo inaczej kopiowane są referencje zamiast wartości
+// i przy zmianie state automatycznie zmianiał się prev_state
+App.prev_state = JSON.parse(JSON.stringify(App.state));
+Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.prev_state = JSON.parse(JSON.stringify(Rooms.state));
 
 // Jeśli jesteś w gre wyświetl planszę
@@ -156,8 +159,10 @@ function rebuildBoard() {
 
     const b = new PIXI.Sprite.from("http://localhost:8080/board.png");
 
+    b.x = 452;
+
     const list = new PIXI.Container();
-    list.x = 1000;
+    list.x = 0;
     list.y = 0;
     for (let i = 0; i < Board.state.players.length; i++) {
         const btn = Button(0, i * 40 + 40, Board.state.players[i].name);
