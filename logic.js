@@ -32,10 +32,13 @@ class Game {
         this.players[k] = undefined;
     }
 
-    start() {}
+    start() {
+        this.turn = 0;
+    }
 
     roll_dice() {
-        this.players[this.turn].pos += Math.floor(Math.random() * 7);
+        this.players[this.turn].pos += Math.floor(Math.random() * 6 + 1);
+        this.players[this.turn].pos = this.players[this.turn].pos % 42;
     }
 
     end_turn() {

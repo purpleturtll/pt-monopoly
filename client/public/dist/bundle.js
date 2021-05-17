@@ -69666,9 +69666,24 @@ var Piece = function Piece(x, y, color) {
 var BoardStuff = function BoardStuff(board, app, socket, player_name) {
   var cont = new PIXI.Container(); // PIECES
 
-  for (var i = 0; i < 4; i++) {
-    var p = Piece(_config.BoardPositions[board.state.turn].x + 452, _config.BoardPositions[board.state.turn].y, 0xff0000);
-    cont.addChild(p);
+  if (board.state.players[0] != undefined) {
+    var p1 = Piece(_config.BoardPositions[board.state.players[0].pos].x + 432, _config.BoardPositions[board.state.players[0].pos].y + 20, 0xff0000);
+    cont.addChild(p1);
+  }
+
+  if (board.state.players[1] != undefined) {
+    var p2 = Piece(_config.BoardPositions[board.state.players[1].pos].x + 472, _config.BoardPositions[board.state.players[1].pos].y + 20, 0xff00ff);
+    cont.addChild(p2);
+  }
+
+  if (board.state.players[2] != undefined) {
+    var p3 = Piece(_config.BoardPositions[board.state.players[2].pos].x + 432, _config.BoardPositions[board.state.players[2].pos].y - 20, 0x00ff00);
+    cont.addChild(p3);
+  }
+
+  if (board.state.players[3] != undefined) {
+    var p4 = Piece(_config.BoardPositions[board.state.players[3].pos].x + 472, _config.BoardPositions[board.state.players[3].pos].y - 20, 0x1111ff);
+    cont.addChild(p4);
   }
 
   return cont;
@@ -69676,7 +69691,7 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
 
 exports.BoardStuff = BoardStuff;
 
-},{"./Button":94,"./config":103,"pixi.js":72}],94:[function(require,module,exports){
+},{"./Button":94,"./config":104,"pixi.js":72}],94:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -69718,6 +69733,48 @@ var Button = function Button() {
 exports.Button = Button;
 
 },{"pixi.js":72}],95:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ButtonInactive = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var ButtonInactive = function ButtonInactive() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var text = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+  var onclick = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
+  var w = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 200;
+  var h = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 30;
+  var color = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0xde3249;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y;
+  var bg = new PIXI.Graphics();
+  bg.lineStyle(3, 0x111111, 1);
+  bg.beginFill(color);
+  bg.drawRect(0, 0, w, h);
+  bg.endFill(); //bg.interactive = true;
+
+  bg.buttonMode = true; //bg.on("pointerdown", onclick);
+
+  var txt = new PIXI.Text(text);
+  cont.addChild(bg, txt);
+  return cont;
+};
+
+exports.ButtonInactive = ButtonInactive;
+
+},{"pixi.js":72}],96:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70092,7 +70149,7 @@ var data = {
 };
 exports.data = data;
 
-},{}],96:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70157,7 +70214,7 @@ var ChanceCard = function ChanceCard() {
 
 exports.ChanceCard = ChanceCard;
 
-},{"pixi.js":72}],97:[function(require,module,exports){
+},{"pixi.js":72}],98:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70216,7 +70273,7 @@ var chance = {
 };
 exports.chance = chance;
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70281,7 +70338,7 @@ var RiskCard = function RiskCard() {
 
 exports.RiskCard = RiskCard;
 
-},{"pixi.js":72}],99:[function(require,module,exports){
+},{"pixi.js":72}],100:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70340,7 +70397,7 @@ var risk = {
 };
 exports.risk = risk;
 
-},{}],100:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70387,7 +70444,7 @@ var RoomsList = function RoomsList() {
 
 exports.RoomsList = RoomsList;
 
-},{"./Button":94,"./config":103,"pixi.js":72}],101:[function(require,module,exports){
+},{"./Button":94,"./config":104,"pixi.js":72}],102:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70542,7 +70599,7 @@ var TitleDeed = function TitleDeed() {
 
 exports.TitleDeed = TitleDeed;
 
-},{"pixi.js":72}],102:[function(require,module,exports){
+},{"pixi.js":72}],103:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70555,6 +70612,8 @@ exports.UI = void 0;
 var PIXI = _interopRequireWildcard(require("pixi.js"));
 
 var _Button = require("./Button");
+
+var _ButtonInactive = require("./ButtonInactive");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -70594,7 +70653,7 @@ var UserFrame = function UserFrame() {
 var UI = function UI(board, app, socket, player_name) {
   var cont = new PIXI.Container(); // QUIT BUTTON
 
-  var quit = (0, _Button.Button)(0, 0, "QUIT", function () {
+  var quit = (0, _Button.Button)(10, 400, "QUIT", function () {
     socket.emit("exit_room", board.state.room, player_name);
     app.state.inGame = false;
   }); // USER FRAMES
@@ -70608,19 +70667,35 @@ var UI = function UI(board, app, socket, player_name) {
 
       cont.addChild(_uf);
     }
-  } // ROLL DICE
+  }
+
+  if (board.state.my_turn) {
+    // ROLL DICE
+    var roll = (0, _Button.Button)(10, 300, "ROLL", function () {
+      socket.emit("roll_dice", board.state.room, player_name);
+    }); // END TURN
+
+    var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
+      socket.emit("end_turn", board.state.room, player_name);
+    });
+    cont.addChild(roll, end_turn);
+  } else {
+    // ROLL DICE
+    var _roll = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
 
 
-  var roll = (0, _Button.Button)(10, 300, "ROLL", function () {
-    board.state.turn < 41 ? board.state.turn++ : 0;
-  });
-  cont.addChild(quit, roll);
+    var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN");
+
+    cont.addChild(_roll, _end_turn);
+  }
+
+  cont.addChild(quit);
   return cont;
 };
 
 exports.UI = UI;
 
-},{"./Button":94,"pixi.js":72}],103:[function(require,module,exports){
+},{"./Button":94,"./ButtonInactive":95,"pixi.js":72}],104:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70804,7 +70879,7 @@ var BoardPositions = {
 };
 exports.BoardPositions = BoardPositions;
 
-},{}],104:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70860,10 +70935,10 @@ socket.on("new_player", function (players) {
   console.log("new_player");
   Board.state.players = players;
 });
-socket.on("turn", function (turn, name) {
-  console.log("turn");
+socket.on("turn", function (turn, player) {
+  console.log("turn", turn, player.name, player_name);
   Board.state.turn = turn;
-  Board.state.my_turn = name == player_name;
+  Board.state.my_turn = player.name == player_name;
 });
 socket.on("left_room", function (rooms) {
   console.log("left_room");
@@ -70906,7 +70981,7 @@ app.stage.addChild(App);
 App.addChild(Board, Rooms); // Ustawianie stanów początkowych
 
 App.state = {
-  inGame: true // inGame: true,
+  inGame: false // inGame: true,
 
 };
 Board.state = {
@@ -70991,4 +71066,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./BoardStuff":93,"./Button":94,"./CardTest":95,"./ChanceCard":96,"./ChanceCardTest":97,"./RiskCard":98,"./RiskCardTest":99,"./RoomsList":100,"./TitleDeed":101,"./UI":102,"./config":103,"lodash":65,"pixi.js":72,"socket.io-client":80}]},{},[104]);
+},{"./BoardStuff":93,"./Button":94,"./CardTest":96,"./ChanceCard":97,"./ChanceCardTest":98,"./RiskCard":99,"./RiskCardTest":100,"./RoomsList":101,"./TitleDeed":102,"./UI":103,"./config":104,"lodash":65,"pixi.js":72,"socket.io-client":80}]},{},[105]);

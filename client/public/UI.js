@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import * as PIXI from "pixi.js";
 import { Button } from "./Button";
+import { ButtonInactive } from "./ButtonInactive";
 
 const UserFrame = (player_name = "-", c = "0", x, y) => {
     const frame = new PIXI.Graphics();
@@ -34,7 +35,7 @@ export const UI = (board, app, socket, player_name) => {
     const cont = new PIXI.Container();
 
     // QUIT BUTTON
-    const quit = Button(0, 0, "QUIT", () => {
+    const quit = Button(10, 400, "QUIT", () => {
         socket.emit("exit_room", board.state.room, player_name);
         app.state.inGame = false;
     });
@@ -60,12 +61,27 @@ export const UI = (board, app, socket, player_name) => {
         }
     }
 
-    // ROLL DICE
-    const roll = Button(10, 300, "ROLL", () => {
-        board.state.turn < 41 ? board.state.turn++ : 0;
-    });
+    if (board.state.my_turn) {
+        // ROLL DICE
+        const roll = Button(10, 300, "ROLL", () => {
+            socket.emit("roll_dice", board.state.room, player_name);
+        });
 
-    cont.addChild(quit, roll);
+        // END TURN
+        const end_turn = Button(240, 300, "END TURN", () => {
+            socket.emit("end_turn", board.state.room, player_name);
+        });
+        cont.addChild(roll, end_turn);
+    } else {
+        // ROLL DICE
+        const roll = ButtonInactive(10, 300, "ROLL");
+
+        // END TURN
+        const end_turn = ButtonInactive(240, 300, "END TURN");
+        cont.addChild(roll, end_turn);
+    }
+
+    cont.addChild(quit);
 
     return cont;
 };

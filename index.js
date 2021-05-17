@@ -32,7 +32,8 @@ io.on("connection", (socket) => {
             rooms[room].take_seat(name);
             socket.emit("entered_room", room);
             io.to(room).emit("new_player", rooms[room].players);
-        } else {
+        }
+        if (rooms[room].is_full()) {
             rooms[room].start();
             io.to(room).emit(
                 "turn",
@@ -63,7 +64,11 @@ io.on("connection", (socket) => {
     socket.on("end_turn", (room, name) => {
         console.log("end_turn");
         rooms[room].end_turn();
-        io.to(room).emit("turn", rooms[room].turn);
+        io.to(room).emit(
+            "turn",
+            rooms[room].turn,
+            rooms[room].players[rooms[room].turn]
+        );
     });
 });
 

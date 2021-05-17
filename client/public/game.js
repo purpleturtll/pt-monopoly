@@ -41,10 +41,10 @@ socket.on("new_player", (players) => {
     Board.state.players = players;
 });
 
-socket.on("turn", (turn, name) => {
-    console.log("turn");
+socket.on("turn", (turn, player) => {
+    console.log("turn", turn, player.name, player_name);
     Board.state.turn = turn;
-    Board.state.my_turn = name == player_name;
+    Board.state.my_turn = player.name == player_name;
 });
 
 socket.on("left_room", (rooms) => {
@@ -97,7 +97,7 @@ App.addChild(Board, Rooms);
 
 // Ustawianie stanów początkowych
 App.state = {
-    inGame: true,
+    inGame: false,
     // inGame: true,
 };
 
