@@ -70615,14 +70615,16 @@ var _Button = require("./Button");
 
 var _ButtonInactive = require("./ButtonInactive");
 
+var _config = require("./config");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /* eslint-disable camelcase */
 var UserFrame = function UserFrame() {
-  var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "-";
-  var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "0";
+  var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '-';
+  var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '0';
   var x = arguments.length > 2 ? arguments[2] : undefined;
   var y = arguments.length > 3 ? arguments[3] : undefined;
   var frame = new PIXI.Graphics();
@@ -70632,16 +70634,16 @@ var UserFrame = function UserFrame() {
   frame.drawRect(0, 0, 211, 80);
   frame.endFill();
   var name = new PIXI.Text(player_name, {
-    align: "center",
+    align: 'center',
     fontSize: 24,
-    fontWeight: "600"
+    fontWeight: '600'
   });
   name.resolution = 3;
   name.x = frame.width / 2 - name.width / 2;
   var cash = new PIXI.Text(c, {
-    align: "center",
+    align: 'center',
     fontSize: 24,
-    fontWeight: "200"
+    fontWeight: '200'
   });
   cash.resolution = 3;
   cash.x = frame.width / 2 - cash.width / 2;
@@ -70650,11 +70652,11 @@ var UserFrame = function UserFrame() {
   return frame;
 };
 
-var UI = function UI(board, app, socket, player_name) {
+var UI = function UI(board, app, socket, player_name, field) {
   var cont = new PIXI.Container(); // QUIT BUTTON
 
-  var quit = (0, _Button.Button)(10, 400, "QUIT", function () {
-    socket.emit("exit_room", board.state.room, player_name);
+  var quit = (0, _Button.Button)(10, 400, 'QUIT', function () {
+    socket.emit('exit_room', board.state.room, player_name);
     app.state.inGame = false;
   }); // USER FRAMES
 
@@ -70663,7 +70665,7 @@ var UI = function UI(board, app, socket, player_name) {
       var uf = UserFrame(board.state.players[i].name, board.state.players[i].cash, i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
       cont.addChild(uf);
     } else {
-      var _uf = UserFrame("-", "0", i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
+      var _uf = UserFrame('-', '0', i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
 
       cont.addChild(_uf);
     }
@@ -70671,20 +70673,20 @@ var UI = function UI(board, app, socket, player_name) {
 
   if (board.state.my_turn) {
     // ROLL DICE
-    var roll = (0, _Button.Button)(10, 300, "ROLL", function () {
-      socket.emit("roll_dice", board.state.room, player_name);
+    var roll = (0, _Button.Button)(10, 300, 'ROLL', function () {
+      socket.emit('roll_dice', board.state.room, player_name);
     }); // END TURN
 
-    var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
-      socket.emit("end_turn", board.state.room, player_name);
+    var end_turn = (0, _Button.Button)(240, 300, 'END TURN', function () {
+      socket.emit('end_turn', board.state.room, player_name);
     });
     cont.addChild(roll, end_turn);
   } else {
     // ROLL DICE
-    var _roll = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
+    var _roll = (0, _ButtonInactive.ButtonInactive)(10, 300, 'ROLL'); // END TURN
 
 
-    var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN");
+    var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, 'END TURN');
 
     cont.addChild(_roll, _end_turn);
   }
@@ -70695,7 +70697,7 @@ var UI = function UI(board, app, socket, player_name) {
 
 exports.UI = UI;
 
-},{"./Button":94,"./ButtonInactive":95,"pixi.js":72}],104:[function(require,module,exports){
+},{"./Button":94,"./ButtonInactive":95,"./config":104,"pixi.js":72}],104:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70710,171 +70712,255 @@ exports.config = config;
 var BoardPositions = {
   0: {
     x: 900,
-    y: 692
+    y: 692,
+    name: 'start',
+    type: 'start'
   },
   1: {
     x: 815,
-    y: 692
+    y: 692,
+    name: 'wilda1',
+    type: 'deed'
   },
   2: {
     x: 746,
-    y: 692
+    y: 692,
+    name: 'ryzyko',
+    type: 'chest'
   },
   3: {
     x: 680,
-    y: 692
+    y: 692,
+    name: 'wilda2',
+    type: 'deed'
   },
   4: {
     x: 607,
-    y: 692
+    y: 692,
+    name: 'wilda3',
+    type: 'deed'
   },
   5: {
     x: 542,
-    y: 692
+    y: 692,
+    name: 'szansa',
+    type: 'chance'
   },
   6: {
     x: 477,
-    y: 692
+    y: 692,
+    name: 'lazarz1',
+    type: 'deed'
   },
   7: {
     x: 406,
-    y: 692
+    y: 692,
+    name: 'lazarz2',
+    type: 'deed'
   },
   8: {
     x: 337,
-    y: 692
+    y: 692,
+    name: 'lazarz3',
+    type: 'deed'
   },
   9: {
     x: 267,
-    y: 692
+    y: 692,
+    name: 'ryzyko',
+    type: 'chest'
   },
   10: {
     x: 201,
-    y: 692
+    y: 692,
+    name: 'ogrody1',
+    type: 'deed'
   },
   11: {
     x: 132,
-    y: 692
+    y: 692,
+    name: 'ogrody2',
+    type: 'deed'
   },
   12: {
     x: 48,
-    y: 692
+    y: 692,
+    name: 'wizyta',
+    type: 'visitors'
   },
   13: {
     x: 48,
-    y: 609
+    y: 609,
+    name: 'solacz1',
+    type: 'deed'
   },
   14: {
     x: 48,
-    y: 541
+    y: 541,
+    name: 'solacz2',
+    type: 'deed'
   },
   15: {
     x: 48,
-    y: 472
+    y: 472,
+    name: 'ryzyko',
+    type: 'chest'
   },
   16: {
     x: 48,
-    y: 404
+    y: 404,
+    name: 'winogrady1',
+    type: 'deed'
   },
   17: {
     x: 48,
-    y: 334
+    y: 334,
+    name: 'winogrady2',
+    type: 'deed'
   },
   18: {
     x: 48,
-    y: 268
+    y: 268,
+    name: 'szansa',
+    type: 'chance'
   },
   19: {
     x: 48,
-    y: 199
+    y: 199,
+    name: 'piatkowo1',
+    type: 'deed'
   },
   20: {
     x: 48,
-    y: 132
+    y: 132,
+    name: 'piatkowo2',
+    type: 'deed'
   },
   21: {
     x: 48,
-    y: 48
+    y: 48,
+    name: 'parking',
+    type: 'parking'
   },
   22: {
     x: 132,
-    y: 48
+    y: 48,
+    name: 'winiary1',
+    type: 'deed'
   },
   23: {
     x: 200,
-    y: 48
+    y: 48,
+    name: 'szansa',
+    type: 'chance'
   },
   24: {
     x: 267,
-    y: 48
+    y: 48,
+    name: 'winiary2',
+    type: 'deed'
   },
   25: {
     x: 338,
-    y: 48
+    y: 48,
+    name: 'winiary3',
+    type: 'deed'
   },
   26: {
     x: 405,
-    y: 48
+    y: 48,
+    name: 'ryzyko',
+    type: 'chest'
   },
   27: {
     x: 472,
-    y: 48
+    y: 48,
+    name: 'jezyce1',
+    type: 'deed'
   },
   28: {
     x: 541,
-    y: 48
+    y: 48,
+    name: 'jezyce2',
+    type: 'deed'
   },
   29: {
     x: 611,
-    y: 48
+    y: 48,
+    name: 'jezyce3',
+    type: 'deed'
   },
   30: {
     x: 678,
-    y: 48
+    y: 48,
+    name: 'szansa',
+    type: 'chance'
   },
   31: {
     x: 747,
-    y: 48
+    y: 48,
+    name: 'lacina1',
+    type: 'deed'
   },
   32: {
     x: 817,
-    y: 48
+    y: 48,
+    name: 'lacina2',
+    type: 'deed'
   },
   33: {
     x: 901,
-    y: 48
+    y: 48,
+    name: 'wiezienie',
+    type: 'jail'
   },
   34: {
     x: 901,
-    y: 131
+    y: 131,
+    name: 'piotrowo1',
+    type: 'deed'
   },
   35: {
     x: 901,
-    y: 203
+    y: 203,
+    name: 'piotrowo2',
+    type: 'deed'
   },
   36: {
     x: 901,
-    y: 270
+    y: 270,
+    name: 'ryzyko',
+    type: 'chest'
   },
   37: {
     x: 901,
-    y: 337
+    y: 337,
+    name: 'centrum1',
+    type: 'deed'
   },
   38: {
     x: 901,
-    y: 407
+    y: 407,
+    name: 'centrum2',
+    type: 'deed'
   },
   39: {
     x: 901,
-    y: 475
+    y: 475,
+    name: 'szansa',
+    type: 'chance'
   },
   40: {
     x: 901,
-    y: 542
+    y: 542,
+    name: 's_miasto1',
+    type: 'deed'
   },
   41: {
     x: 901,
-    y: 612
+    y: 612,
+    name: 's_miasto2',
+    type: 'deed'
   }
 };
 exports.BoardPositions = BoardPositions;
@@ -70916,53 +71002,58 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var player_name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
+var player_name = Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 7);
 var socket = (0, _socket.io)();
-socket.on("rooms", function (rooms) {
-  console.log("rooms", rooms);
+socket.on('rooms', function (rooms) {
+  console.log('rooms', rooms);
   Rooms.state.list = rooms;
 });
-socket.on("new_room", function (rooms) {
-  console.log("new_room");
+socket.on('new_room', function (rooms) {
+  console.log('new_room');
   Rooms.state.list = rooms;
 });
-socket.on("entered_room", function (room) {
-  console.log("entered_room");
+socket.on('entered_room', function (room) {
+  console.log('entered_room');
   Board.state.room = room;
   App.state.inGame = true;
 });
-socket.on("new_player", function (players) {
-  console.log("new_player");
+socket.on('new_player', function (players) {
+  console.log('new_player');
   Board.state.players = players;
 });
-socket.on("turn", function (turn, player) {
-  console.log("turn", turn, player.name, player_name);
+socket.on('turn', function (turn, player) {
+  console.log('turn', turn, player.name, player_name);
   Board.state.turn = turn;
   Board.state.my_turn = player.name == player_name;
 });
-socket.on("left_room", function (rooms) {
-  console.log("left_room");
+socket.on('left_room', function (rooms) {
+  console.log('left_room');
   Rooms.state.list = rooms;
   App.state.inGame = false;
 });
-socket.on("player_left", function (players) {
-  console.log("player_left");
+socket.on('player_left', function (players) {
+  console.log('player_left');
   Board.state.players = players;
 });
-socket.on("rolled_dice", function (players) {
-  console.log("rolled_dice");
+socket.on('rolled_dice', function (players) {
+  console.log('rolled_dice');
   Board.state.players = players;
 });
-socket.on("deleted_room", function (rooms) {
+socket.on('deleted_room', function (rooms) {
   Rooms.state.list = rooms;
+});
+socket.on('forSale', function (forSale, player) {
+  console.log('buy', player.name, player_name);
+  Board.state.my_turn = player.name == player_name;
+  Field.state.forSale = forSale;
 });
 
 function create_UUID() {
   var dt = new Date().getTime();
-  var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (dt + Math.random() * 16) % 16 | 0;
     dt = Math.floor(dt / 16);
-    return (c == "x" ? r : r & 0x3 | 0x8).toString(16);
+    return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
   });
   return uuid;
 }
@@ -70973,7 +71064,7 @@ var app = new PIXI.Application({
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 });
-document.getElementById("app").appendChild(app.view);
+document.getElementById('app').appendChild(app.view);
 var App = new PIXI.Container();
 var Board = new PIXI.Container();
 var Rooms = new PIXI.Container();
@@ -70988,7 +71079,7 @@ Board.state = {
   players: [],
   turn: 0,
   my_turn: false,
-  room: ""
+  room: ''
 };
 Rooms.state = {
   list: []
@@ -71035,7 +71126,7 @@ function rebuildBoard() {
   // a.drawCircle(865, 700, 10);
   // a.endFill();
 
-  var b = new PIXI.Sprite.from("http://localhost:8080/board.png");
+  var b = new PIXI.Sprite.from('http://localhost:8080/board.png');
   b.x = 452;
   var ui = (0, _UI.UI)(Board, App, socket, player_name);
   var board_stuff = (0, _BoardStuff.BoardStuff)(Board, App, socket, player_name);
@@ -71045,9 +71136,9 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "New room", function () {
-    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
-    socket.emit("create_room", name);
+  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, 'New room', function () {
+    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 7);
+    socket.emit('create_room', name);
   });
   Rooms.addChild(createBtn);
   var list = (0, _RoomsList.RoomsList)(Rooms.state.list, socket, player_name);
