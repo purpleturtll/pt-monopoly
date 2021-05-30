@@ -192,10 +192,10 @@ function rebuildRooms() {
     // const card = TitleDeed(200, 200, data.jezyce2);
     // Rooms.addChild(card);
     // const card2 = TitleDeed(400, 200, data.wilda2);
-    // Rooms.addChild(card2);
+    // // Rooms.addChild(card2);
     // const card3 = ChanceCard(400, 200, chance.chance16);
     // Rooms.addChild(card3);
-    // const card4 = RiskCard(400, 200, risk.risk16);
+    // const card4 = RiskCard(100, 200, risk.risk16);
     // Rooms.addChild(card4);
 }
 
