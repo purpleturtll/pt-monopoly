@@ -19,7 +19,6 @@ Client
 
 # cd pt-monopoly/client
 # npm install
-# cd ..
 # npm run watch
 ```
 
