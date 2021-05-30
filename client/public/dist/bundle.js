@@ -70223,52 +70223,52 @@ Object.defineProperty(exports, "__esModule", {
 exports.chance = void 0;
 var chance = {
   chance1: {
-    info: 'Utknąłeś w korku. \n Cofnij się o 4 pola.'
+    info: "Utknąłeś w korku. \n Cofnij się o 4 pola."
   },
   chance2: {
-    info: 'Decydujesz się na chwilę \nodpoczynku. Przejdź na \npole Cytadela.'
+    info: "Decydujesz się na chwilę \nodpoczynku. Przejdź na \npole Cytadela."
   },
   chance3: {
-    info: 'Zostałeś oskarżony o oszustwo.\n Idziesz do więzienia.\n Nie przechodzisz przez start'
+    info: "Zostałeś oskarżony o oszustwo.\n Idziesz do więzienia.\n Nie przechodzisz przez start"
   },
   chance4: {
-    info: 'Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi.'
+    info: "Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi."
   },
   chance5: {
-    info: 'Czas na relaks. Przejdź na\n pole Rusałka. Jeśli miniesz \npole START, pobierz 200$.'
+    info: "Czas na relaks. Przejdź na\n pole Rusałka. Jeśli miniesz \npole START, pobierz 200$."
   },
   chance6: {
-    info: 'Wynajmujesz znanego dekoratora.\n Aby urządzić posiadłości zapłać\n za każdy dom zapłać 200$,\na za hotel 600$.'
+    info: "Wynajmujesz znanego dekoratora.\n Aby urządzić posiadłości zapłać\n za każdy dom zapłać 200$,\na za hotel 600$."
   },
   chance7: {
-    info: 'Przejdź na pole START.'
+    info: "Przejdź na pole START."
   },
   chance8: {
-    info: 'Sprzedajesz przez Internet \nbilety do teatru. Pobierz 400$.'
+    info: "Sprzedajesz przez Internet \nbilety do teatru. Pobierz 400$."
   },
   chance9: {
-    info: 'Wzrost podatku od nieruchomości.\n Zapłać 300$ od każdego domu\n i 600$ od hotelu.'
+    info: "Wzrost podatku od nieruchomości.\n Zapłać 300$ od każdego domu\n i 600$ od hotelu."
   },
   chance10: {
-    info: 'Odsprzedajesz swoje akcje \nz zyskiem. Pobierz 1000$.'
+    info: "Odsprzedajesz swoje akcje \nz zyskiem. Pobierz 1000$."
   },
   chance11: {
-    info: 'Zapłać czesne 500$ \nza naukę w prywatnej szkole.'
+    info: "Zapłać czesne 500$ \nza naukę w prywatnej szkole."
   },
   chance12: {
-    info: 'Dostałeś mandat za rozmowę\nprzez telefon podczas\njazdy samochodem. Zapłać 100$.'
+    info: "Dostałeś mandat za rozmowę\nprzez telefon podczas\njazdy samochodem. Zapłać 100$."
   },
   chance13: {
-    info: 'Wygrałeś na loterii.\n Pobierz 1000$.'
+    info: "Wygrałeś na loterii.\n Pobierz 1000$."
   },
   chance14: {
-    info: 'Budujesz kryty basen\nna swoim wieżowcu.\nZapłać 200$.'
+    info: "Budujesz kryty basen\nna swoim wieżowcu.\nZapłać 200$."
   },
   chance15: {
-    info: 'Przejdź na pole STARE ZOO.\nJeżeli miniesz pole START,\n pobierz 200$.'
+    info: "Przejdź na pole STARE ZOO.\nJeżeli miniesz pole START,\n pobierz 200$."
   },
   chance16: {
-    info: 'Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi.'
+    info: "Wyjdź bezpłatnie z więzienia.\n Zachowaj tę kartę dla siebie\n lub odsprzedaj innemu graczowi."
   }
 };
 exports.chance = chance;
@@ -71131,12 +71131,13 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, 'New room', function () {
-    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 7);
-    socket.emit('create_room', name);
+  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "New room", function () {
+    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
+    socket.emit("create_room", name);
   });
   Rooms.addChild(createBtn);
   var list = (0, _RoomsList.RoomsList)(Rooms.state.list, socket, player_name);
+<<<<<<< HEAD
   Rooms.addChild(list); // const card = TitleDeed(200, 200, data.jezyce2)
   // Rooms.addChild(card)
   // const card2 = TitleDeed(400, 200, data.wilda2)
@@ -71146,6 +71147,16 @@ function rebuildRooms() {
   Rooms.addChild(card3);
   var card4 = (0, _RiskCard.RiskCard)(400, 200, _RiskCardTest.risk.risk11);
   Rooms.addChild(card4);
+=======
+  Rooms.addChild(list); // const card = TitleDeed(200, 200, data.jezyce2);
+  // Rooms.addChild(card);
+  // const card2 = TitleDeed(400, 200, data.wilda2);
+  // // Rooms.addChild(card2);
+  // const card3 = ChanceCard(400, 200, chance.chance16);
+  // Rooms.addChild(card3);
+  // const card4 = RiskCard(100, 200, risk.risk16);
+  // Rooms.addChild(card4);
+>>>>>>> 6c29762b971b3c5541c72677e4ed1cc5060e3a9c
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 
