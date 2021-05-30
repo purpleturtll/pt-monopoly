@@ -70,6 +70,12 @@ io.on("connection", (socket) => {
             rooms[room].players[rooms[room].turn]
         );
     });
+
+    socket.on("buy", (room, name, deed, cost) => {
+        console.log("buy");
+        rooms[room].buy(name, deed, cost);
+        io.to(room).emit("buy", rooms[room].players);
+    });
 });
 
 server.listen(8080, () => {

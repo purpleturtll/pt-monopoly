@@ -3,6 +3,7 @@ class Player {
         this.name = name;
         this.pos = 0;
         this.cash = 500;
+        this.deeds = [];
     }
 }
 
@@ -26,9 +27,11 @@ class Game {
     }
 
     leave_seat(name) {
-        let k = Object.keys(this.players).find(
-            (key) => this.players[key].name === name
-        );
+        let k = Object.keys(this.players).find((key) => {
+            if (this.players[key] !== undefined) {
+                this.players[key].name === name;
+            }
+        });
         this.players[k] = undefined;
     }
 
@@ -44,6 +47,19 @@ class Game {
     end_turn() {
         if (this.turn < 4) this.turn++;
         if (this.turn === 4) this.turn = 0;
+    }
+
+    buy(name, deed, cost) {
+        let k = Object.keys(this.players).find(
+            (key) => this.players[key].name === name
+        );
+        console.log(this.players, k, name, deed, cost);
+        if (this.players[k].deeds[deed] === undefined) {
+            this.players[k].deeds.push(deed);
+            this.players[k].cash -= cost;
+        } else {
+            return;
+        }
     }
 
     is_full() {

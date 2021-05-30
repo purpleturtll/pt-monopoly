@@ -71042,11 +71042,6 @@ socket.on('rolled_dice', function (players) {
 socket.on('deleted_room', function (rooms) {
   Rooms.state.list = rooms;
 });
-socket.on('forSale', function (forSale, player) {
-  console.log('buy', player.name, player_name);
-  Board.state.my_turn = player.name == player_name;
-  Field.state.forSale = forSale;
-});
 
 function create_UUID() {
   var dt = new Date().getTime();
@@ -71142,14 +71137,15 @@ function rebuildRooms() {
   });
   Rooms.addChild(createBtn);
   var list = (0, _RoomsList.RoomsList)(Rooms.state.list, socket, player_name);
-  Rooms.addChild(list); // const card = TitleDeed(200, 200, data.jezyce2);
-  // Rooms.addChild(card);
-  // const card2 = TitleDeed(400, 200, data.wilda2);
-  // Rooms.addChild(card2);
-  // const card3 = ChanceCard(400, 200, chance.chance16);
-  // Rooms.addChild(card3);
-  // const card4 = RiskCard(400, 200, risk.risk16);
-  // Rooms.addChild(card4);
+  Rooms.addChild(list); // const card = TitleDeed(200, 200, data.jezyce2)
+  // Rooms.addChild(card)
+  // const card2 = TitleDeed(400, 200, data.wilda2)
+  // Rooms.addChild(card2)
+
+  var card3 = (0, _ChanceCard.ChanceCard)(100, 200, _ChanceCardTest.chance.chance16);
+  Rooms.addChild(card3);
+  var card4 = (0, _RiskCard.RiskCard)(400, 200, _RiskCardTest.risk.risk11);
+  Rooms.addChild(card4);
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 
