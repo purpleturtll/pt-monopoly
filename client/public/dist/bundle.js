@@ -71042,11 +71042,6 @@ socket.on('rolled_dice', function (players) {
 socket.on('deleted_room', function (rooms) {
   Rooms.state.list = rooms;
 });
-socket.on('forSale', function (forSale, player) {
-  console.log('buy', player.name, player_name);
-  Board.state.my_turn = player.name == player_name;
-  Field.state.forSale = forSale;
-});
 
 function create_UUID() {
   var dt = new Date().getTime();
@@ -71136,9 +71131,9 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, 'New room', function () {
-    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 7);
-    socket.emit('create_room', name);
+  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "New room", function () {
+    var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
+    socket.emit("create_room", name);
   });
   Rooms.addChild(createBtn);
   var list = (0, _RoomsList.RoomsList)(Rooms.state.list, socket, player_name);
