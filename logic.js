@@ -5,6 +5,10 @@ class Player {
         this.cash = 500;
         this.deeds = [];
     }
+
+    is_owner(deed) {
+        return this.deeds.some((vd) => vd === deed);
+    }
 }
 
 class Game {
@@ -56,14 +60,13 @@ class Game {
 
         // Sprawdzenie czy nikt inny nie ma kupionej tej nieruchomości
 
-        let taken = Object.values(this.players).some((v) => {
-            return v.deeds.some((vd) => vd === deed);
-        });
-
-        if (!taken) {
+        if (!this.is_taken(deed)) {
+            
+            console.log(`${name} buys ${deed} for ${cost}`);
             this.players[k].deeds.push(deed);
             this.players[k].cash -= cost;
         } else {
+            console.log(`${name} can't buy ${deed} - taken by ${this.get_owner(deed).name}`);
             return;
         }
     }
@@ -74,6 +77,22 @@ class Game {
 
     is_empty() {
         return Object.values(this.players).every((v, i, a) => v == undefined);
+    }
+
+    is_taken(deed) {
+        return Object.values(this.players).some((v) => {
+            return v.is_owner(deed);
+        });
+    }
+
+    get_owner(deed) {
+        if(this.is_taken(deed)) 
+        {
+            return Object.values(this.players).find((player) => {
+                return player.is_owner(deed);
+            });
+        }
+        else return undefined;
     }
 }
 
