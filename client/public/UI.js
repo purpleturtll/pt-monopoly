@@ -39,7 +39,7 @@ export const UI = (board, app, socket, player_name, field) => {
     let my_pos = 0;
 
     // QUIT BUTTON
-    const quit = Button(10, 400, "QUIT", () => {
+    const quit = Button(10, 380, "QUIT", () => {
         socket.emit("exit_room", board.state.room, player_name);
         app.state.inGame = false;
     });
@@ -79,7 +79,7 @@ export const UI = (board, app, socket, player_name, field) => {
             socket.emit("end_turn", board.state.room, player_name);
         });
 
-        const buy = Button(470, 300, "BUY", () => {
+        const buy = Button(10, 340, "BUY", () => {
             if (BoardPositions[my_pos].name != "start") {
                 console.log(
                     player_name,
@@ -105,7 +105,7 @@ export const UI = (board, app, socket, player_name, field) => {
         const end_turn = ButtonInactive(240, 300, "END TURN");
 
         // BUY
-        const buy = ButtonInactive(470, 300, "BUY");
+        const buy = ButtonInactive(10, 340, "BUY");
 
         cont.addChild(roll, end_turn, buy);
     }
