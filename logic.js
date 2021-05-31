@@ -4,6 +4,8 @@ class Player {
         this.pos = 0;
         this.cash = 500;
         this.deeds = [];
+        this.diceNr = 1;
+        this.didRoll = false;
     }
 }
 
@@ -40,11 +42,17 @@ class Game {
     }
 
     roll_dice() {
-        this.players[this.turn].pos += Math.floor(Math.random() * 6 + 1);
+        let rolled = Math.floor(Math.random() * 6 + 1);
+        this.players[this.turn].diceNr = rolled;
+        this.players[this.turn].didRoll = true;
+        this.players[this.turn].pos += rolled;
         this.players[this.turn].pos = this.players[this.turn].pos % 42;
     }
 
     end_turn() {
+        for (let i = 0; i < 4; i++) {
+            this.players[i].didRoll = false;
+        }
         if (this.turn < 4) this.turn++;
         if (this.turn === 4) this.turn = 0;
     }

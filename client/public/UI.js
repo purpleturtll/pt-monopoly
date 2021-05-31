@@ -4,6 +4,7 @@ import { Button } from "./Button";
 import { ButtonInactive } from "./ButtonInactive";
 import { BoardPositions } from "./config";
 import { data } from "./CardTest";
+import { Dice } from "./Dice";
 
 const UserFrame = (player_name = "-", c = "0", x, y) => {
     const frame = new PIXI.Graphics();
@@ -68,11 +69,27 @@ export const UI = (board, app, socket, player_name, field) => {
         }
     }
 
+    var rolledNr = 0
+    var didRoll = false
+    for (let i = 0; i < 4; i++) {
+        if (board.state.players[i] != undefined) {
+            if (board.state.players[i].name === player_name) {
+                rolledNr = board.state.players[i].diceNr
+                didRoll = board.state.players[i].didRoll
+    }}}
+
     if (board.state.my_turn) {
         // ROLL DICE
-        const roll = Button(10, 300, "ROLL", () => {
-            socket.emit("roll_dice", board.state.room, player_name);
-        });
+        if (didRoll) {
+            const roll = ButtonInactive(10, 300, "ROLL");
+            cont.addChild(roll);
+        }
+        else {
+            const roll = Button(10, 300, "ROLL", () => {
+                socket.emit("roll_dice", board.state.room, player_name);
+            });
+            cont.addChild(roll);
+        }
 
         // END TURN
         const end_turn = Button(240, 300, "END TURN", () => {
@@ -96,7 +113,10 @@ export const UI = (board, app, socket, player_name, field) => {
             }
         });
 
-        cont.addChild(roll, end_turn, buy);
+        // DICE
+        const dice = Dice(10, 460, rolledNr, didRoll);
+
+        cont.addChild(end_turn, buy, dice);
     } else {
         // ROLL DICE
         const roll = ButtonInactive(10, 300, "ROLL");
@@ -107,7 +127,10 @@ export const UI = (board, app, socket, player_name, field) => {
         // BUY
         const buy = ButtonInactive(470, 300, "BUY");
 
-        cont.addChild(roll, end_turn, buy);
+        // DICE
+        const dice = Dice(10, 460, rolledNr, false);
+
+        cont.addChild(roll, end_turn, buy, dice);
     }
 
     cont.addChild(quit);
