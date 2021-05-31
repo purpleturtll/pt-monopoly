@@ -53,8 +53,14 @@ class Game {
         let k = Object.keys(this.players).find(
             (key) => this.players[key].name === name
         );
-        console.log(this.players, k, name, deed, cost);
-        if (this.players[k].deeds[deed] === undefined) {
+
+        // Sprawdzenie czy nikt inny nie ma kupionej tej nieruchomości
+
+        let taken = Object.values(this.players).some((v) => {
+            return v.deeds.some((vd) => vd === deed);
+        });
+
+        if (!taken) {
             this.players[k].deeds.push(deed);
             this.players[k].cash -= cost;
         } else {
