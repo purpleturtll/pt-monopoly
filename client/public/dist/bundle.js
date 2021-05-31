@@ -69783,8 +69783,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.data = void 0;
 var data = {
   wilda1: {
-    title: 'Powiatowy Urząd Pracy',
-    color: '0xffff00',
+    title: "Powiatowy Urząd Pracy",
+    color: "0xffff00",
     price: 60,
     rent: 2,
     with_1: 10,
@@ -69796,8 +69796,8 @@ var data = {
     hotel_cost: 70
   },
   wilda2: {
-    title: 'AWF',
-    color: '0xffff00',
+    title: "AWF",
+    color: "0xffff00",
     price: 80,
     rent: 4,
     with_1: 20,
@@ -69809,8 +69809,8 @@ var data = {
     hotel_cost: 70
   },
   wilda3: {
-    title: 'Avenida',
-    color: '0xffff00',
+    title: "Avenida",
+    color: "0xffff00",
     price: 90,
     rent: 6,
     with_1: 30,
@@ -69822,8 +69822,8 @@ var data = {
     hotel_cost: 70
   },
   lazarz1: {
-    title: 'Park Wilsona',
-    color: '0xff2a2a',
+    title: "Park Wilsona",
+    color: "0xff2a2a",
     price: 100,
     rent: 6,
     with_1: 30,
@@ -69835,8 +69835,8 @@ var data = {
     hotel_cost: 80
   },
   lazarz2: {
-    title: 'Palmiarnia',
-    color: '0xff2a2a',
+    title: "Palmiarnia",
+    color: "0xff2a2a",
     price: 130,
     rent: 8,
     with_1: 40,
@@ -69848,8 +69848,8 @@ var data = {
     hotel_cost: 80
   },
   lazarz3: {
-    title: 'MTP',
-    color: '0xff2a2a',
+    title: "MTP",
+    color: "0xff2a2a",
     price: 150,
     rent: 10,
     with_1: 50,
@@ -69861,8 +69861,8 @@ var data = {
     hotel_cost: 130
   },
   ogrody1: {
-    title: 'Ogród UAM',
-    color: '0x008000',
+    title: "Ogród UAM",
+    color: "0x008000",
     price: 130,
     rent: 8,
     with_1: 40,
@@ -69874,8 +69874,8 @@ var data = {
     hotel_cost: 80
   },
   ogrody2: {
-    title: 'Rusałka',
-    color: '0x008000',
+    title: "Rusałka",
+    color: "0x008000",
     price: 150,
     rent: 10,
     with_1: 50,
@@ -69887,8 +69887,8 @@ var data = {
     hotel_cost: 130
   },
   solacz1: {
-    title: 'Uniwersytet Przyrodniczy',
-    color: '0x660080',
+    title: "Uniwersytet Przyrodniczy",
+    color: "0x660080",
     price: 160,
     rent: 12,
     with_1: 60,
@@ -69900,8 +69900,8 @@ var data = {
     hotel_cost: 140
   },
   solacz2: {
-    title: 'Park Sołacki',
-    color: '0x660080',
+    title: "Park Sołacki",
+    color: "0x660080",
     price: 180,
     rent: 14,
     with_1: 70,
@@ -69913,8 +69913,8 @@ var data = {
     hotel_cost: 130
   },
   winogrady1: {
-    title: 'Pływalnia Miejska',
-    color: '0xff6600',
+    title: "Pływalnia Miejska",
+    color: "0xff6600",
     price: 150,
     rent: 10,
     with_1: 50,
@@ -69926,8 +69926,8 @@ var data = {
     hotel_cost: 130
   },
   winogrady2: {
-    title: 'Cytadela',
-    color: '0xff6600',
+    title: "Cytadela",
+    color: "0xff6600",
     price: 200,
     rent: 16,
     with_1: 80,
@@ -69939,8 +69939,8 @@ var data = {
     hotel_cost: 160
   },
   piatkowo1: {
-    title: 'Orlik Chrobrego',
-    color: '0x000080',
+    title: "Orlik Chrobrego",
+    color: "0x000080",
     price: 200,
     rent: 16,
     with_1: 80,
@@ -69952,8 +69952,8 @@ var data = {
     hotel_cost: 160
   },
   piatkowo2: {
-    title: 'Wieża RTV',
-    color: '0x000080',
+    title: "Wieża RTV",
+    color: "0x000080",
     price: 220,
     rent: 18,
     with_1: 90,
@@ -69965,8 +69965,8 @@ var data = {
     hotel_cost: 170
   },
   winiary1: {
-    title: 'Szpital Wojewódzki',
-    color: '0xffcc00',
+    title: "Szpital Wojewódzki",
+    color: "0xffcc00",
     price: 200,
     rent: 16,
     with_1: 80,
@@ -69978,8 +69978,8 @@ var data = {
     hotel_cost: 160
   },
   winiary2: {
-    title: 'Pestka',
-    color: '0xffcc00',
+    title: "Pestka",
+    color: "0xffcc00",
     price: 220,
     rent: 18,
     with_1: 90,
@@ -69991,8 +69991,8 @@ var data = {
     hotel_cost: 170
   },
   winiary3: {
-    title: 'Plaza',
-    color: '0xffcc00',
+    title: "Plaza",
+    color: "0xffcc00",
     price: 240,
     rent: 20,
     with_1: 100,
@@ -70004,8 +70004,8 @@ var data = {
     hotel_cost: 190
   },
   jezyce1: {
-    title: 'Rynek Jeżycki',
-    color: '0x00d400',
+    title: "Rynek Jeżycki",
+    color: "0x00d400",
     price: 220,
     rent: 18,
     with_1: 90,
@@ -70017,8 +70017,8 @@ var data = {
     hotel_cost: 170
   },
   jezyce2: {
-    title: 'Stare ZOO',
-    color: '0x00d400',
+    title: "Stare ZOO",
+    color: "0x00d400",
     price: 250,
     rent: 20,
     with_1: 110,
@@ -70030,8 +70030,8 @@ var data = {
     hotel_cost: 190
   },
   jezyce3: {
-    title: 'Hotel Mercure',
-    color: '0x00d400',
+    title: "Hotel Mercure",
+    color: "0x00d400",
     price: 280,
     rent: 24,
     with_1: 120,
@@ -70043,8 +70043,8 @@ var data = {
     hotel_cost: 220
   },
   lacina1: {
-    title: 'Malta',
-    color: '0xc837ab',
+    title: "Malta",
+    color: "0xc837ab",
     price: 250,
     rent: 20,
     with_1: 110,
@@ -70056,8 +70056,8 @@ var data = {
     hotel_cost: 190
   },
   lacina2: {
-    title: 'Posnania',
-    color: '0xc837ab',
+    title: "Posnania",
+    color: "0xc837ab",
     price: 280,
     rent: 24,
     with_1: 120,
@@ -70069,8 +70069,8 @@ var data = {
     hotel_cost: 230
   },
   piotrowo1: {
-    title: 'DS 1',
-    color: '0xd45500',
+    title: "DS 1",
+    color: "0xd45500",
     price: 280,
     rent: 24,
     with_1: 120,
@@ -70082,8 +70082,8 @@ var data = {
     hotel_cost: 230
   },
   piotrowo2: {
-    title: 'PUT Pozanań',
-    color: '0xd45500',
+    title: "PUT Pozanań",
+    color: "0xd45500",
     price: 330,
     rent: 28,
     with_1: 150,
@@ -70095,8 +70095,8 @@ var data = {
     hotel_cost: 250
   },
   centrum1: {
-    title: 'Kino Apollo',
-    color: '0xaa0000',
+    title: "Kino Apollo",
+    color: "0xaa0000",
     price: 320,
     rent: 28,
     with_1: 150,
@@ -70108,8 +70108,8 @@ var data = {
     hotel_cost: 260
   },
   centrum2: {
-    title: 'Teatr Wielki',
-    color: '0xaa0000',
+    title: "Teatr Wielki",
+    color: "0xaa0000",
     price: 350,
     rent: 35,
     with_1: 175,
@@ -70121,8 +70121,8 @@ var data = {
     hotel_cost: 290
   },
   s_miasto1: {
-    title: 'Stary Browar',
-    color: '0x0066ff',
+    title: "Stary Browar",
+    color: "0x0066ff",
     price: 350,
     rent: 35,
     with_1: 175,
@@ -70134,8 +70134,8 @@ var data = {
     hotel_cost: 290
   },
   s_miasto2: {
-    title: 'Ratusz',
-    color: '0x0066ff',
+    title: "Ratusz",
+    color: "0x0066ff",
     price: 400,
     rent: 50,
     with_1: 200,
@@ -70617,14 +70617,16 @@ var _ButtonInactive = require("./ButtonInactive");
 
 var _config = require("./config");
 
+var _CardTest = require("./CardTest");
+
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /* eslint-disable camelcase */
 var UserFrame = function UserFrame() {
-  var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '-';
-  var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '0';
+  var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "-";
+  var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "0";
   var x = arguments.length > 2 ? arguments[2] : undefined;
   var y = arguments.length > 3 ? arguments[3] : undefined;
   var frame = new PIXI.Graphics();
@@ -70634,16 +70636,16 @@ var UserFrame = function UserFrame() {
   frame.drawRect(0, 0, 211, 80);
   frame.endFill();
   var name = new PIXI.Text(player_name, {
-    align: 'center',
+    align: "center",
     fontSize: 24,
-    fontWeight: '600'
+    fontWeight: "600"
   });
   name.resolution = 3;
   name.x = frame.width / 2 - name.width / 2;
   var cash = new PIXI.Text(c, {
-    align: 'center',
+    align: "center",
     fontSize: 24,
-    fontWeight: '200'
+    fontWeight: "200"
   });
   cash.resolution = 3;
   cash.x = frame.width / 2 - cash.width / 2;
@@ -70653,19 +70655,25 @@ var UserFrame = function UserFrame() {
 };
 
 var UI = function UI(board, app, socket, player_name, field) {
-  var cont = new PIXI.Container(); // QUIT BUTTON
+  var cont = new PIXI.Container();
+  var my_pos = 0; // QUIT BUTTON
 
-  var quit = (0, _Button.Button)(10, 400, 'QUIT', function () {
-    socket.emit('exit_room', board.state.room, player_name);
-    app.state.inGame = false;
+  var quit = (0, _Button.Button)(10, 380, "QUIT", function () {
+    socket.emit("exit_room", board.state.room, player_name);
   }); // USER FRAMES
 
   for (var i = 0; i < 4; i++) {
+    console.log(board.state.players[i]);
+
     if (board.state.players[i] != undefined) {
+      if (board.state.players[i].name === player_name) {
+        my_pos = board.state.players[i].pos;
+      }
+
       var uf = UserFrame(board.state.players[i].name, board.state.players[i].cash, i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
       cont.addChild(uf);
     } else {
-      var _uf = UserFrame('-', '0', i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
+      var _uf = UserFrame("-", "0", i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
 
       cont.addChild(_uf);
     }
@@ -70673,22 +70681,31 @@ var UI = function UI(board, app, socket, player_name, field) {
 
   if (board.state.my_turn) {
     // ROLL DICE
-    var roll = (0, _Button.Button)(10, 300, 'ROLL', function () {
-      socket.emit('roll_dice', board.state.room, player_name);
+    var roll = (0, _Button.Button)(10, 300, "ROLL", function () {
+      socket.emit("roll_dice", board.state.room, player_name);
     }); // END TURN
 
-    var end_turn = (0, _Button.Button)(240, 300, 'END TURN', function () {
-      socket.emit('end_turn', board.state.room, player_name);
+    var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
+      socket.emit("end_turn", board.state.room, player_name);
     });
-    cont.addChild(roll, end_turn);
+    var buy = (0, _Button.Button)(10, 340, "BUY", function () {
+      if (_config.BoardPositions[my_pos].name != "start") {
+        console.log(player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
+        socket.emit("buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
+      }
+    });
+    cont.addChild(roll, end_turn, buy);
   } else {
     // ROLL DICE
-    var _roll = (0, _ButtonInactive.ButtonInactive)(10, 300, 'ROLL'); // END TURN
+    var _roll = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
 
 
-    var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, 'END TURN');
+    var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN"); // BUY
 
-    cont.addChild(_roll, _end_turn);
+
+    var _buy = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY");
+
+    cont.addChild(_roll, _end_turn, _buy);
   }
 
   cont.addChild(quit);
@@ -70697,7 +70714,7 @@ var UI = function UI(board, app, socket, player_name, field) {
 
 exports.UI = UI;
 
-},{"./Button":94,"./ButtonInactive":95,"./config":104,"pixi.js":72}],104:[function(require,module,exports){
+},{"./Button":94,"./ButtonInactive":95,"./CardTest":96,"./config":104,"pixi.js":72}],104:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71002,53 +71019,58 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var player_name = Math.random().toString(36).replace(/[^a-z0-9]+/g, '').substr(2, 7);
+var player_name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
 var socket = (0, _socket.io)();
-socket.on('rooms', function (rooms) {
-  console.log('rooms', rooms);
+socket.on("rooms", function (rooms) {
+  console.log("rooms", rooms);
   Rooms.state.list = rooms;
 });
-socket.on('new_room', function (rooms) {
-  console.log('new_room');
+socket.on("new_room", function (rooms) {
+  console.log("new_room");
   Rooms.state.list = rooms;
 });
-socket.on('entered_room', function (room) {
-  console.log('entered_room');
+socket.on("entered_room", function (room) {
+  console.log("entered_room");
   Board.state.room = room;
   App.state.inGame = true;
 });
-socket.on('new_player', function (players) {
-  console.log('new_player');
+socket.on("new_player", function (players) {
+  console.log("new_player");
   Board.state.players = players;
 });
-socket.on('turn', function (turn, player) {
-  console.log('turn', turn, player.name, player_name);
+socket.on("turn", function (turn, player) {
+  console.log("turn", turn, player.name, player_name);
   Board.state.turn = turn;
   Board.state.my_turn = player.name == player_name;
 });
-socket.on('left_room', function (rooms) {
-  console.log('left_room');
+socket.on("left_room", function (rooms) {
+  console.log("left_room");
   Rooms.state.list = rooms;
   App.state.inGame = false;
 });
-socket.on('player_left', function (players) {
-  console.log('player_left');
+socket.on("player_left", function (players) {
+  console.log("player_left");
   Board.state.players = players;
 });
-socket.on('rolled_dice', function (players) {
-  console.log('rolled_dice');
+socket.on("rolled_dice", function (players) {
+  console.log("rolled_dice");
   Board.state.players = players;
 });
-socket.on('deleted_room', function (rooms) {
+socket.on("deleted_room", function (rooms) {
+  console.log("deleted room");
   Rooms.state.list = rooms;
+});
+socket.on("buy", function (players) {
+  console.log("buy", players);
+  Board.state.players = players;
 });
 
 function create_UUID() {
   var dt = new Date().getTime();
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     var r = (dt + Math.random() * 16) % 16 | 0;
     dt = Math.floor(dt / 16);
-    return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+    return (c == "x" ? r : r & 0x3 | 0x8).toString(16);
   });
   return uuid;
 }
@@ -71059,7 +71081,7 @@ var app = new PIXI.Application({
   backgroundColor: 0x1099bb,
   resolution: window.devicePixelRatio || 1
 });
-document.getElementById('app').appendChild(app.view);
+document.getElementById("app").appendChild(app.view);
 var App = new PIXI.Container();
 var Board = new PIXI.Container();
 var Rooms = new PIXI.Container();
@@ -71074,7 +71096,7 @@ Board.state = {
   players: [],
   turn: 0,
   my_turn: false,
-  room: ''
+  room: ""
 };
 Rooms.state = {
   list: []
@@ -71121,7 +71143,7 @@ function rebuildBoard() {
   // a.drawCircle(865, 700, 10);
   // a.endFill();
 
-  var b = new PIXI.Sprite.from('http://localhost:8080/board.png');
+  var b = new PIXI.Sprite.from("http://localhost:8080/board.png");
   b.x = 452;
   var ui = (0, _UI.UI)(Board, App, socket, player_name);
   var board_stuff = (0, _BoardStuff.BoardStuff)(Board, App, socket, player_name);
@@ -71137,17 +71159,6 @@ function rebuildRooms() {
   });
   Rooms.addChild(createBtn);
   var list = (0, _RoomsList.RoomsList)(Rooms.state.list, socket, player_name);
-<<<<<<< HEAD
-  Rooms.addChild(list); // const card = TitleDeed(200, 200, data.jezyce2)
-  // Rooms.addChild(card)
-  // const card2 = TitleDeed(400, 200, data.wilda2)
-  // Rooms.addChild(card2)
-
-  var card3 = (0, _ChanceCard.ChanceCard)(100, 200, _ChanceCardTest.chance.chance16);
-  Rooms.addChild(card3);
-  var card4 = (0, _RiskCard.RiskCard)(400, 200, _RiskCardTest.risk.risk11);
-  Rooms.addChild(card4);
-=======
   Rooms.addChild(list); // const card = TitleDeed(200, 200, data.jezyce2);
   // Rooms.addChild(card);
   // const card2 = TitleDeed(400, 200, data.wilda2);
@@ -71156,7 +71167,6 @@ function rebuildRooms() {
   // Rooms.addChild(card3);
   // const card4 = RiskCard(100, 200, risk.risk16);
   // Rooms.addChild(card4);
->>>>>>> 6c29762b971b3c5541c72677e4ed1cc5060e3a9c
 } // Pierwszy raz trzeba ręcznie wywołać budowanie, później zmiany w stanie
 // elementów automatycznie triggerują ponowne zbudowanie
 

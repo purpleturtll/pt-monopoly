@@ -79,6 +79,7 @@ export const UI = (board, app, socket, player_name, field) => {
             socket.emit("end_turn", board.state.room, player_name);
         });
 
+        // BUY
         const buy = Button(10, 340, "BUY", () => {
             if (BoardPositions[my_pos].name != "start") {
                 console.log(
