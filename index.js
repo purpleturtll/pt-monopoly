@@ -48,11 +48,12 @@ io.on("connection", (socket) => {
         socket.leave(room);
         rooms[room].leave_seat(name);
         io.to(room).emit("player_left", rooms[room].players);
+        socket.emit("left_room", Object.keys(rooms));
+        console.log(rooms[room].is_empty());
         if (rooms[room].is_empty()) {
             delete rooms[room];
             io.emit("deleted_room", Object.keys(rooms));
         }
-        socket.emit("left_room", Object.keys(rooms));
     });
 
     socket.on("roll_dice", (room, name) => {

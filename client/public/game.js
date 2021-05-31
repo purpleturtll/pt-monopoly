@@ -64,6 +64,7 @@ socket.on("rolled_dice", (players) => {
 });
 
 socket.on("deleted_room", (rooms) => {
+    console.log("deleted room");
     Rooms.state.list = rooms;
 });
 
