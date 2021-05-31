@@ -41,11 +41,11 @@ export const UI = (board, app, socket, player_name, field) => {
     // QUIT BUTTON
     const quit = Button(10, 380, "QUIT", () => {
         socket.emit("exit_room", board.state.room, player_name);
-        app.state.inGame = false;
     });
 
     // USER FRAMES
     for (let i = 0; i < 4; i++) {
+        console.log(board.state.players[i]);
         if (board.state.players[i] != undefined) {
             if (board.state.players[i].name === player_name) {
                 my_pos = board.state.players[i].pos;

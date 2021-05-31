@@ -29,7 +29,7 @@ class Game {
     leave_seat(name) {
         let k = Object.keys(this.players).find((key) => {
             if (this.players[key] !== undefined) {
-                this.players[key].name === name;
+                return this.players[key].name === name;
             }
         });
         this.players[k] = undefined;
