@@ -70687,14 +70687,20 @@ var UI = function UI(board, app, socket, player_name, field) {
 
     var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
       socket.emit("end_turn", board.state.room, player_name);
-    });
+    }); // BUY
+
     var buy = (0, _Button.Button)(10, 340, "BUY", function () {
       if (_config.BoardPositions[my_pos].name != "start") {
         console.log(player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
         socket.emit("buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
       }
+    }); // BUY HOUSE
+
+    var buy_house = (0, _Button.Button)(240, 340, "BUY HOUSE", function () {
+      socket.emit("house_buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].house_cost);
     });
     cont.addChild(roll, end_turn, buy);
+    cont.addChild(buy_house);
   } else {
     // ROLL DICE
     var _roll = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
@@ -70703,9 +70709,13 @@ var UI = function UI(board, app, socket, player_name, field) {
     var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN"); // BUY
 
 
-    var _buy = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY");
+    var _buy = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY"); // BUY HOUSE
+
+
+    var _buy_house = (0, _ButtonInactive.ButtonInactive)(240, 340, "BUY HOUSE");
 
     cont.addChild(_roll, _end_turn, _buy);
+    cont.addChild(_buy_house);
   }
 
   cont.addChild(quit);
@@ -71062,6 +71072,10 @@ socket.on("deleted_room", function (rooms) {
 });
 socket.on("buy", function (players) {
   console.log("buy", players);
+  Board.state.players = players;
+});
+socket.on("house_buy", function (players) {
+  console.log("house_buy", players);
   Board.state.players = players;
 });
 

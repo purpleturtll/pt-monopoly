@@ -89,7 +89,12 @@ class Deed {
     }
 
     buy_house() {
-        if(houses < 4) this.houses++;
+        if(this.houses < 4) {
+            this.houses++;
+            console.log(`Player now owns ${this.houses} houses on ${this.name}`);
+        }
+        else console.log(`House limit reached for ${this.name}, can't buy next`);
+        return this.houses;
     }
 }
 
@@ -192,6 +197,22 @@ class Game {
         } else {
             console.log(`${name} can't buy ${deed} - taken by ${this.get_deed_owner(deed).name}`);
             return;
+        }
+    }
+
+    house_buy(name, deed, cost) {
+        //Jeżeli gracz jest właścicielem
+        if(this.get_deed_owner(deed).name == name)
+        {
+            let d = this.get_deed_owner(deed).get_deed(deed);
+            let prevHouses = d.houses;
+            console.log(`${name} buys a house No. ${d.houses + 1} on ${deed} for ${cost}`);
+            d.buy_house();
+            //Jeżeli dokonano zakupu
+            if(prevHouses < d.houses)
+            {
+                this.get_deed_owner(deed).cash -= cost;
+            }
         }
     }
 

@@ -97,7 +97,19 @@ export const UI = (board, app, socket, player_name, field) => {
             }
         });
 
+        // BUY HOUSE
+        const buy_house = Button(240, 340, "BUY HOUSE", () => {
+            socket.emit(
+                "house_buy",
+                board.state.room,
+                player_name,
+                BoardPositions[my_pos].name,
+                data[BoardPositions[my_pos].name].house_cost
+            );
+        });
+
         cont.addChild(roll, end_turn, buy);
+        cont.addChild(buy_house);
     } else {
         // ROLL DICE
         const roll = ButtonInactive(10, 300, "ROLL");
@@ -108,7 +120,11 @@ export const UI = (board, app, socket, player_name, field) => {
         // BUY
         const buy = ButtonInactive(10, 340, "BUY");
 
+        // BUY HOUSE
+        const buy_house = ButtonInactive(240, 340, "BUY HOUSE");
+        
         cont.addChild(roll, end_turn, buy);
+        cont.addChild(buy_house);
     }
 
     cont.addChild(quit);
