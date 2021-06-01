@@ -136,20 +136,28 @@ class Game {
 
         if(fieldType == 'deed')
         {
-            console.log(`endturn: deed fieldName: ${fieldName}`);
             let owner = this.get_deed_owner(fieldName);
-            console.log(`endturn: deed ownerName: ${owner.name}`);
+            let currPlayer = this.players[this.turn];
             let deed = owner.get_deed(fieldName);
-            console.log(`endturn: deed.name: ${deed.name}`);
             
             // Gracz płaci na polu własności innego gracza
             if( this.is_deed_taken(fieldName)
-                && owner.name != this.players[this.turn].name)
+                && owner.name != currPlayer.name)
             {
-                let cash = deed.get_rent();
-                console.log(`${this.players[this.turn].name} pays ${cash} to ${owner.name}`);
-                this.players[this.turn].cash -= cash
-                owner.cash += cash;
+                let rentValue = deed.get_rent();
+                console.log(`${currPlayer.name} should pay ${rentValue} to ${owner.name}`);
+                //Gracz zbankrutował
+                if(currPlayer.cash <= rentValue) {
+                    console.log(`${currPlayer.name} is broke - GAME OVER`);
+                    rentValue = currPlayer.cash;
+                    currPlayer.cash = 0;
+                }
+                else {
+                    console.log(`${currPlayer.name} pays ${rentValue} to ${owner.name}`);
+                    currPlayer.cash -= rentValue;    
+                }
+                owner.cash += rentValue;
+                
             }
         }
         
@@ -166,10 +174,16 @@ class Game {
         // Sprawdzenie czy nikt inny nie ma kupionej tej nieruchomości
 
         if (!this.is_deed_taken(deed)) {
+            // Sprawdzenie czy gracza stać na kupno
+            if(this.players[k].cash >= cost) {
+                console.log(`${name} buys ${deed} for ${cost}`);
+                this.players[k].deeds.push(new Deed(deed));
+                this.players[k].cash -= cost;
+            }
+            else {
+                console.log(`${name} hasn't enough money to buy ${deed} for ${cost}`);
+            }
             
-            console.log(`${name} buys ${deed} for ${cost}`);
-            this.players[k].deeds.push(new Deed(deed));
-            this.players[k].cash -= cost;
         } else {
             console.log(`${name} can't buy ${deed} - taken by ${this.get_deed_owner(deed).name}`);
             return;
