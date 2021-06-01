@@ -202,7 +202,7 @@ class Game {
 
     house_buy(name, deed, cost) {
         //Jeżeli gracz jest właścicielem
-        if(this.get_deed_owner(deed).name == name)
+        if( this.is_deed_taken(deed) && this.get_deed_owner(deed).name == name)
         {
             let d = this.get_deed_owner(deed).get_deed(deed);
             let prevHouses = d.houses;
