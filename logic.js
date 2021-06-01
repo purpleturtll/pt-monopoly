@@ -126,8 +126,13 @@ class Game {
     }
 
     roll_dice() {
+        let prevPos = this.players[this.turn].pos;
         this.players[this.turn].pos += Math.floor(Math.random() * 6 + 1);
         this.players[this.turn].pos = this.players[this.turn].pos % 42;
+        
+        //Gracz przekroczył pole Start
+        if(prevPos > this.players[this.turn].pos)
+            this.players[this.turn].cash += 200;
     }
 
     end_turn() {
@@ -138,13 +143,13 @@ class Game {
         {
             let owner = this.get_deed_owner(fieldName);
             let currPlayer = this.players[this.turn];
-            let deed = owner.get_deed(fieldName);
-            
+
             // Gracz płaci na polu własności innego gracza
-            if( this.is_deed_taken(fieldName)
+            if( owner != undefined
+                && this.is_deed_taken(fieldName)
                 && owner.name != currPlayer.name)
             {
-                let rentValue = deed.get_rent();
+                let rentValue = owner.get_deed(fieldName).get_rent();
                 console.log(`${currPlayer.name} should pay ${rentValue} to ${owner.name}`);
                 //Gracz zbankrutował
                 if(currPlayer.cash <= rentValue) {
