@@ -43,7 +43,7 @@ export const UI = (board, app, socket, player_name, field) => {
     const quit = Button(10, 380, "QUIT", () => {
         socket.emit("exit_room", board.state.room, player_name);
     });
-
+    console.log(board)
     // USER FRAMES
     for (let i = 0; i < 4; i++) {
         console.log(board.state.players[i]);

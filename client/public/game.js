@@ -41,10 +41,12 @@ socket.on("new_player", (players) => {
     Board.state.players = players;
 });
 
-socket.on("turn", (turn, player) => {
-    console.log("turn", turn, player.name, player_name);
+socket.on("turn", (turn, players, event) => {
+    console.log("turn", turn, players[turn].name, player_name);
     Board.state.turn = turn;
-    Board.state.my_turn = player.name == player_name;
+    Board.state.my_turn = players[turn].name == player_name;
+    Board.state.players = players;
+    Board.state.end_turn_event = event;
 });
 
 socket.on("left_room", (rooms) => {
@@ -58,9 +60,10 @@ socket.on("player_left", (players) => {
     Board.state.players = players;
 });
 
-socket.on("rolled_dice", (players) => {
+socket.on("rolled_dice", (players, event) => {
     console.log("rolled_dice");
     Board.state.players = players;
+    Board.state.end_turn_event = event;
 });
 
 socket.on("deleted_room", (rooms) => {
@@ -112,6 +115,7 @@ Board.state = {
     turn: 0,
     my_turn: false,
     room: "",
+    end_turn_event: undefined
 };
 
 Rooms.state = {

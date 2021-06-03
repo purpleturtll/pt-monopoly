@@ -1,4 +1,5 @@
 const data = require("./client/public/CardTest");
+const { risk, chance } = require("./riskAndChanceCards");
 
 const BoardPositions = {
     0: { x: 900, y: 692, name: 'start', type: 'start' },
@@ -105,6 +106,7 @@ class Game {
             3: undefined,
         };
         this.turn = 0;
+        this.end_turn_event = undefined;
     }
 
     take_seat(name) {
@@ -138,6 +140,8 @@ class Game {
         //Gracz przekroczył pole Start
         if(prevPos > this.players[this.turn].pos)
             this.players[this.turn].cash += 200;
+            
+        this.end_turn_event = undefined
     }
 
     end_turn() {
@@ -169,6 +173,56 @@ class Game {
                 owner.cash += rentValue;
                 
             }
+        }
+
+        // Pole szansy i ryzyka
+        if (fieldType == "chance" || fieldType == "chest") {
+            if (fieldType == "chance") {
+                var randCard = chance[Math.floor(Math.random() * chance.length)]
+            }
+            else {
+                var randCard = risk[Math.floor(Math.random() * risk.length)]
+            }
+            console.log("Card: ", randCard)
+
+            // Sprawdzenie nowej pozycji
+            let newPos = this.players[this.turn].pos
+            if (randCard.position != undefined) {
+                newPos = randCard.position
+            }
+            if (randCard.posRelative != undefined) {
+                newPos += randCard.posRelative
+                if (newPos < 0) {
+                    newPos += 42
+                }
+                else if (newPos > 41) {
+                    newPos -= 42
+                }
+            }
+            // Pieniądze od innych graczy (póki co zawsze od 3)
+            if (randCard.fromOthers != 0) {
+                for (let i = 0; i < 4; i++) {
+                    console.log("turn: ", this.turn, "i: ", i)
+                    if (i != this.turn) {
+                        this.players[i].cash -= randCard.fromOthers
+                    }
+                    else {
+                        this.players[i].cash += randCard.fromOthers * 3
+                    }
+                }
+            }
+            // Nagroda za przejście przez start
+            if (newPos < this.players[this.turn].pos && randCard.doStart) {
+                this.players[this.turn].cash += 200;
+            }
+
+            this.players[this.turn].pos = newPos
+            this.players[this.turn].cash += randCard.cashChange
+            this.end_turn_event = randCard
+        }
+        else {
+            
+            this.end_turn_event = undefined
         }
         
         for (let i = 0; i < 4; i++) {

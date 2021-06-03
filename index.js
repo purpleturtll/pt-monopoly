@@ -38,7 +38,8 @@ io.on("connection", (socket) => {
             io.to(room).emit(
                 "turn",
                 rooms[room].turn,
-                rooms[room].players[rooms[room].turn]
+                rooms[room].players,
+                rooms[room].end_turn_event
             );
         }
     });
@@ -59,7 +60,7 @@ io.on("connection", (socket) => {
     socket.on("roll_dice", (room, name) => {
         console.log("roll_dice");
         rooms[room].roll_dice();
-        io.to(room).emit("rolled_dice", rooms[room].players);
+        io.to(room).emit("rolled_dice", rooms[room].players, rooms[room].end_turn_event);
     });
 
     socket.on("end_turn", (room, name) => {
@@ -68,7 +69,8 @@ io.on("connection", (socket) => {
         io.to(room).emit(
             "turn",
             rooms[room].turn,
-            rooms[room].players[rooms[room].turn]
+            rooms[room].players,
+            rooms[room].end_turn_event
         );
     });
 
