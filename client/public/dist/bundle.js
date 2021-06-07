@@ -69691,7 +69691,7 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
 
 exports.BoardStuff = BoardStuff;
 
-},{"./Button":94,"./config":104,"pixi.js":72}],94:[function(require,module,exports){
+},{"./Button":94,"./config":105,"pixi.js":72}],94:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70281,6 +70281,55 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Dice = void 0;
+
+var PIXI = _interopRequireWildcard(require("pixi.js"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var Dice = function Dice(x, y, num) {
+  var doAnim = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y;
+  var textures = [PIXI.Texture.from('./dice/dice-01.png'), PIXI.Texture.from('./dice/dice-02.png'), PIXI.Texture.from('./dice/dice-03.png'), PIXI.Texture.from('./dice/dice-04.png'), PIXI.Texture.from('./dice/dice-05.png'), PIXI.Texture.from('./dice/dice-06.png')];
+  var dice = new PIXI.Sprite(textures[num - 1]);
+  dice.x = 0;
+  dice.y = 0;
+  cont.addChild(dice);
+
+  function Shuffle(i) {
+    var r = Math.floor(Math.random() * 6);
+    dice.texture = textures[r];
+
+    if (i > 0) {
+      setTimeout(function () {
+        Shuffle(i - 1);
+      }, 120 + (11 - i) * (11 - i));
+    } else if (i == 0) {
+      dice.texture = textures[num - 1];
+    }
+  }
+
+  if (doAnim) {
+    Shuffle(10);
+  }
+
+  return cont;
+};
+
+exports.Dice = Dice;
+
+},{"pixi.js":72}],100:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.RiskCard = void 0;
 
 var PIXI = _interopRequireWildcard(require("pixi.js"));
@@ -70338,7 +70387,7 @@ var RiskCard = function RiskCard() {
 
 exports.RiskCard = RiskCard;
 
-},{"pixi.js":72}],100:[function(require,module,exports){
+},{"pixi.js":72}],101:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70397,7 +70446,7 @@ var risk = {
 };
 exports.risk = risk;
 
-},{}],101:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70444,7 +70493,7 @@ var RoomsList = function RoomsList() {
 
 exports.RoomsList = RoomsList;
 
-},{"./Button":94,"./config":104,"pixi.js":72}],102:[function(require,module,exports){
+},{"./Button":94,"./config":105,"pixi.js":72}],103:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70599,7 +70648,7 @@ var TitleDeed = function TitleDeed() {
 
 exports.TitleDeed = TitleDeed;
 
-},{"pixi.js":72}],103:[function(require,module,exports){
+},{"pixi.js":72}],104:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -70618,6 +70667,8 @@ var _ButtonInactive = require("./ButtonInactive");
 var _config = require("./config");
 
 var _CardTest = require("./CardTest");
+
+var _Dice = require("./Dice");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -70679,43 +70730,58 @@ var UI = function UI(board, app, socket, player_name, field) {
     }
   }
 
+  var rolledNr = 0;
+  var didRoll = false;
+
+  for (var _i = 0; _i < 4; _i++) {
+    if (board.state.players[_i] != undefined) {
+      if (board.state.players[_i].name === player_name) {
+        rolledNr = board.state.players[_i].diceNr;
+        didRoll = board.state.players[_i].didRoll;
+      }
+    }
+  }
+
   if (board.state.my_turn) {
     // ROLL DICE
-    var roll = (0, _Button.Button)(10, 300, "ROLL", function () {
-      socket.emit("roll_dice", board.state.room, player_name);
-    }); // END TURN
+    if (didRoll) {
+      var roll = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL");
+      cont.addChild(roll);
+    } else {
+      var _roll = (0, _Button.Button)(10, 300, "ROLL", function () {
+        socket.emit("roll_dice", board.state.room, player_name);
+      });
+
+      cont.addChild(_roll);
+    } // END TURN
+
 
     var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
       socket.emit("end_turn", board.state.room, player_name);
-    }); // BUY
-
+    });
     var buy = (0, _Button.Button)(10, 340, "BUY", function () {
       if (_config.BoardPositions[my_pos].name != "start") {
         console.log(player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
         socket.emit("buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
       }
-    }); // BUY HOUSE
+    }); // DICE
 
-    var buy_house = (0, _Button.Button)(240, 340, "BUY HOUSE", function () {
-      socket.emit("house_buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].house_cost);
-    });
-    cont.addChild(roll, end_turn, buy);
-    cont.addChild(buy_house);
+    var dice = (0, _Dice.Dice)(10, 460, rolledNr, didRoll);
+    cont.addChild(end_turn, buy, dice);
   } else {
     // ROLL DICE
-    var _roll = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
+    var _roll2 = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
 
 
     var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN"); // BUY
 
 
-    var _buy = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY"); // BUY HOUSE
+    var _buy = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY"); // DICE
 
 
-    var _buy_house = (0, _ButtonInactive.ButtonInactive)(240, 340, "BUY HOUSE");
+    var _dice = (0, _Dice.Dice)(10, 460, rolledNr, false);
 
-    cont.addChild(_roll, _end_turn, _buy);
-    cont.addChild(_buy_house);
+    cont.addChild(_roll2, _end_turn, _buy, _dice);
   }
 
   cont.addChild(quit);
@@ -70724,7 +70790,7 @@ var UI = function UI(board, app, socket, player_name, field) {
 
 exports.UI = UI;
 
-},{"./Button":94,"./ButtonInactive":95,"./CardTest":96,"./config":104,"pixi.js":72}],104:[function(require,module,exports){
+},{"./Button":94,"./ButtonInactive":95,"./CardTest":96,"./Dice":99,"./config":105,"pixi.js":72}],105:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70992,7 +71058,7 @@ var BoardPositions = {
 };
 exports.BoardPositions = BoardPositions;
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -71072,10 +71138,6 @@ socket.on("deleted_room", function (rooms) {
 });
 socket.on("buy", function (players) {
   console.log("buy", players);
-  Board.state.players = players;
-});
-socket.on("house_buy", function (players) {
-  console.log("house_buy", players);
   Board.state.players = players;
 });
 
@@ -71188,4 +71250,4 @@ function rebuildRooms() {
 rebuildBoard();
 rebuildRooms();
 
-},{"./BoardStuff":93,"./Button":94,"./CardTest":96,"./ChanceCard":97,"./ChanceCardTest":98,"./RiskCard":99,"./RiskCardTest":100,"./RoomsList":101,"./TitleDeed":102,"./UI":103,"./config":104,"lodash":65,"pixi.js":72,"socket.io-client":80}]},{},[105]);
+},{"./BoardStuff":93,"./Button":94,"./CardTest":96,"./ChanceCard":97,"./ChanceCardTest":98,"./RiskCard":100,"./RiskCardTest":101,"./RoomsList":102,"./TitleDeed":103,"./UI":104,"./config":105,"lodash":65,"pixi.js":72,"socket.io-client":80}]},{},[106]);

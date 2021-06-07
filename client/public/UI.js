@@ -4,6 +4,7 @@ import { Button } from "./Button";
 import { ButtonInactive } from "./ButtonInactive";
 import { BoardPositions } from "./config";
 import { data } from "./CardTest";
+import { Dice } from "./Dice";
 
 const UserFrame = (player_name = "-", c = "0", x, y) => {
     const frame = new PIXI.Graphics();
@@ -68,18 +69,33 @@ export const UI = (board, app, socket, player_name, field) => {
         }
     }
 
+    var rolledNr = 0
+    var didRoll = false
+    for (let i = 0; i < 4; i++) {
+        if (board.state.players[i] != undefined) {
+            if (board.state.players[i].name === player_name) {
+                rolledNr = board.state.players[i].diceNr
+                didRoll = board.state.players[i].didRoll
+    }}}
+
     if (board.state.my_turn) {
         // ROLL DICE
-        const roll = Button(10, 300, "ROLL", () => {
-            socket.emit("roll_dice", board.state.room, player_name);
-        });
+        if (didRoll) {
+            const roll = ButtonInactive(10, 300, "ROLL");
+            cont.addChild(roll);
+        }
+        else {
+            const roll = Button(10, 300, "ROLL", () => {
+                socket.emit("roll_dice", board.state.room, player_name);
+            });
+            cont.addChild(roll);
+        }
 
         // END TURN
         const end_turn = Button(240, 300, "END TURN", () => {
             socket.emit("end_turn", board.state.room, player_name);
         });
 
-        // BUY
         const buy = Button(10, 340, "BUY", () => {
             if (BoardPositions[my_pos].name != "start") {
                 console.log(
@@ -97,19 +113,10 @@ export const UI = (board, app, socket, player_name, field) => {
             }
         });
 
-        // BUY HOUSE
-        const buy_house = Button(240, 340, "BUY HOUSE", () => {
-            socket.emit(
-                "house_buy",
-                board.state.room,
-                player_name,
-                BoardPositions[my_pos].name,
-                data[BoardPositions[my_pos].name].house_cost
-            );
-        });
+        // DICE
+        const dice = Dice(10, 460, rolledNr, didRoll);
 
-        cont.addChild(roll, end_turn, buy);
-        cont.addChild(buy_house);
+        cont.addChild(end_turn, buy, dice);
     } else {
         // ROLL DICE
         const roll = ButtonInactive(10, 300, "ROLL");
@@ -120,11 +127,10 @@ export const UI = (board, app, socket, player_name, field) => {
         // BUY
         const buy = ButtonInactive(10, 340, "BUY");
 
-        // BUY HOUSE
-        const buy_house = ButtonInactive(240, 340, "BUY HOUSE");
-        
-        cont.addChild(roll, end_turn, buy);
-        cont.addChild(buy_house);
+        // DICE
+        const dice = Dice(10, 460, rolledNr, false);
+
+        cont.addChild(roll, end_turn, buy, dice);
     }
 
     cont.addChild(quit);
