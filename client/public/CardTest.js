@@ -1,4 +1,4 @@
-const data = {
+export const data = {
     wilda1: {
         title: "Powiatowy Urząd Pracy",
         color: "0xffff00",
@@ -375,5 +375,3 @@ const data = {
         hotel_cost: 300,
     },
 };
-
-module.exports = data;
