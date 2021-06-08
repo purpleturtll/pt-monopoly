@@ -79,6 +79,12 @@ io.on("connection", (socket) => {
         rooms[room].buy(name, deed, cost);
         io.to(room).emit("buy", rooms[room].players);
     });
+
+    socket.on("house_buy", (room, name, deed, cost) => {
+        console.log("house_buy");
+        rooms[room].house_buy(name, deed, cost);
+        io.to(room).emit("house_buy", rooms[room].players);
+    })
 });
 
 server.listen(8080, () => {

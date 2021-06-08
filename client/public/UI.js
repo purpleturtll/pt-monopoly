@@ -96,7 +96,6 @@ export const UI = (board, app, socket, player_name, field) => {
             socket.emit("end_turn", board.state.room, player_name);
         });
 
-        // BUY
         const buy = Button(10, 340, "BUY", () => {
             if (BoardPositions[my_pos].name != "start") {
                 console.log(
@@ -117,7 +116,17 @@ export const UI = (board, app, socket, player_name, field) => {
         // DICE
         const dice = Dice(10, 460, rolledNr, didRoll);
 
-        cont.addChild(end_turn, buy, dice);
+        const buy_house = Button(240, 340, "BUY HOUSE", () => {
+            socket.emit(
+                "house_buy",
+                board.state.room,
+                player_name,
+                BoardPositions[my_pos].name,
+                data[BoardPositions[my_pos].name].house_cost
+            );
+        });
+
+        cont.addChild(end_turn, buy, dice, buy_house);
     } else {
         // ROLL DICE
         const roll = ButtonInactive(10, 300, "ROLL");
@@ -131,7 +140,10 @@ export const UI = (board, app, socket, player_name, field) => {
         // DICE
         const dice = Dice(10, 460, rolledNr, false);
 
-        cont.addChild(roll, end_turn, buy, dice);
+        // BUY HOUSE
+        const buy_house = ButtonInactive(240, 340, "BUY HOUSE");
+
+        cont.addChild(roll, end_turn, buy, dice, buy_house);
     }
 
     cont.addChild(quit);
