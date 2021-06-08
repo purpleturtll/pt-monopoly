@@ -135,7 +135,7 @@ App.prev_state = JSON.parse(JSON.stringify(App.state));
 Board.prev_state = JSON.parse(JSON.stringify(Board.state));
 Rooms.prev_state = JSON.parse(JSON.stringify(Rooms.state));
 
-// Jeśli jesteś w gre wyświetl planszę
+// Jeśli jesteś w grze wyświetl planszę
 // Jeśli nie, wyświetl listę pokoi
 app.ticker.add(() => {
     if (App.state.inGame) {
