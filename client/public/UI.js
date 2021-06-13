@@ -79,38 +79,44 @@ export const UI = (board, app, socket, player_name, field) => {
     }}}
 
     if (board.state.my_turn) {
-        // ROLL DICE
+        // ROLL DICE and BUY
         if (didRoll) {
+            if (BoardPositions[my_pos].type == "deed") {
+                const buy = Button(10, 340, "BUY", () => {
+                    console.log(
+                        player_name,
+                        BoardPositions[my_pos].name,
+                        data[BoardPositions[my_pos].name].price
+                    );
+                    socket.emit(
+                        "buy",
+                        board.state.room,
+                        player_name,
+                        BoardPositions[my_pos].name,
+                        data[BoardPositions[my_pos].name].price
+                    );
+                });
+                cont.addChild(buy);
+            }
+            else {
+                const buy = ButtonInactive(10, 340, "BUY");
+                cont.addChild(buy);
+            }
             const roll = ButtonInactive(10, 300, "ROLL");
             cont.addChild(roll);
+            
         }
         else {
+            const buy = ButtonInactive(10, 340, "BUY");
             const roll = Button(10, 300, "ROLL", () => {
                 socket.emit("roll_dice", board.state.room, player_name);
             });
-            cont.addChild(roll);
+            cont.addChild(roll, buy);
         }
 
         // END TURN
         const end_turn = Button(240, 300, "END TURN", () => {
             socket.emit("end_turn", board.state.room, player_name);
-        });
-
-        const buy = Button(10, 340, "BUY", () => {
-            if (BoardPositions[my_pos].name != "start") {
-                console.log(
-                    player_name,
-                    BoardPositions[my_pos].name,
-                    data[BoardPositions[my_pos].name].price
-                );
-                socket.emit(
-                    "buy",
-                    board.state.room,
-                    player_name,
-                    BoardPositions[my_pos].name,
-                    data[BoardPositions[my_pos].name].price
-                );
-            }
         });
 
         // DICE
@@ -126,7 +132,7 @@ export const UI = (board, app, socket, player_name, field) => {
             );
         });
 
-        cont.addChild(end_turn, buy, dice, buy_house);
+        cont.addChild(end_turn, dice, buy_house);
     } else {
         // ROLL DICE
         const roll = ButtonInactive(10, 300, "ROLL");
