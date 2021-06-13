@@ -6,6 +6,15 @@ import { BoardPositions } from "./config";
 import { data } from "./CardTest";
 import { Dice } from "./Dice";
 
+//Pionek przy UserFrame
+const Piece = (x, y, color) => {
+    const circle = new PIXI.Graphics()
+    circle.beginFill(color)
+    circle.drawCircle(x, y, 15)
+    circle.endFill()
+    return circle
+  }
+
 const UserFrame = (player_name = "-", c = "0", x, y) => {
     const frame = new PIXI.Graphics();
     frame.x = x;
@@ -57,7 +66,26 @@ export const UI = (board, app, socket, player_name, field) => {
                 i == 0 || i == 2 ? 10 : 231,
                 i == 0 || i == 1 ? 40 : 130
             );
-            cont.addChild(uf);
+            switch (i) {
+                case 0:
+                    var pieceColor = 0xff0000
+                    break
+                case 1:
+                    var pieceColor = 0xff00ff
+                    break
+                case 2:
+                    var pieceColor = 0x00ff00
+                    break
+                default:
+                    var pieceColor = 0x1111ff
+
+            }
+            const piece = Piece(
+                i == 0 || i == 2 ? 40 : 261,
+                i == 0 || i == 1 ? 80 : 170,
+                pieceColor
+            )
+            cont.addChild(uf, piece);
         } else {
             const uf = UserFrame(
                 "-",

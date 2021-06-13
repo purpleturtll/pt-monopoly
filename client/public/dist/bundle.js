@@ -71083,6 +71083,15 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /* eslint-disable camelcase */
+//Pionek przy UserFrame
+var Piece = function Piece(x, y, color) {
+  var circle = new PIXI.Graphics();
+  circle.beginFill(color);
+  circle.drawCircle(x, y, 15);
+  circle.endFill();
+  return circle;
+};
+
 var UserFrame = function UserFrame() {
   var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "-";
   var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "0";
@@ -71131,7 +71140,26 @@ var UI = function UI(board, app, socket, player_name, field) {
       }
 
       var uf = UserFrame(board.state.players[i].name, board.state.players[i].cash, i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
-      cont.addChild(uf);
+
+      switch (i) {
+        case 0:
+          var pieceColor = 0xff0000;
+          break;
+
+        case 1:
+          var pieceColor = 0xff00ff;
+          break;
+
+        case 2:
+          var pieceColor = 0x00ff00;
+          break;
+
+        default:
+          var pieceColor = 0x1111ff;
+      }
+
+      var piece = Piece(i == 0 || i == 2 ? 40 : 261, i == 0 || i == 1 ? 80 : 170, pieceColor);
+      cont.addChild(uf, piece);
     } else {
       var _uf = UserFrame("-", "0", i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
 
