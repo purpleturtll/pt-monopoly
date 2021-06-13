@@ -71140,7 +71140,7 @@ var UI = function UI(board, app, socket, player_name, field) {
   }
 
   var rolledNr = 0;
-  var didRoll = false;
+  var didRoll = [false, false];
 
   for (var _i = 0; _i < 4; _i++) {
     if (board.state.players[_i] != undefined) {
@@ -71153,7 +71153,7 @@ var UI = function UI(board, app, socket, player_name, field) {
 
   if (board.state.my_turn) {
     // ROLL DICE and BUY
-    if (didRoll) {
+    if (didRoll[0]) {
       if (_config.BoardPositions[my_pos].type == "deed") {
         var buy = (0, _Button.Button)(10, 340, "BUY", function () {
           console.log(player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
@@ -71183,7 +71183,7 @@ var UI = function UI(board, app, socket, player_name, field) {
       socket.emit("end_turn", board.state.room, player_name);
     }); // DICE
 
-    var dice = (0, _Dice.Dice)(10, 460, rolledNr, didRoll);
+    var dice = (0, _Dice.Dice)(10, 460, rolledNr, didRoll[1]);
     var buy_house = (0, _Button.Button)(240, 340, "BUY HOUSE", function () {
       socket.emit("house_buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].house_cost);
     });

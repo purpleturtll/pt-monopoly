@@ -70,7 +70,7 @@ export const UI = (board, app, socket, player_name, field) => {
     }
 
     var rolledNr = 0
-    var didRoll = false
+    var didRoll = [false, false]
     for (let i = 0; i < 4; i++) {
         if (board.state.players[i] != undefined) {
             if (board.state.players[i].name === player_name) {
@@ -80,7 +80,7 @@ export const UI = (board, app, socket, player_name, field) => {
 
     if (board.state.my_turn) {
         // ROLL DICE and BUY
-        if (didRoll) {
+        if (didRoll[0]) {
             if (BoardPositions[my_pos].type == "deed") {
                 const buy = Button(10, 340, "BUY", () => {
                     console.log(
@@ -120,7 +120,7 @@ export const UI = (board, app, socket, player_name, field) => {
         });
 
         // DICE
-        const dice = Dice(10, 460, rolledNr, didRoll);
+        const dice = Dice(10, 460, rolledNr, didRoll[1]);
 
         const buy_house = Button(240, 340, "BUY HOUSE", () => {
             socket.emit(

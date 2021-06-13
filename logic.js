@@ -430,7 +430,7 @@ class Player {
         this.cash = 500;
         this.deeds = [];
         this.diceNr = 1;
-        this.didRoll = false;
+        this.didRoll = [false, false];  // 1: czy już rzucał w tej turze, 2: czy właśnie rzucił
     }
 
     is_deed_owner(deed) {
@@ -517,7 +517,8 @@ class Game {
         let prevPos = this.players[this.turn].pos;
         let rolled = Math.floor(Math.random() * 6 + 1);
         this.players[this.turn].diceNr = rolled;
-        this.players[this.turn].didRoll = true;
+        this.players[this.turn].didRoll[0] = true;
+        this.players[this.turn].didRoll[1] = true;
         this.players[this.turn].pos += rolled;
         this.players[this.turn].pos = this.players[this.turn].pos % 42;
 
@@ -610,7 +611,8 @@ class Game {
         }
         
         for (let i = 0; i < 4; i++) {
-            this.players[i].didRoll = false;
+            this.players[i].didRoll[0] = false;
+            this.players[i].didRoll[1] = false;
         }
         
         if (this.turn < 4) this.turn++;
@@ -621,6 +623,9 @@ class Game {
         let k = Object.keys(this.players).find(
             (key) => this.players[key].name === name
         );
+
+        // Oznaczenie, że nie rzuca kością
+        this.players[k].didRoll[1] = false;
 
         // Sprawdzenie czy nikt inny nie ma kupionej tej nieruchomości
 
@@ -642,6 +647,13 @@ class Game {
     }
 
     house_buy(name, deed, cost) {
+
+        // Oznaczenie, że nie rzuca kością
+        let k = Object.keys(this.players).find(
+            (key) => this.players[key].name === name
+        );
+        this.players[k].didRoll[1] = false;
+        
         //Jeżeli gracz jest właścicielem
         if( this.is_deed_taken(deed) 
             && this.get_deed_owner(deed).name == name 
