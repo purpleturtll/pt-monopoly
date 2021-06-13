@@ -490,7 +490,7 @@ class Game {
             3: undefined,
         };
         this.turn = 0;
-        this.end_turn_event = undefined;
+        this.end_turn_event = "";
     }
 
     take_seat(name) {
@@ -525,7 +525,7 @@ class Game {
         if(prevPos > this.players[this.turn].pos)
             this.players[this.turn].cash += 200;
             
-        this.end_turn_event = undefined
+        this.end_turn_event = ""
     }
 
     end_turn() {
@@ -606,7 +606,7 @@ class Game {
         }
         else {
             
-            this.end_turn_event = undefined
+            this.end_turn_event = ""
         }
         
         for (let i = 0; i < 4; i++) {

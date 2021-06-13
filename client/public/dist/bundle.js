@@ -69958,7 +69958,7 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
   } // Karta szansy/ryzyka
 
 
-  if (board.state.end_turn_event != undefined) {
+  if (board.state.end_turn_event != "") {
     var playerNum = board.state.turn - 1;
 
     if (playerNum < 0) {
@@ -71595,7 +71595,7 @@ Board.state = {
   turn: 0,
   my_turn: false,
   room: "",
-  end_turn_event: undefined
+  end_turn_event: ""
 };
 Rooms.state = {
   list: []

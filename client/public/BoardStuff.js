@@ -299,7 +299,7 @@ export const BoardStuff = (board, app, socket, player_name) => {
   }
 
   // Karta szansy/ryzyka
-  if (board.state.end_turn_event != undefined) {
+  if (board.state.end_turn_event != "") {
     let playerNum = board.state.turn - 1
     if (playerNum < 0) {
       playerNum = 3

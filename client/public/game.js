@@ -120,7 +120,7 @@ Board.state = {
     turn: 0,
     my_turn: false,
     room: "",
-    end_turn_event: undefined
+    end_turn_event: ""
 };
 
 Rooms.state = {
