@@ -11,7 +11,7 @@ export const RoomsList = (rooms = [], socket, player_name) => {
     cont.y = config.canvasHeight * 0.1;
 
     for (let i = 0; i < rooms.length; i++) {
-        const btn = Button(0, i * 40, rooms[i], () => {
+        const btn = Button(-20, i * 40, rooms[i], () => {
             socket.emit("enter_room", rooms[i], player_name);
         });
         cont.addChild(btn);
