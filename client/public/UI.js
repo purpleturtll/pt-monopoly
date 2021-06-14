@@ -99,14 +99,16 @@ export const UI = (board, app, socket, player_name, field) => {
 
     var rolledNr = 0
     var didRoll = [false, false]
+    var my_cash = 0
     for (let i = 0; i < 4; i++) {
         if (board.state.players[i] != undefined) {
             if (board.state.players[i].name === player_name) {
                 rolledNr = board.state.players[i].diceNr
                 didRoll = board.state.players[i].didRoll
+                my_cash = board.state.players[i].cash
     }}}
 
-    if (board.state.my_turn) {
+    if (board.state.my_turn && my_cash > 0) {
         // ROLL DICE and BUY
         if (didRoll[0]) {
             if (BoardPositions[my_pos].type == "deed") {
@@ -162,6 +164,9 @@ export const UI = (board, app, socket, player_name, field) => {
 
         cont.addChild(end_turn, dice, buy_house);
     } else {
+        if (board.state.my_turn) {
+            socket.emit("end_turn", board.state.room, player_name);
+        }
         // ROLL DICE
         const roll = ButtonInactive(10, 300, "ROLL");
 

@@ -71169,17 +71169,19 @@ var UI = function UI(board, app, socket, player_name, field) {
 
   var rolledNr = 0;
   var didRoll = [false, false];
+  var my_cash = 0;
 
   for (var _i = 0; _i < 4; _i++) {
     if (board.state.players[_i] != undefined) {
       if (board.state.players[_i].name === player_name) {
         rolledNr = board.state.players[_i].diceNr;
         didRoll = board.state.players[_i].didRoll;
+        my_cash = board.state.players[_i].cash;
       }
     }
   }
 
-  if (board.state.my_turn) {
+  if (board.state.my_turn && my_cash > 0) {
     // ROLL DICE and BUY
     if (didRoll[0]) {
       if (_config.BoardPositions[my_pos].type == "deed") {
@@ -71217,7 +71219,11 @@ var UI = function UI(board, app, socket, player_name, field) {
     });
     cont.addChild(end_turn, dice, buy_house);
   } else {
-    // ROLL DICE
+    if (board.state.my_turn) {
+      socket.emit("end_turn", board.state.room, player_name);
+    } // ROLL DICE
+
+
     var _roll2 = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
 
 

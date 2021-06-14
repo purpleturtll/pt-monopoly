@@ -423,6 +423,13 @@ const BoardPositions = {
     41: { x: 901, y: 612, name: 's_miasto2', type: 'deed' }
 }
 
+function bankrupt_player(player) {
+    player.cash = 0
+    console.log(`${player.name} is bankrupt`);
+    player.deeds.length = 0
+    console.log("player deeds: ", player.deeds)
+}
+
 class Player {
     constructor(name) {
         this.name = name;
@@ -547,9 +554,8 @@ class Game {
                 console.log(`${currPlayer.name} should pay ${rentValue} to ${owner.name}`);
                 //Gracz zbankrutował
                 if(currPlayer.cash <= rentValue) {
-                    console.log(`${currPlayer.name} is broke - GAME OVER`);
                     rentValue = currPlayer.cash;
-                    currPlayer.cash = 0;
+                    bankrupt_player(currPlayer)
                 }
                 else {
                     console.log(`${currPlayer.name} pays ${rentValue} to ${owner.name}`);
@@ -586,23 +592,34 @@ class Game {
             }
             // Pieniądze od innych graczy (póki co zawsze od 3)
             if (randCard.fromOthers != 0) {
+                let sumFrom = 0
                 for (let i = 0; i < 4; i++) {
                     console.log("turn: ", this.turn, "i: ", i)
                     if (i != this.turn) {
+                        if (this.players[i].cash <= randCard.fromOthers) {
+                            sumFrom += this.players[i].cash
+                            bankrupt_player(this.players[i])
+                        }
+                        else {
                         this.players[i].cash -= randCard.fromOthers
-                    }
-                    else {
-                        this.players[i].cash += randCard.fromOthers * 3
+                        sumFrom += randCard.fromOthers
+                        }
                     }
                 }
+                    this.players[this.turn].cash += sumFrom
             }
             // Nagroda za przejście przez start
             if (newPos < this.players[this.turn].pos && randCard.doStart) {
                 this.players[this.turn].cash += 200;
             }
 
+            // Aktualizacja pozycji
             this.players[this.turn].pos = newPos
+            // Aktualizacji ilości pieniędzy
             this.players[this.turn].cash += randCard.cashChange
+            if (this.players[this.turn].cash <= 0) {
+                bankrupt_player(this.players[this.turn])
+            }
             this.end_turn_event = randCard
         }
         else {
