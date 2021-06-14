@@ -188,10 +188,20 @@ function rebuildBoard() {
 function rebuildRooms() {
     Rooms.removeChildren();
 
+    const style = new PIXI.TextStyle({
+        fontFamily: 'Tahoma',
+        fontSize: 40,
+        fontWeight: '700'
+    });
+    const title = new PIXI.Text("MONOPOLY", style);
+    title.x = config.canvasWidth / 2 - 250;
+    title.y = 8;
+    Rooms.addChild(title);
+
     const createBtn = Button(
         config.canvasWidth / 2 - 320,
         config.canvasHeight * 0.1,
-        "New room",
+        "NOWY POKÓJ",
         () => {
             const name = Math.random()
                 .toString(36)

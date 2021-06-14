@@ -70000,20 +70000,26 @@ var Button = function Button() {
   var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var text = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
   var onclick = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
-  var w = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 200;
+  var w = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 160;
   var h = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 30;
-  var color = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0xde3249;
+  var color = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0xfcbf49;
   var cont = new PIXI.Container();
   cont.x = x;
   cont.y = y;
   var bg = new PIXI.Graphics();
   bg.beginFill(color);
-  bg.drawRect(0, 0, w, h);
+  bg.drawRoundedRect(0, 0, w, h, 15);
   bg.endFill();
   bg.interactive = true;
   bg.buttonMode = true;
   bg.on("pointerdown", onclick);
-  var txt = new PIXI.Text(text);
+  var style = new PIXI.TextStyle({
+    fontFamily: 'Tahoma',
+    fontSize: 18
+  });
+  var txt = new PIXI.Text(text, style);
+  txt.x = 10;
+  txt.y = 5;
   cont.addChild(bg, txt);
   return cont;
 };
@@ -70041,21 +70047,27 @@ var ButtonInactive = function ButtonInactive() {
   var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var text = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
   var onclick = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function () {};
-  var w = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 200;
+  var w = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 160;
   var h = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 30;
-  var color = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0xde3249;
+  var color = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0xfcbf49;
   var cont = new PIXI.Container();
   cont.x = x;
   cont.y = y;
   var bg = new PIXI.Graphics();
   bg.lineStyle(3, 0x111111, 1);
   bg.beginFill(color);
-  bg.drawRect(0, 0, w, h);
+  bg.drawRoundedRect(0, 0, w, h, 15);
   bg.endFill(); //bg.interactive = true;
 
   bg.buttonMode = true; //bg.on("pointerdown", onclick);
 
-  var txt = new PIXI.Text(text);
+  var style = new PIXI.TextStyle({
+    fontFamily: 'Tahoma',
+    fontSize: 18
+  });
+  var txt = new PIXI.Text(text, style);
+  txt.x = 10;
+  txt.y = 5;
   cont.addChild(bg, txt);
   return cont;
 };
@@ -70963,7 +70975,7 @@ var RoomsList = function RoomsList() {
   cont.y = _config.config.canvasHeight * 0.1;
 
   var _loop = function _loop(i) {
-    var btn = (0, _Button.Button)(0, i * 40, rooms[i], function () {
+    var btn = (0, _Button.Button)(-20, i * 40, rooms[i], function () {
       socket.emit("enter_room", rooms[i], player_name);
     });
     cont.addChild(btn);
@@ -71160,7 +71172,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /* eslint-disable camelcase */
-//Pionek przy UserFrame
+// Pionek przy UserFrame
 var Piece = function Piece(x, y, color) {
   var circle = new PIXI.Graphics();
   circle.beginFill(color);
@@ -71169,9 +71181,19 @@ var Piece = function Piece(x, y, color) {
   return circle;
 };
 
+var ActiveFrame = function ActiveFrame(x, y) {
+  var frame = new PIXI.Graphics();
+  frame.x = x;
+  frame.y = y;
+  frame.beginFill(0x000);
+  frame.drawRect(0, 0, 216, 85);
+  frame.endFill();
+  return frame;
+};
+
 var UserFrame = function UserFrame() {
-  var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "-";
-  var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "0";
+  var player_name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '-';
+  var c = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '0';
   var x = arguments.length > 2 ? arguments[2] : undefined;
   var y = arguments.length > 3 ? arguments[3] : undefined;
   var frame = new PIXI.Graphics();
@@ -71181,16 +71203,16 @@ var UserFrame = function UserFrame() {
   frame.drawRect(0, 0, 211, 80);
   frame.endFill();
   var name = new PIXI.Text(player_name, {
-    align: "center",
+    align: 'center',
     fontSize: 24,
-    fontWeight: "600"
+    fontWeight: '600'
   });
   name.resolution = 3;
   name.x = frame.width / 2 - name.width / 2;
   var cash = new PIXI.Text(c, {
-    align: "center",
+    align: 'center',
     fontSize: 24,
-    fontWeight: "200"
+    fontWeight: '200'
   });
   cash.resolution = 3;
   cash.x = frame.width / 2 - cash.width / 2;
@@ -71203,10 +71225,12 @@ var UI = function UI(board, app, socket, player_name, field) {
   var cont = new PIXI.Container();
   var my_pos = 0; // QUIT BUTTON
 
-  var quit = (0, _Button.Button)(10, 380, "QUIT", function () {
-    socket.emit("exit_room", board.state.room, player_name);
+  var quit = (0, _Button.Button)(30, 380, 'WYJDŹ', function () {
+    socket.emit('exit_room', board.state.room, player_name);
   });
-  console.log(board); // USER FRAMES
+  console.log(board);
+  var af = ActiveFrame(board.state.turn == 0 || board.state.turn == 2 ? 10 : 231, board.state.turn == 0 || board.state.turn == 1 ? 40 : 130);
+  cont.addChild(af); // USER FRAMES
 
   for (var i = 0; i < 4; i++) {
     console.log(board.state.players[i]);
@@ -71238,7 +71262,7 @@ var UI = function UI(board, app, socket, player_name, field) {
       var piece = Piece(i == 0 || i == 2 ? 40 : 261, i == 0 || i == 1 ? 80 : 170, pieceColor);
       cont.addChild(uf, piece);
     } else {
-      var _uf = UserFrame("-", "0", i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
+      var _uf = UserFrame('-', '0', i == 0 || i == 2 ? 10 : 231, i == 0 || i == 1 ? 40 : 130);
 
       cont.addChild(_uf);
     }
@@ -71261,31 +71285,32 @@ var UI = function UI(board, app, socket, player_name, field) {
   if (board.state.my_turn && my_cash > 0) {
     // ROLL DICE and BUY
     if (didRoll[0]) {
-      if (_config.BoardPositions[my_pos].type == "deed") {
-        var buy = (0, _Button.Button)(10, 340, "BUY", function () {
+      if (_config.BoardPositions[my_pos].type == 'deed') {
+        var buy = (0, _Button.Button)(30, 340, 'KUP POLE', function () {
           console.log(player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
-          socket.emit("buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
+          socket.emit('buy', board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].price);
         });
         cont.addChild(buy);
       } else {
-        var _buy = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY");
+        var _buy = (0, _ButtonInactive.ButtonInactive)(30, 340, 'KUP POLE');
 
         cont.addChild(_buy);
       }
 
-      var roll = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL");
+      var roll = (0, _ButtonInactive.ButtonInactive)(30, 300, 'RZUT KOSTKĄ');
       cont.addChild(roll);
     } else {
-      var _buy2 = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY");
+      var _buy2 = (0, _ButtonInactive.ButtonInactive)(30, 340, 'KUP POLE');
 
-      var _roll = (0, _Button.Button)(10, 300, "ROLL", function () {
-        socket.emit("roll_dice", board.state.room, player_name);
+      var _roll = (0, _Button.Button)(30, 300, 'RZUT KOSTKĄ', function () {
+        socket.emit('roll_dice', board.state.room, player_name);
       });
 
       cont.addChild(_roll, _buy2);
     } // END TURN
 
 
+<<<<<<< HEAD
     if (didRoll[0]) {
       var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
         socket.emit("end_turn", board.state.room, player_name);
@@ -71297,13 +71322,19 @@ var UI = function UI(board, app, socket, player_name, field) {
       cont.addChild(_end_turn);
     } // DICE
 
+=======
+    var end_turn = (0, _Button.Button)(240, 300, 'ZAKOŃCZ TURĘ', function () {
+      socket.emit('end_turn', board.state.room, player_name);
+    }); // DICE
+>>>>>>> d47394335f489c7139bda08d6f83d537bd2c9687
 
-    var dice = (0, _Dice.Dice)(10, 460, rolledNr, didRoll[1]);
-    var buy_house = (0, _Button.Button)(240, 340, "BUY HOUSE", function () {
-      socket.emit("house_buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].house_cost);
+    var dice = (0, _Dice.Dice)(30, 460, rolledNr, didRoll[1]);
+    var buy_house = (0, _Button.Button)(240, 340, 'KUP DOM', function () {
+      socket.emit('house_buy', board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].house_cost);
     });
     cont.addChild(dice, buy_house);
   } else {
+<<<<<<< HEAD
     if (board.state.my_turn) {
       socket.emit("end_turn", board.state.room, player_name);
     } // ROLL DICE
@@ -71313,15 +71344,22 @@ var UI = function UI(board, app, socket, player_name, field) {
 
 
     var _end_turn2 = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN"); // BUY
+=======
+    // ROLL DICE
+    var _roll2 = (0, _ButtonInactive.ButtonInactive)(30, 300, 'RZUT KOSTKĄ'); // END TURN
 
 
-    var _buy3 = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY"); // DICE
+    var _end_turn = (0, _ButtonInactive.ButtonInactive)(255, 300, 'ZAKOŃCZ TURĘ'); // BUY
+>>>>>>> d47394335f489c7139bda08d6f83d537bd2c9687
 
 
-    var _dice = (0, _Dice.Dice)(10, 460, rolledNr, false); // BUY HOUSE
+    var _buy3 = (0, _ButtonInactive.ButtonInactive)(30, 340, 'KUP POLE'); // DICE
 
 
-    var _buy_house = (0, _ButtonInactive.ButtonInactive)(240, 340, "BUY HOUSE");
+    var _dice = (0, _Dice.Dice)(30, 460, rolledNr, false); // BUY HOUSE
+
+
+    var _buy_house = (0, _ButtonInactive.ButtonInactive)(255, 340, 'KUP DOM');
 
     cont.addChild(_roll2, _end_turn2, _buy3, _dice, _buy_house);
   }
@@ -71779,7 +71817,16 @@ function rebuildBoard() {
 
 function rebuildRooms() {
   Rooms.removeChildren();
-  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "New room", function () {
+  var style = new PIXI.TextStyle({
+    fontFamily: 'Tahoma',
+    fontSize: 40,
+    fontWeight: '700'
+  });
+  var title = new PIXI.Text("MONOPOLY", style);
+  title.x = _config.config.canvasWidth / 2 - 250;
+  title.y = 8;
+  Rooms.addChild(title);
+  var createBtn = (0, _Button.Button)(_config.config.canvasWidth / 2 - 320, _config.config.canvasHeight * 0.1, "NOWY POKÓJ", function () {
     var name = Math.random().toString(36).replace(/[^a-z0-9]+/g, "").substr(2, 7);
     socket.emit("create_room", name);
   });
