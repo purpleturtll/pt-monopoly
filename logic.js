@@ -426,8 +426,11 @@ const BoardPositions = {
 function bankrupt_player(player) {
     player.cash = 0
     console.log(`${player.name} is bankrupt`);
+    for (const k in player.deeds) {
+        player.deeds[k].houses = 0
+    }
     player.deeds.length = 0
-    console.log("player deeds: ", player.deeds)
+    return player.deeds
 }
 
 class Player {
@@ -634,6 +637,20 @@ class Game {
         
         if (this.turn < 4) this.turn++;
         if (this.turn === 4) this.turn = 0;
+
+        let bankrupted = 0
+        let winnerName = ""
+        for (let i = 0; i < 4; i++) {
+            if (this.players[i].cash > 0) {
+                winnerName = this.players[i].name
+            } 
+            else {
+                bankrupted++
+            }
+        }
+        if (bankrupted == 3) {
+            this.end_turn_event = winnerName
+        }
     }
 
     buy(name, deed, cost) {

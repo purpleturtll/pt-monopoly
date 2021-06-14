@@ -69959,14 +69959,19 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
 
 
   if (board.state.end_turn_event != "") {
-    var playerNum = board.state.turn - 1;
+    if (typeof board.state.end_turn_event == "string") {
+      var winPopup = (0, _CardPopup.WinPopup)(0, 0, board.state.end_turn_event);
+      cont.addChild(winPopup);
+    } else {
+      var playerNum = board.state.turn - 1;
 
-    if (playerNum < 0) {
-      playerNum = 3;
+      if (playerNum < 0) {
+        playerNum = 3;
+      }
+
+      var cardPopup = (0, _CardPopup.CardPopup)(0, 0, board.state.end_turn_event, board.state.players[playerNum].name);
+      cont.addChild(cardPopup);
     }
-
-    var cardPopup = (0, _CardPopup.CardPopup)(0, 0, board.state.end_turn_event, board.state.players[playerNum].name);
-    cont.addChild(cardPopup);
   }
 
   return cont;
@@ -70065,7 +70070,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CardPopup = void 0;
+exports.WinPopup = exports.CardPopup = void 0;
 
 var PIXI = _interopRequireWildcard(require("pixi.js"));
 
@@ -70118,6 +70123,78 @@ var CardPopup = function CardPopup(x, y, card, playerName) {
 };
 
 exports.CardPopup = CardPopup;
+
+var WinCard = function WinCard() {
+  var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var playerName = arguments.length > 2 ? arguments[2] : undefined;
+  var cont = new PIXI.Container();
+  cont.x = x;
+  cont.y = y; // Tło
+
+  var bg = new PIXI.Graphics();
+  bg.beginFill(0x8660f0);
+  bg.drawRect(0, 0, 260, 170);
+  bg.endFill();
+  bg.interactive = true;
+  bg.buttonMode = true;
+  bg.on('pointerdown', function () {}); // Prostokąt tytułowy
+
+  var title = new PIXI.Graphics();
+  title.x = bg.width * 0.05;
+  title.y = bg.height * 0.1;
+  title.beginFill(0xffffff);
+  title.drawRect(0, 0, bg.width * 0.9, bg.height * 0.8);
+  title.endFill();
+  var titleText = new PIXI.Text('WYGRYWA\n' + playerName, {
+    align: 'center',
+    fontSize: 16,
+    fontWeight: '600'
+  });
+  titleText.resolution = 3;
+  titleText.x = title.width / 2 - titleText.width / 2;
+  titleText.y = title.height * 0.1;
+  title.addChild(titleText);
+  cont.addChild(bg, title);
+  return cont;
+};
+
+var WinPopup = function WinPopup(x, y, playerName) {
+  var cont = new PIXI.Container();
+  cont.interactive = true;
+  cont.buttonMode = true;
+  cont.on('pointerdown', onClick); // przy kliknięciu
+
+  function onClick() {
+    cont.removeChildren();
+    cont.visible = false;
+  } // Screen dim
+
+
+  var alphafilter = new PIXI.filters.AlphaFilter();
+  var dim = new PIXI.Graphics();
+  dim.beginFill(0x0a0a0a);
+  dim.drawRect(x, y, 1400, 744);
+  dim.filters = [alphafilter];
+  alphafilter.alpha = 0.5;
+  dim.endFill(); // Player name
+
+  var name = new PIXI.Text(playerName + "\nWYGRYWA", {
+    fontSize: 60,
+    fill: ['#ff0000'],
+    stroke: '#050505',
+    strokeThickness: 3,
+    align: 'center'
+  });
+  name.resolution = 3;
+  name.x = dim.width / 2 - name.width / 2;
+  name.y = dim.height / 2 - 134;
+  cont.addChild(dim);
+  cont.addChild(name);
+  return cont;
+};
+
+exports.WinPopup = WinPopup;
 
 },{"./ChanceCard.js":98,"./RiskCard.js":101,"pixi.js":72}],97:[function(require,module,exports){
 "use strict";
@@ -71209,15 +71286,23 @@ var UI = function UI(board, app, socket, player_name, field) {
     } // END TURN
 
 
-    var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
-      socket.emit("end_turn", board.state.room, player_name);
-    }); // DICE
+    if (didRoll[0]) {
+      var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
+        socket.emit("end_turn", board.state.room, player_name);
+      });
+      cont.addChild(end_turn);
+    } else {
+      var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN");
+
+      cont.addChild(_end_turn);
+    } // DICE
+
 
     var dice = (0, _Dice.Dice)(10, 460, rolledNr, didRoll[1]);
     var buy_house = (0, _Button.Button)(240, 340, "BUY HOUSE", function () {
       socket.emit("house_buy", board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].house_cost);
     });
-    cont.addChild(end_turn, dice, buy_house);
+    cont.addChild(dice, buy_house);
   } else {
     if (board.state.my_turn) {
       socket.emit("end_turn", board.state.room, player_name);
@@ -71227,7 +71312,7 @@ var UI = function UI(board, app, socket, player_name, field) {
     var _roll2 = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
 
 
-    var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN"); // BUY
+    var _end_turn2 = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN"); // BUY
 
 
     var _buy3 = (0, _ButtonInactive.ButtonInactive)(10, 340, "BUY"); // DICE
@@ -71238,7 +71323,7 @@ var UI = function UI(board, app, socket, player_name, field) {
 
     var _buy_house = (0, _ButtonInactive.ButtonInactive)(240, 340, "BUY HOUSE");
 
-    cont.addChild(_roll2, _end_turn, _buy3, _dice, _buy_house);
+    cont.addChild(_roll2, _end_turn2, _buy3, _dice, _buy_house);
   }
 
   cont.addChild(quit);

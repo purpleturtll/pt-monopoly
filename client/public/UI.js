@@ -145,9 +145,16 @@ export const UI = (board, app, socket, player_name, field) => {
         }
 
         // END TURN
-        const end_turn = Button(240, 300, "END TURN", () => {
-            socket.emit("end_turn", board.state.room, player_name);
-        });
+        if (didRoll[0]) {
+            const end_turn = Button(240, 300, "END TURN", () => {
+                socket.emit("end_turn", board.state.room, player_name);
+            });
+            cont.addChild(end_turn)
+        }
+        else {
+            const end_turn = ButtonInactive(240, 300, "END TURN");
+            cont.addChild(end_turn)
+        }
 
         // DICE
         const dice = Dice(10, 460, rolledNr, didRoll[1]);
@@ -162,7 +169,7 @@ export const UI = (board, app, socket, player_name, field) => {
             );
         });
 
-        cont.addChild(end_turn, dice, buy_house);
+        cont.addChild(dice, buy_house);
     } else {
         if (board.state.my_turn) {
             socket.emit("end_turn", board.state.room, player_name);

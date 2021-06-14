@@ -2,7 +2,7 @@
 import * as PIXI from 'pixi.js'
 import { Button } from './Button'
 import { BoardPositions } from './config'
-import { CardPopup } from "./CardPopup";
+import { CardPopup, WinPopup } from "./CardPopup";
 
 const Piece = (x, y, color) => {
   const circle = new PIXI.Graphics()
@@ -300,12 +300,18 @@ export const BoardStuff = (board, app, socket, player_name) => {
 
   // Karta szansy/ryzyka
   if (board.state.end_turn_event != "") {
-    let playerNum = board.state.turn - 1
-    if (playerNum < 0) {
-      playerNum = 3
+    if (typeof(board.state.end_turn_event) == "string") {
+      const winPopup = WinPopup(0, 0, board.state.end_turn_event)
+      cont.addChild(winPopup)
     }
-    const cardPopup = CardPopup(0, 0, board.state.end_turn_event, board.state.players[playerNum].name)
-    cont.addChild(cardPopup)
+    else {
+      let playerNum = board.state.turn - 1
+      if (playerNum < 0) {
+        playerNum = 3
+      }
+      const cardPopup = CardPopup(0, 0, board.state.end_turn_event, board.state.players[playerNum].name)
+      cont.addChild(cardPopup)
+    }
   }
 
   return cont
