@@ -71270,19 +71270,17 @@ var UI = function UI(board, app, socket, player_name, field) {
 
   var rolledNr = 0;
   var didRoll = [false, false];
-  var my_cash = 0;
 
   for (var _i = 0; _i < 4; _i++) {
     if (board.state.players[_i] != undefined) {
       if (board.state.players[_i].name === player_name) {
         rolledNr = board.state.players[_i].diceNr;
         didRoll = board.state.players[_i].didRoll;
-        my_cash = board.state.players[_i].cash;
       }
     }
   }
 
-  if (board.state.my_turn && my_cash > 0) {
+  if (board.state.my_turn) {
     // ROLL DICE and BUY
     if (didRoll[0]) {
       if (_config.BoardPositions[my_pos].type == 'deed') {
@@ -71310,23 +71308,17 @@ var UI = function UI(board, app, socket, player_name, field) {
     } // END TURN
 
 
-<<<<<<< HEAD
     if (didRoll[0]) {
-      var end_turn = (0, _Button.Button)(240, 300, "END TURN", function () {
-        socket.emit("end_turn", board.state.room, player_name);
+      var end_turn = (0, _Button.Button)(240, 300, 'ZAKOŃCZ TURĘ', function () {
+        socket.emit('end_turn', board.state.room, player_name);
       });
       cont.addChild(end_turn);
     } else {
-      var _end_turn = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN");
+      var _end_turn = (0, _ButtonInactive.ButtonInactive)(255, 300, 'ZAKOŃCZ TURĘ');
 
       cont.addChild(_end_turn);
     } // DICE
 
-=======
-    var end_turn = (0, _Button.Button)(240, 300, 'ZAKOŃCZ TURĘ', function () {
-      socket.emit('end_turn', board.state.room, player_name);
-    }); // DICE
->>>>>>> d47394335f489c7139bda08d6f83d537bd2c9687
 
     var dice = (0, _Dice.Dice)(30, 460, rolledNr, didRoll[1]);
     var buy_house = (0, _Button.Button)(240, 340, 'KUP DOM', function () {
@@ -71334,23 +71326,11 @@ var UI = function UI(board, app, socket, player_name, field) {
     });
     cont.addChild(dice, buy_house);
   } else {
-<<<<<<< HEAD
-    if (board.state.my_turn) {
-      socket.emit("end_turn", board.state.room, player_name);
-    } // ROLL DICE
-
-
-    var _roll2 = (0, _ButtonInactive.ButtonInactive)(10, 300, "ROLL"); // END TURN
-
-
-    var _end_turn2 = (0, _ButtonInactive.ButtonInactive)(240, 300, "END TURN"); // BUY
-=======
     // ROLL DICE
     var _roll2 = (0, _ButtonInactive.ButtonInactive)(30, 300, 'RZUT KOSTKĄ'); // END TURN
 
 
-    var _end_turn = (0, _ButtonInactive.ButtonInactive)(255, 300, 'ZAKOŃCZ TURĘ'); // BUY
->>>>>>> d47394335f489c7139bda08d6f83d537bd2c9687
+    var _end_turn2 = (0, _ButtonInactive.ButtonInactive)(255, 300, 'ZAKOŃCZ TURĘ'); // BUY
 
 
     var _buy3 = (0, _ButtonInactive.ButtonInactive)(30, 340, 'KUP POLE'); // DICE

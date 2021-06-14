@@ -637,6 +637,12 @@ class Game {
         
         if (this.turn < 4) this.turn++;
         if (this.turn === 4) this.turn = 0;
+        for (let i = 0; i < 4; i++) {   // tylko 4 razy dla uniknięcia nieskończonej pętli przy 4 bankrutach
+            if (this.players[this.turn].cash <= 0) {
+                this.turn++
+                if (this.turn === 4) this.turn = 0
+            }
+        }
 
         let bankrupted = 0
         let winnerName = ""
