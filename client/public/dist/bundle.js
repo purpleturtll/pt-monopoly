@@ -69673,6 +69673,14 @@ var House = function House(x, y, color, vertical) {
   return rect;
 };
 
+var Hotel = function Hotel(x, y, color) {
+  var rect = new PIXI.Graphics();
+  rect.beginFill(color);
+  rect.drawRoundedRect(x, y, 20, 20, 6);
+  rect.endFill();
+  return rect;
+};
+
 var BoardStuff = function BoardStuff(board, app, socket, player_name) {
   var cont = new PIXI.Container(); // PIECES
 
@@ -69911,23 +69919,23 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
             break;
         }
 
-        var houseColor;
+        var playerColor;
 
         switch (p) {
           case 0:
-            houseColor = 0xff0000;
+            playerColor = 0xff0000;
             break;
 
           case 1:
-            houseColor = 0xff00ff;
+            playerColor = 0xff00ff;
             break;
 
           case 2:
-            houseColor = 0x00ff00;
+            playerColor = 0x00ff00;
             break;
 
           case 3:
-            houseColor = 0x1111ff;
+            playerColor = 0x1111ff;
             break;
         }
 
@@ -69936,21 +69944,40 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
 
           for (houseIndex = 1; houseIndex <= deed.houses; houseIndex++) {
             if (horizontal && addOffset) {
-              var h = House(x + houseIndex * houseOffset, y, houseColor, horizontal);
+              var h = House(x + houseIndex * houseOffset, y, playerColor, horizontal);
               cont.addChild(h);
             } else if (!horizontal && addOffset) {
-              var _h = House(x, y + houseIndex * houseOffset, houseColor, horizontal);
+              var _h = House(x, y + houseIndex * houseOffset, playerColor, horizontal);
 
               cont.addChild(_h);
             } else if (horizontal && !addOffset) {
-              var _h2 = House(x - houseIndex * houseOffset, y, houseColor, horizontal);
+              var _h2 = House(x - houseIndex * houseOffset, y, playerColor, horizontal);
 
               cont.addChild(_h2);
             } else {
-              var _h3 = House(x, y - houseIndex * houseOffset, houseColor, horizontal);
+              var _h3 = House(x, y - houseIndex * houseOffset, playerColor, horizontal);
 
               cont.addChild(_h3);
             }
+          }
+        }
+
+        if (deed.houses == 4 && deed.hotel) {
+          if (horizontal && addOffset) {
+            var hotel = Hotel(x + 5 * houseOffset, y, playerColor);
+            cont.addChild(hotel);
+          } else if (!horizontal && addOffset) {
+            var _hotel = Hotel(x, y + 5 * houseOffset, playerColor);
+
+            cont.addChild(_hotel);
+          } else if (horizontal && !addOffset) {
+            var _hotel2 = Hotel(x - 5 * houseOffset, y, playerColor);
+
+            cont.addChild(_hotel2);
+          } else {
+            var _hotel3 = Hotel(x, y - 5 * houseOffset, playerColor);
+
+            cont.addChild(_hotel3);
           }
         }
       });
@@ -71309,7 +71336,7 @@ var UI = function UI(board, app, socket, player_name, field) {
 
 
     if (didRoll[0]) {
-      var end_turn = (0, _Button.Button)(240, 300, 'ZAKOŃCZ TURĘ', function () {
+      var end_turn = (0, _Button.Button)(255, 300, 'ZAKOŃCZ TURĘ', function () {
         socket.emit('end_turn', board.state.room, player_name);
       });
       cont.addChild(end_turn);
@@ -71320,11 +71347,16 @@ var UI = function UI(board, app, socket, player_name, field) {
     } // DICE
 
 
-    var dice = (0, _Dice.Dice)(30, 460, rolledNr, didRoll[1]);
-    var buy_house = (0, _Button.Button)(240, 340, 'KUP DOM', function () {
+    var dice = (0, _Dice.Dice)(30, 460, rolledNr, didRoll[1]); // BUY HOUSE
+
+    var buy_house = (0, _Button.Button)(255, 340, 'KUP DOM', function () {
       socket.emit('house_buy', board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].house_cost);
+    }); // BUY HOTEL
+
+    var buy_hotel = (0, _Button.Button)(255, 380, 'KUP HOTEL', function () {
+      socket.emit('hotel_buy', board.state.room, player_name, _config.BoardPositions[my_pos].name, _CardTest.data[_config.BoardPositions[my_pos].name].hotel_cost);
     });
-    cont.addChild(dice, buy_house);
+    cont.addChild(dice, buy_house, buy_hotel);
   } else {
     // ROLL DICE
     var _roll2 = (0, _ButtonInactive.ButtonInactive)(30, 300, 'RZUT KOSTKĄ'); // END TURN
@@ -71339,9 +71371,12 @@ var UI = function UI(board, app, socket, player_name, field) {
     var _dice = (0, _Dice.Dice)(30, 460, rolledNr, false); // BUY HOUSE
 
 
-    var _buy_house = (0, _ButtonInactive.ButtonInactive)(255, 340, 'KUP DOM');
+    var _buy_house = (0, _ButtonInactive.ButtonInactive)(255, 340, 'KUP DOM'); // BUY HOTEL
 
-    cont.addChild(_roll2, _end_turn2, _buy3, _dice, _buy_house);
+
+    var _buy_hotel = (0, _ButtonInactive.ButtonInactive)(255, 380, 'KUP HOTEL');
+
+    cont.addChild(_roll2, _end_turn2, _buy3, _dice, _buy_house, _buy_hotel);
   }
 
   cont.addChild(quit);
@@ -71705,6 +71740,10 @@ socket.on("buy", function (players) {
 });
 socket.on("house_buy", function (players) {
   console.log("house_buy", players);
+  Board.state.players = players;
+});
+socket.on("hotel_buy", function (players) {
+  console.log("hotel_buy", players);
   Board.state.players = players;
 });
 

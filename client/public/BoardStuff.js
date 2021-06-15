@@ -23,6 +23,14 @@ const House = (x, y, color, vertical) => {
   return rect
 }
 
+const Hotel =(x, y, color) => {
+  const rect = new PIXI.Graphics()
+  rect.beginFill(color)
+  rect.drawRoundedRect(x, y, 20, 20, 6)
+  rect.endFill()
+  return rect
+}
+
 export const BoardStuff = (board, app, socket, player_name) => {
   const cont = new PIXI.Container()
 
@@ -250,20 +258,20 @@ export const BoardStuff = (board, app, socket, player_name) => {
             break;
         }
 
-        var houseColor;
+        var playerColor;
         switch(p)
         {
           case 0:
-            houseColor = 0xff0000;
+            playerColor = 0xff0000;
             break;
           case 1:
-            houseColor = 0xff00ff;
+            playerColor = 0xff00ff;
             break;
           case 2:
-            houseColor = 0x00ff00;
+            playerColor = 0x00ff00;
             break;
           case 3: 
-            houseColor = 0x1111ff;
+            playerColor = 0x1111ff;
             break;
         }
 
@@ -274,25 +282,48 @@ export const BoardStuff = (board, app, socket, player_name) => {
           {
             if(horizontal && addOffset)
             {
-              const h = House(x + houseIndex * houseOffset, y, houseColor, horizontal)
+              const h = House(x + houseIndex * houseOffset, y, playerColor, horizontal)
               cont.addChild(h)
             }
             else if (!horizontal && addOffset)
             {
-              const h = House(x, y + houseIndex * houseOffset, houseColor, horizontal)
+              const h = House(x, y + houseIndex * houseOffset, playerColor, horizontal)
               cont.addChild(h)
             }
             else if (horizontal && !addOffset)
             {
-              const h = House(x - houseIndex * houseOffset, y, houseColor, horizontal)
+              const h = House(x - houseIndex * houseOffset, y, playerColor, horizontal)
               cont.addChild(h)
             }
             else
             {
-              const h = House(x, y - houseIndex * houseOffset, houseColor, horizontal)
+              const h = House(x, y - houseIndex * houseOffset, playerColor, horizontal)
               cont.addChild(h)
             }
           }
+        }
+        if(deed.houses == 4 && deed.hotel)
+        {
+          if(horizontal && addOffset)
+            {
+              const hotel = Hotel(x + 5 * houseOffset, y, playerColor)
+              cont.addChild(hotel)
+            }
+            else if (!horizontal && addOffset)
+            {
+              const hotel = Hotel(x, y + 5 * houseOffset, playerColor)
+              cont.addChild(hotel)
+            }
+            else if (horizontal && !addOffset)
+            {
+              const hotel = Hotel(x - 5 * houseOffset, y, playerColor)
+              cont.addChild(hotel)
+            }
+            else
+            {
+              const hotel = Hotel(x, y - 5 * houseOffset, playerColor)
+              cont.addChild(hotel)
+            }
         }
       });
     }

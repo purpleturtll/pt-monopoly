@@ -158,7 +158,7 @@ export const UI = (board, app, socket, player_name, field) => {
 
     // END TURN
     if (didRoll[0]) {
-        const end_turn = Button(240, 300, 'ZAKOŃCZ TURĘ', () => {
+        const end_turn = Button(255, 300, 'ZAKOŃCZ TURĘ', () => {
             socket.emit('end_turn', board.state.room, player_name)
           })
         cont.addChild(end_turn)
@@ -171,7 +171,8 @@ export const UI = (board, app, socket, player_name, field) => {
     // DICE
     const dice = Dice(30, 460, rolledNr, didRoll[1])
 
-    const buy_house = Button(240, 340, 'KUP DOM', () => {
+    // BUY HOUSE
+    const buy_house = Button(255, 340, 'KUP DOM', () => {
       socket.emit(
         'house_buy',
         board.state.room,
@@ -181,7 +182,19 @@ export const UI = (board, app, socket, player_name, field) => {
       )
     })
 
-    cont.addChild(dice, buy_house)
+    // BUY HOTEL
+    const buy_hotel = Button(255, 380, 'KUP HOTEL', ()=> {
+      socket.emit(
+        'hotel_buy',
+        board.state.room,
+        player_name,
+        BoardPositions[my_pos].name,
+        data[BoardPositions[my_pos].name].hotel_cost
+      )
+    })
+
+    cont.addChild(dice, buy_house, buy_hotel)
+
   } else {
     // ROLL DICE
     const roll = ButtonInactive(30, 300, 'RZUT KOSTKĄ')
@@ -198,7 +211,10 @@ export const UI = (board, app, socket, player_name, field) => {
     // BUY HOUSE
     const buy_house = ButtonInactive(255, 340, 'KUP DOM')
 
-    cont.addChild(roll, end_turn, buy, dice, buy_house)
+    // BUY HOTEL
+    const buy_hotel = ButtonInactive(255, 380, 'KUP HOTEL')
+
+    cont.addChild(roll, end_turn, buy, dice, buy_house, buy_hotel)
   }
 
   cont.addChild(quit)

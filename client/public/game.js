@@ -81,6 +81,11 @@ socket.on("house_buy", (players) => {
     Board.state.players = players;
 });
 
+socket.on("hotel_buy", (players) => {
+    console.log("hotel_buy", players);
+    Board.state.players = players;
+});
+
 function create_UUID() {
     let dt = new Date().getTime();
     const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(

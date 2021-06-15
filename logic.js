@@ -461,7 +461,6 @@ class Deed {
 
     get_rent() {
 
-
         if(this.hotel) return data[this.name].with_hotel;
         else {
             switch(this.houses)
@@ -487,6 +486,13 @@ class Deed {
         }
         else console.log(`House limit reached for ${this.name}, can't buy next`);
         return this.houses;
+    }
+
+    buy_hotel() {
+        if(this.houses == 4) {
+            this.hotel = true;
+            console.log(`Player now owns a hotel on ${this.name}`);
+        }
     }
 }
 
@@ -707,6 +713,29 @@ class Game {
             {
                 console.log(`${name} buys a house No. ${d.houses + 1} on ${deed} for ${cost}`);
                 this.get_deed_owner(deed).cash -= cost;
+            }
+        }
+    }
+
+    hotel_buy(name, deed, cost) {
+
+        // Oznaczenie, że nie rzuca kością
+        let k = Object.keys(this.players).find(
+            (key) => this.players[key].name === name
+        );
+        this.players[k].didRoll[1] = false;
+ 
+        if( this.is_deed_taken(deed))
+        {
+            var owner = this.get_deed_owner(deed);
+            if( owner.name == name 
+                && owner.cash >= cost
+                && !owner.get_deed(deed).hotel
+                && owner.get_deed(deed).houses == 4)
+            {
+                owner.get_deed(deed).buy_hotel();
+                owner.cash -= cost;
+                console.log(`${name} buys a hotel on ${deed} for ${cost}`);
             }
         }
     }
