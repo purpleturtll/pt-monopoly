@@ -601,9 +601,8 @@ class Game {
             }
             // Pieniądze od innych graczy (póki co zawsze od 3)
             if (randCard.fromOthers != 0) {
-                let sumFrom = 0
+                var sumFrom = 0
                 for (let i = 0; i < 4; i++) {
-                    console.log("turn: ", this.turn, "i: ", i)
                     if (i != this.turn) {
                         if (this.players[i].cash <= randCard.fromOthers) {
                             sumFrom += this.players[i].cash
