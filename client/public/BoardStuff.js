@@ -316,12 +316,12 @@ export const BoardStuff = (board, app, socket, player_name) => {
             }
             else if (horizontal && !addOffset)
             {
-              const hotel = Hotel(x - 5 * houseOffset, y, playerColor)
+              const hotel = Hotel(x - 6 * houseOffset, y, playerColor)
               cont.addChild(hotel)
             }
             else
             {
-              const hotel = Hotel(x, y - 5 * houseOffset, playerColor)
+              const hotel = Hotel(x, y - 6 * houseOffset, playerColor)
               cont.addChild(hotel)
             }
         }

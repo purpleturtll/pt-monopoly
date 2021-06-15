@@ -69971,11 +69971,11 @@ var BoardStuff = function BoardStuff(board, app, socket, player_name) {
 
             cont.addChild(_hotel);
           } else if (horizontal && !addOffset) {
-            var _hotel2 = Hotel(x - 5 * houseOffset, y, playerColor);
+            var _hotel2 = Hotel(x - 6 * houseOffset, y, playerColor);
 
             cont.addChild(_hotel2);
           } else {
-            var _hotel3 = Hotel(x, y - 5 * houseOffset, playerColor);
+            var _hotel3 = Hotel(x, y - 6 * houseOffset, playerColor);
 
             cont.addChild(_hotel3);
           }
